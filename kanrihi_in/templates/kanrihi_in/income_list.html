@@ -43,6 +43,7 @@
       <thead>
         <tr>
           <th class="has-text-centered">期</th>
+          <th class="has-text-centered">年</th>
           <th class="has-text-centered">前期繰越</th>
           <th class="has-text-centered">定額管理費</th>
           <th class="has-text-centered">その他収入</th>
@@ -53,7 +54,8 @@
       <tbody>
         {% for income in incomelist %}
         <tr>
-          <td class="has-text-centered nowrap">{{ income.ki }}</td>
+          <td class="has-text-centered">{{ income.ki }}</td>
+          <td class="has-text-centered nowrap">{{income.ki|add:1998}}</td>
           <td class="has-text-right nowrap">{{ income.zenki_kurikosi|intcomma}}</td>
           <td class="has-text-right nowrap">{{ income.kanrihi|intcomma}}</td>
           <td class="has-text-right nowrap">{{ income.sonota|intcomma }}</td>

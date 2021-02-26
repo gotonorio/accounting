@@ -1,4 +1,4 @@
-# import logging
+import logging
 
 from django.contrib import messages  # メッセージフレームワーク
 from django.contrib.auth.mixins import (LoginRequiredMixin,
@@ -25,9 +25,12 @@ class ExpenditureListView(LoginRequiredMixin, generic.TemplateView):
                 Case(When(account_type='管理費会計', then='cost'), default=0)),
             shuuzenhi=Sum(
                 Case(When(account_type='修繕費会計', then='cost'), default=0)),
+            parking=Sum(
+                Case(When(account_type='駐車場会計', then='cost'), default=0)),
             total=Sum(Case(
                 When(account_type='管理費会計', then='cost'),
                 When(account_type='修繕費会計', then='cost'),
+                When(account_type='駐車場会計', then='cost'),
                 default=0
             ))
         )
@@ -47,11 +50,12 @@ class ExpenditureListView(LoginRequiredMixin, generic.TemplateView):
             qs = Parking_expenditure.objects.order_by('ki')
 
         qs = self.parking_expense()
-        kanrihi_total, shuuzenhi_total = Parking_expenditure.calc_total(self, qs)
+        kanrihi_total, shuuzenhi_total, parking_total = Parking_expenditure.calc_total(self, qs)
 
         context['expendlist'] = qs
         context['kanrihi_total'] = kanrihi_total
         context['shuuzenhi_total'] = shuuzenhi_total
+        context['parking_total'] = parking_total
         return context
 
 
@@ -73,6 +77,19 @@ class ExpenditureCreateView(PermissionRequiredMixin, generic.CreateView):
     # 保存が成功した場合に遷移するurl。プロパティ(seccess_url)を使うか、関数をオーバーライド。
     def get_success_url(self):
         return reverse('parking_out:create')
+
+    def form_valid(self, form):
+        """ 管理会計、修繕会計への振替を処理する """
+        form.save()
+        ki = form.cleaned_data['ki']
+        account = form.cleaned_data['account_type']
+        cost = form.cleaned_data['cost']
+        if account == '管理費会計':
+            Kanrihi_income.objects.create(ki=ki, master_id=3, income=cost)
+            logging.debug(account)
+        elif account == '修繕費会計':
+            pass
+        return super().form_valid(form)
 
 
 class UpdateListView(PermissionRequiredMixin, generic.ListView):

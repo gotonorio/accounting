@@ -10,7 +10,7 @@ class Parking_expenditure(models.Model):
         choices=settings.ACCOUNTING_TYPE,  max_length=16)
     koujimei = models.CharField(max_length=256, default='')
     cost = models.BigIntegerField(default=0)
-    comment = models.TextField(blank=True)
+    comment = models.TextField(blank=True, null=True)
 
     def __int__(self):
         return self.cost
@@ -19,7 +19,9 @@ class Parking_expenditure(models.Model):
     def calc_total(self, sql):
         kanrihi_total = 0
         shuuzenhi_total = 0
+        parking_total = 0
         for data in sql:
             kanrihi_total += data['kanrihi']
             shuuzenhi_total += data['shuuzenhi']
-        return kanrihi_total, shuuzenhi_total
+            parking_total += data['parking']
+        return kanrihi_total, shuuzenhi_total, parking_total
