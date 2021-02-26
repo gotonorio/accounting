@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load humanize %} {# 3桁区切りのため追加 #}
+{% load static %} {# {% static  を使うため必要 #}
+
+{% block title %}
+駐車場収入履歴
+{% endblock title %}
+{% block head %}
+{# javascriptファイルを取り込む #}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
+<script src="{% static 'parking_in/parking_in_chart.js' %}"></script>
+{% endblock head %}
+{% block navbar %}
+<nav class="navbar is-black is-size-6" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="{% url 'register:mypage' %}">【SG川崎】</a>
+    <a role="button" class="navbar-burger " aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      <a href="{% url 'parking_out:expendlist' %}" class="navbar-item">支出履歴<a>
+    </div>
+    <div class="navbar-end">
+      <a class="navbar-item" href="javascript:void(0);" onclick="window.history.back();">戻る</a>
+    </div>
+  </div>
+</nav>
+{% endblock navbar %}
+{% block content %}
+<br>
+<div class="ss_container">
+  <div class="content has-text-centered">
+    <h4>駐車場収入履歴</h4>
+  </div>
+  <div class="scroll">
+    <table class="table is-narrow is-striped is-responsible">
+      <thead>
+        <tr>
+          <th class="has-text-centered">期</th>
+          <th class="has-text-centered">駐車場収入</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for income in incomelist %}
+        <tr>
+          <td class="has-text-centered">{{income.ki}}</td>
+          <td class="has-text-right">{{income.parking_lot_income|intcomma}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="md_container">  
+  <br>
+  {# グラフ表示エリア #}
+  <div class="md_container">
+    <canvas id="stage" width="300" height="200"></canvas>
+  </div>
+  
+  {# 以下でグラフ作成用のデータを生成する． templateで処理を書いて良いものだろうか？ #}
+  <script type="text/javascript">
+    var data = [];
+  </script>
+  {% for income in incomelist %}
+  <script type="text/javascript">
+    var list = [];
+    list.push("{{income.ki}}");
+    list.push("{{income.parking_lot_income}}");
+    data.push(list);
+  </script>
+  {% endfor %}
+  <script type="text/javascript">
+    //console.log(data);
+    incomeParkingChart2(data);
+  </script>
+  <br>
+  {% endblock %}
+</div>

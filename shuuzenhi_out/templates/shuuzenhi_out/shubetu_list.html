@@ -1,0 +1,91 @@
+{# https://stackoverflow.com/questions/39123348/how-to-pass-a-queryset-from-django-to-javascript-function #}
+{% extends "base.html" %}
+{% load humanize %} {# 3桁区切りのため追加 #}
+{% load static %}
+
+{% block title %}
+工事種別リスト
+{% endblock title %}
+
+{% block head %}
+{# javascriptファイルを取り込む #}
+<script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js"></script>
+<script src="{% static 'shubetu_chart.js' %}"></script>
+<!--<script src='{% static 'js/moment-with-locales.js' %}'></script>-->
+{% endblock head %}
+{% block navbar %}
+<nav class="navbar is-black is-size-6" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="{% url 'register:mypage' %}">【SG川崎】</a>
+    <a role="button" class="navbar-burger " aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      <a href="{% url 'shuuzenhi_out:rirekilist' %}" class="navbar-item">工事履歴</a>
+    </div>
+    <div class="navbar-end">
+      <a class="navbar-item" href="javascript:void(0);" onclick="window.history.back();">戻る</a>
+    </div>
+  </div>
+</nav>
+{% endblock navbar %}
+<br>
+{% block content %}
+<div class="ss_container">
+  <div class="content has-text-centered">
+    <h4>工事種別集計リスト</h4>
+  </div>
+  <br>
+  <div class="scroll">
+    <table class="table is-narrow is-striped is-responsible">
+      <thead>
+        <tr>
+          <th class="has-text-centered">工事種別</th>
+          <th class="has-text-centered">支出合計</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for list in shubetulist %}
+        <tr>
+          <td class="has-text-left">{{ list.koujitype__koujitype }}</td>
+          <td class="has-text-right">{{ list.total|intcomma }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <br>
+</div>
+{# グラフ表示エリア #}
+{# https://misc.0o0o.org/chartjs-doc-ja/general/responsive.html #}
+{#<div class="mx-auto" style="position: relative; width:90%" >#}
+{#    <canvas id="stage" width="300" height="200"></canvas>#}
+{#</div>#}
+{#<div class="mx-auto" style="width: 800px;">#}
+{#    <canvas id="stage" width="800" height="480"></canvas>#}
+{#</div>#}
+{# https://obel.hatenablog.jp/entry/20160626/1466937585 #}
+<div class="md_container">
+  <canvas id="stage" width="300" height="200"></canvas>
+</div>
+
+{# 以下でグラフ作成用のデータを生成する。 #}
+<script type="text/javascript">
+  var graph_data = [];
+</script>
+{% for data in shubetulist %}
+<script type="text/javascript">
+  var list = [];
+  list.push("{{data.koujitype__koujitype}}");
+  list.push("{{data.total}}");
+  graph_data.push(list);
+</script>
+{% endfor %}
+<script type="text/javascript">
+  koujiShubetuChart(graph_data);
+</script>
+{% endblock content %}

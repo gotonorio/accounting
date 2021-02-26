@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% load humanize %} {# 3桁区切りのため追加 #}
+{% load static %} {# {% static  を使うため必要 #}
+
+{% block title %}
+修繕費収入履歴
+{% endblock title %}
+{% block head %}
+{# javascriptファイルを取り込む #}
+<script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js"></script>
+<script src="{% static 'shuuzenhi_in/shuuzenhi_in_chart.js' %}"></script>
+{% endblock head %}
+{% block navbar %}
+<nav class="navbar is-black is-size-6" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="{% url 'register:mypage' %}">【SG川崎】</a>
+    <a role="button" class="navbar-burger " aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      <a href="{% url 'shuuzenhi_out:expenselist' %}" class="navbar-item">修繕費支出履歴</a>
+    </div>
+    <div class="navbar-end">
+      <a class="navbar-item" href="javascript:void(0);" onclick="window.history.back();">戻る</a>
+    </div>
+  </div>
+
+</nav>
+{% endblock navbar %}
+{% block content %}
+<br>
+<div class="container is-fluid">
+  <div class="content has-text-centered">
+    <h4>修繕会計収入履歴</h4>
+  </div>
+  <div class="scroll">
+    <table class="table is-narrow is-striped is-responsible">
+      <thead>
+        <tr>
+          <th class="has-text-centered">期</th>
+          <th class="has-text-centered">前期繰越</th>
+          <th class="has-text-centered">修繕積立金</th>
+          <th class="has-text-centered">専用庭</th>
+          <th class="has-text-centered">駐輪場</th>
+          <th class="has-text-centered">バイク置場</th>
+          <th class="has-text-centered">利息収入</th>
+          <th class="has-text-centered">雑収入</th>
+          <th class="has-text-centered">配当金</th>
+          <th class="has-text-centered">管理会計</th>
+          <th class="has-text-centered">駐車場会計</th>
+          <th class="has-text-centered">合計</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for rireki in incomelist %}
+        <tr>
+          <td class="has-text-centered">{{ rireki.ki }}</td>
+          <td class="has-text-right">{{ rireki.zenki|intcomma}}</td>
+          <td class="has-text-right">{{ rireki.shuuzenhi|intcomma}}</td>
+          <td class="has-text-right">{{ rireki.niwa|intcomma}}</td>
+          <td class="has-text-right">{{ rireki.bike|intcomma }}</td>
+          <td class="has-text-right">{{ rireki.motor_bike|intcomma }}</td>
+          <td class="has-text-right">{{ rireki.risoku|intcomma }}</td>
+          <td class="has-text-right">{{ rireki.zatu|intcomma }}</td>
+          <td class="has-text-right">{{ rireki.haitou|intcomma }}</td>
+          <td class="has-text-right">{{ rireki.kuriire|intcomma }}</td>
+          <td class="has-text-right">{{ rireki.parking|intcomma }}</td>
+          <td class="has-text-right">{{ rireki.total|intcomma }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <br>
+  {# グラフ表示エリア #}
+  {# https://misc.0o0o.org/chartjs-doc-ja/general/responsive.html #}
+  {#<div class="mx-auto" style="position: relative; width:90%" >#}
+  {#    <canvas id="stage" width="300" height="200"></canvas>#}
+  {#</div>#}
+  {#<div class="mx-auto" style="width: 800px;">#}
+  {#    <canvas id="stage" width="800" height="480"></canvas>#}
+  {#</div>#}
+  {# https://obel.hatenablog.jp/entry/20160626/1466937585 #}
+  <div class="md_container">
+    <canvas id="stage" width="300" height="200"></canvas>
+  </div>
+  
+  {# 以下でグラフ作成用のデータを生成する． templateで処理を書いて良いものだろうか？ #}
+  <script type="text/javascript">
+    var data = [];
+  </script>
+  {% for income in incomelist %}
+  <script type="text/javascript">
+    var list = [];
+    list.push("{{income.ki}}");
+    list.push("{{income.zenki}}");
+    list.push("{{income.shuuzenhi}}");
+    list.push("{{income.bike}}");
+    list.push("{{income.risoku}}");
+    list.push("{{income.zatu}}");
+    list.push("{{income.parking}}");
+    list.push("{{income.kuriire}}");
+    data.push(list);
+  </script>
+  {% endfor %}
+  <script type="text/javascript">
+    //console.log(data);
+    incomeShuuzenhiChart(data);
+  </script>
+  <br>
+  <hr>
+  {% endblock %}
+</div>

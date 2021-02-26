@@ -1,0 +1,38 @@
+{# https://stackoverflow.com/questions/39123348/how-to-pass-a-queryset-from-django-to-javascript-function #}
+{% extends "base.html" %}
+
+{% block title %}
+修繕費支出データの登録
+{% endblock title %}
+
+{% block content %}
+<nav class="navbar is-black is-size-6" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item">【SG川崎】</a>
+    <a href="{% url 'register:operate_data' %}" class="navbar-item">戻る</a>
+  </div>
+</nav>
+<br>
+{% if messages %}
+<ul class="messages">
+  {% for message in messages %}
+  <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+<div class="sm_container">
+  <div class="content has-text-centered">
+    <h3>修繕費支出データの登録</h3>
+  </div>
+  <form method='POST' enctype="multipart/form-data">
+    {% csrf_token %}
+    <table class="table is-narrow">
+      {{form}}
+    </table></div>
+    <div class="content has-text-centered">
+      <button type="submit" class="button is-primary ">保存</button>
+      <a class="button is-danger" href="javascript:void(0);" onclick="window.history.back();">キャンセル</a>
+    </div>
+  </form>
+</div>
+{% endblock content %}

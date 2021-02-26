@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% load humanize %} {# 3桁区切りのため追加 #}
+{% load static %} {# {% static  を使うため必要 #}
+
+{% block title %}
+貸借対照表
+{% endblock title %}
+{% block head %}
+{# javascriptファイルを取り込む #}
+<script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js"></script>
+<script src="{% static 'asset_list/asset_chart.js' %}"></script>
+{% endblock head %}
+{% block navbar %}
+{# https://bulma.io/documentation/components/navbar/ #}
+<nav class="navbar is-black is-size-6" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item">【SG川崎】</a>
+    {# ハンバーガアイコンのため以下の5行とbase.htmlでのjsスクリプトが必要 #}
+    <a role="button" class="navbar-burger " aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      <form class="navbar-item" action="{% url 'asset_list:balance_sheet'%}" method="get">
+        {{form}}
+        <button type="submit" class="button is-primary is-size-7">表示</button>
+      </form>
+    </div>
+    <div class="navbar-end">
+      <a class="navbar-item" href="{% url 'register:mypage' %}">戻る</a>
+    </div>
+  </div>
+
+</nav>
+{% endblock navbar %}
+<br>
+{% block content %}
+<div class="md_container is-fluid">
+  <br>
+  <div class="content has-text-centered">
+    <h4>第{{ki}}期 管理費会計 貸借対照表</h4>
+  </div>
+  <table class="table is-narrow is-bordered is-responsible">
+    <thead>
+      <tr class="has-background-grey-lighter">
+        <th class="has-text-centered">資産の部</th>
+        <th class="has-text-centered">金額</th>
+        <th class="has-text-centered">負債の部</th>
+        <th class="has-text-centered">金額</th>
+      </tr>
+    </thead>
+    <tbody>
+      {# 資産 #}
+      {% for item in balancesheet %}
+      <tr>
+        <td class="has-text-left nowrap">{{item.0}}</td>
+        <td class="has-text-right nowrap">{{item.1|intcomma}}</td>
+        <td class="has-text-left">{{item.2}}</td>
+        <td class="has-text-right">{{item.3|intcomma}}</td>
+      </tr>
+      {% endfor %}
+      <tr>
+        <td></td>
+        <td class="has-text-right nowrap">{{asset_total|intcomma}}</td>
+        <td></td>
+        <td class="has-text-right nowrap">{{asset_total|intcomma}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <br>
+<div class="md_container is-fluid">
+  <br>
+  <div class="content has-text-centered">
+    <h4>第{{ki}}期 修繕費会計 貸借対照表</h4>
+  </div>
+  <table class="table is-narrow is-bordered is-responsible">
+    <thead>
+      <tr class="has-background-grey-lighter">
+        <th class="has-text-centered">資産の部</th>
+        <th class="has-text-centered">金額</th>
+        <th class="has-text-centered">負債の部</th>
+        <th class="has-text-centered">金額</th>
+      </tr>
+    </thead>
+    <tbody>
+      {# 資産 #}
+      {% for item in balancesheet2 %}
+      <tr>
+        <td class="has-text-left nowrap">{{item.0}}</td>
+        <td class="has-text-right nowrap">{{item.1|intcomma}}</td>
+        <td class="has-text-left">{{item.2}}</td>
+        <td class="has-text-right">{{item.3|intcomma}}</td>
+      </tr>
+      {% endfor %}
+      <tr>
+        <td></td>
+        <td class="has-text-right nowrap">{{asset_total2|intcomma}}</td>
+        <td></td>
+        <td class="has-text-right nowrap">{{asset_total2|intcomma}}</td>
+      </tr>
+    </tbody>
+  </table>
+  <br>
+  {% endblock %}
+</div>

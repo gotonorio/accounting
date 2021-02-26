@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}
+管理費収入カテゴリーの登録
+{% endblock title %}
+
+{% block content %}
+<nav class="navbar is-black is-size-6" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item">【SG川崎】</a>
+    <a href="{% url 'register:operate_data' %}" class="navbar-item">戻る</a>
+  </div>
+</nav>
+<br>
+{% if messages %}
+<ul class="messages">
+  {% for message in messages %}
+  <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+<div class="sm_container">
+  <div class="content has-text-centered">
+    <h3>管理費収入カテゴリーの登録/修正</h3>
+  </div>
+
+  <form method='POST' enctype="multipart/form-data">
+    {% csrf_token %}
+    <table>
+      {{form}}
+    </table>
+    <br>
+    <div class="content has-text-centered">
+      <button type="submit" class="button is-primary ">保存</button>
+      <a class="button is-danger" href="javascript:void(0);" onclick="window.history.back();">キャンセル</a>
+    </div>
+  </form>
+  <br>
+  <hr>
+  <table class="table is-narrow" >
+    {# 行高 table-md #}
+    <thead>
+      <tr>
+        <th class="has-text-centered">コード</th>
+        <th class="has-text-centered">カテゴリー名</th>
+        <th class="has-text-centered">修正</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for list in masterlist %}
+      <tr>
+        <td class="has-text-centered">{{ list.code }}</td>
+        <td class="has-text-left">{{ list.name }}</td>
+        <td class="has-text-centered"><a href="{% url 'kanrihi_in:update_category' list.id %}">修正</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock content %}

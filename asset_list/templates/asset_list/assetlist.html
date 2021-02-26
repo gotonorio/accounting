@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% load humanize %} {# 3桁区切りのため追加 #}
+{% load static %} {# {% static  を使うため必要 #}
+{% load my_templatetags %} {# プロジェクト共有のテンプレートファイル/タグを使う. setting.pyで設定 #}
+
+{% block title %}
+財産目録
+{% endblock title %}
+{% block head %}
+{# javascriptファイルを取り込む #}
+<script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js"></script>
+<script src="{% static 'asset_list/asset_chart.js' %}"></script>
+{% endblock head %}
+{% block navbar %}
+{# https://bulma.io/documentation/components/navbar/ #}
+<nav class="navbar is-black is-size-6" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item">【SG川崎】</a>
+    {# ハンバーガアイコンのため以下の5行とbase.htmlでのjsスクリプトが必要 #}
+    <a role="button" class="navbar-burger " aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      <form class="navbar-item" action="{% url 'asset_list:assetlist'%}" method="get">
+        <button type="submit" class="button is-light has-text-black is-size-7 has-text-weight-bold" name="button" value="forward">←</button>
+        -
+        <button type="submit" class="button is-light has-text-black is-size-7 has-text-weight-bold" name="button" value="next">→</button>
+      </form>
+    </div>
+    <div class="navbar-end">
+      <a class="navbar-item" href="{% url 'register:mypage' %}">戻る</a>
+    </div>
+  </div>
+</nav>
+{% endblock navbar %}
+<br>
+{% block content %}
+<div class="container is-fluid">
+  <div class="content has-text-centered">
+    <h4>資産内訳</h4>
+  </div>
+  <table class="table is-narrow is-striped is-responsible">
+    <thead>
+      <tr class="has-background-grey-lighter">
+        <th class="has-text-centered">資産名</th>
+        <th class="has-text-centered">口座番号</th>
+        <th class="has-text-centered">{{title1}}</th>
+        <th class="has-text-centered">{{title2}}</th>
+        <th class="has-text-centered">{{title3}}</th>
+        <th class="has-text-centered">{{title4}}</th>
+        <th class="has-text-centered">{{title5}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {# 資産 #}
+      {% for item in assetlist %}
+      <tr>
+        <td class="has-text-centered nowrap">{{item.master__name}}</td>
+        <td class="has-text-centered">{{item.master__account_number}}</td>
+        <td class="has-text-right">{{item.period1|intcomma}}</td>
+        <td class="has-text-right">{{item.period2|intcomma}}</td>
+        <td class="has-text-right">{{item.period3|intcomma}}</td>
+        <td class="has-text-right">{{item.period4|intcomma}}</td>
+        <td class="has-text-right">{{item.period5|intcomma}}</td>
+      </tr>
+      {% endfor %}
+      <tr class="has-background-grey-lighter">
+        <td class="has-text-centered">資産の部合計</td>
+        <td></td>
+        <td class="has-text-right">{{ total1|intcomma }}</td>
+        <td class="has-text-right">{{ total2|intcomma }}</td>
+        <td class="has-text-right">{{ total3|intcomma }}</td>
+        <td class="has-text-right">{{ total4|intcomma }}</td>
+        <td class="has-text-right">{{ total5|intcomma }}</td>
+      </tr>
+      {# 負債 #}
+      {% for item in debtlist %}
+      <tr>
+        <td class="has-text-centered">{{item.master__name}}</td>
+        <td class="has-text-centered">{{item.master__account_number}}</td>
+        <td class="has-text-right">{{item.period1|intcomma}}</td>
+        <td class="has-text-right">{{item.period2|intcomma}}</td>
+        <td class="has-text-right">{{item.period3|intcomma}}</td>
+        <td class="has-text-right">{{item.period4|intcomma}}</td>
+        <td class="has-text-right">{{item.period5|intcomma}}</td>
+      </tr>
+      {% endfor %}
+      <tr class="has-background-grey-lighter">
+        <td class="has-text-centered">負債の部合計</td>
+        <td></td>
+        <td class="has-text-right">{{ debt1|intcomma }}</td>
+        <td class="has-text-right">{{ debt2|intcomma }}</td>
+        <td class="has-text-right">{{ debt3|intcomma }}</td>
+        <td class="has-text-right">{{ debt4|intcomma }}</td>
+        <td class="has-text-right">{{ debt5|intcomma }}</td>
+      </tr>
+      {# 正味資産合計 #}
+      <tr class="has-background-grey-lighter">
+        <td class="has-text-centered">正味資産合計</td>
+        <td></td>
+        <td class="has-text-right">{{ total1|subtract:debt1|intcomma }}</td>
+        <td class="has-text-right">{{ total2|subtract:debt2|intcomma }}</td>
+        <td class="has-text-right">{{ total3|subtract:debt3|intcomma }}</td>
+        <td class="has-text-right">{{ total4|subtract:debt4|intcomma }}</td>
+        <td class="has-text-right">{{ total5|subtract:debt5|intcomma }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <br>
+
+  {# グラフ表示エリア #}
+  {# https://misc.0o0o.org/chartjs-doc-ja/general/responsive.html #}
+  {# https://obel.hatenablog.jp/entry/20160626/1466937585 #}
+  <div class="md_container">
+    <canvas id="stage" width="300" height="200"></canvas>
+  </div>
+
+  {# 以下でグラフ作成用のデータを生成する．#}
+  <script type="text/javascript">
+    var data = [];
+  </script>
+  {# 正味資産データ #}
+  {% for item in graphdata %}
+  <script type="text/javascript">
+    //console.log("{{item.0}}")
+    var list = [];
+    list.push("{{item.0}}");
+    list.push("{{item.1}}");
+    data.push(list);
+  </script>
+  {% endfor %}
+  <script type="text/javascript">
+    //assetChart("{{debt_graphdata}}");
+    assetChart(data);
+  </script>
+  <br>
+  <hr>
+  {% if perms.asset_list.add_assetlist %}
+    <a href="{% url 'asset_list:export' %}" class="nav-link">CSVダウンロード<a>
+  {% endif %}
+  {% endblock %}
+</div>

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load humanize %} {# 3桁区切りのため追加 #}
+
+{% block title %}
+見積書一覧
+{% endblock title %}
+
+{% block navbar %}
+<nav class="navbar is-black is-size-6" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="{% url 'register:mypage' %}">【SG川崎】</a>
+  </div>
+  <div class="navbar-end">
+    <div class="navbar-item">
+      <form class="navbar-item" action="{% url 'shuuzenhi_out:quotation'%}" method="get">
+        {{form}}
+        <button type="submit" class="button is-primary is-size-7">実行</button>
+      </form>
+    </div>
+  </div>
+</nav>
+{% endblock navbar %}
+<br>
+{% block content %}
+<div class="md_container">
+  <div class="content has-text-centered">
+    <h4>見積書リスト</h4>
+  </div>
+  <br>
+  <div class="scroll">
+    <table class="table is-narrow is-bordered">
+      <thead>
+        <tr class="has-background-black">
+          <th class="has-text-centered has-text-white">ID</th>
+          <th class="has-text-centered has-text-white">見積書名</th>
+          <th class="has-text-centered has-text-white">作成日</th>
+          <th class="has-text-centered has-text-white">概要</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for file in file_list %}
+        <tr>
+          <td class="has-text-left"><a href="{{file.src.url}}" target="_blank">{{file.id}}</a></td>
+          <td class="has-text-left">{{file.title}}</td>
+          <td class="has-text-centered">{{file.created_at|date:"Y-m-d"}}</td>
+          <td class="has-text-left">{{file.comment|linebreaksbr|urlize}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <br>
+  {% include "page.html" %}
+{% endblock %}

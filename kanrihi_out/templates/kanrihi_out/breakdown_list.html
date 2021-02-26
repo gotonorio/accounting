@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load humanize %} {# 3桁区切りのため追加 #}
+{% load static %} {# {% static  を使うため必要 #}
+
+{% block title %}
+管理費支出内訳
+{% endblock title %}
+{% block navbar %}
+<nav class="navbar is-black is-size-6" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="{% url 'register:mypage' %}">【SG川崎】</a>
+    <a role="button" class="navbar-burger " aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      <a href="{% url 'kanrihi_out:expenselist' %}" class="navbar-item">支出履歴</a>
+      <form class="navbar-item" action="{% url 'kanrihi_out:breakdownlist'%}" method="get">
+        <button type="submit" class="button is-light has-text-black is-size-7 has-text-weight-bold" name="button" value="forward">←</button>
+       - 
+        <button type="submit" class="button is-light has-text-black is-size-7 has-text-weight-bold" name="button" value="next">→</button>
+      </form>
+    </div>
+    <div class="navbar-end">
+      <a class="navbar-item" href="javascript:void(0);" onclick="window.history.back();">戻る</a>
+    </div>
+  </div>
+
+</nav>
+{% endblock navbar %}
+{% block content %}
+<br>
+<div class="container">
+  <div class="content has-text-centered">
+    <h4>管理費支出内訳</h4>
+  </div>
+  <br>
+  <div class="table-container">
+    <table class="table is-striped is-narrow">
+      <thead>
+        <tr>
+          <th class="has-text-centered">費目</th>
+          <th class="has-text-centered">管理費支出項目</th>
+          <th class="has-text-centered">{{title1}}</th>
+          <th class="has-text-centered">{{title2}}</th>
+          <th class="has-text-centered">{{title3}}</th>
+          <th class="has-text-centered">{{title4}}</th>
+          <th class="has-text-centered">{{title5}}</th>
+          <th class="has-text-centered">{{title6}}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in expenseitem %}
+        <tr>
+          <td class="has-text-left">{{item.master__category__name}}</td>
+          <td class="has-text-left">{{item.master__name}}</td>
+          <td class="has-text-right">{{item.period1|intcomma}}</td>
+          <td class="has-text-right">{{item.period2|intcomma}}</td>
+          <td class="has-text-right">{{item.period3|intcomma}}</td>
+          <td class="has-text-right">{{item.period4|intcomma}}</td>
+          <td class="has-text-right">{{item.period5|intcomma}}</td>
+          <td class="has-text-right">{{item.period6|intcomma}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <br>
+</div>
+{% endblock %}

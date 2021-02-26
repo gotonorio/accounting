@@ -1,0 +1,51 @@
+{# https://stackoverflow.com/questions/39123348/how-to-pass-a-queryset-from-django-to-javascript-function #}
+{% extends "base.html" %}
+{% load humanize %} {# 3桁区切りのため追加 #}
+
+{% block title %}
+管理費収入データの修正
+{% endblock title %}
+{% block navbar %}
+<nav class="navbar is-black is-size-6" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="{% url 'register:mypage' %}">【SG川崎】</a>
+  </div>
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+    </div>
+    <div class="navbar-end">
+      <a class="navbar-item" href="javascript:void(0);" onclick="window.history.back();">戻る</a>
+    </div>
+  </div>
+</nav>
+{% endblock %}
+{% block content %}
+<div class="sm_container has-text-centered">
+  <div class="content">
+    <h4>管理費収入データの修正</h4>
+  </div>
+  <table class="table is-narrow" >
+    <thead>
+      <tr>
+        <th class="has-text-centered">期</th>
+        <th class="has-text-centered">費目</th>
+        <th class="has-text-centered">管理費収入金額</th>
+        <th class="has-text-centered">修正</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for list in kanrihi_income_list %}
+      <tr>
+        <td>{{ list.ki }}</td>
+        <td>{{ list.master }}</td>
+        <td class="has-text-right">{{ list.income|intcomma }}</td>
+        <td> <a href="{% url 'kanrihi_in:update' list.id %}">修正</a></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <br>
+  <!-- http://thinkami.hatenablog.com/entry/2016/02/04/231901 -->
+  {% include 'page.html' %}
+</div>
+{% endblock content %}

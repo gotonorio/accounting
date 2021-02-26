@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+{% load humanize %}  {# 3桁区切りのため追加 #}
+{% load static %} {# {% static  を使うため必要 #}
+{% load my_templatetags %} {# プロジェクト共有のテンプレートファイル/タグを使う. setting.pyで設定 #}
+
+{% block title %}
+    管理費支出履歴
+{% endblock title %}
+{% block head %}
+  {# javascriptファイルを取り込む #}
+  <script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js"></script>
+  <script src="{% static 'kanrihi_out/kanrihi_out_chart.js' %}"></script>
+{% endblock head %}
+{% block navbar %}
+<nav class="navbar is-black is-size-6" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="{% url 'register:mypage' %}">【SG川崎】</a>
+    <a role="button" class="navbar-burger " aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      <a href="{% url 'kanrihi_out:breakdownlist' %}" class="navbar-item">管理費支出内訳</a>
+    </div>
+    <div class="navbar-end">
+      <a class="navbar-item" href="javascript:void(0);" onclick="window.history.back();">戻る</a>
+    </div>
+  </div>
+
+</nav>
+{% endblock navbar %}
+{% block content %}
+<br>
+<div class="container">
+  <div class="content has-text-centered">
+    <h4>管理費支出履歴</h4>
+  </div>
+  <br>
+  <div class="table-container">
+    <table class="table is-narrow">
+      <thead>
+        <tr>
+          {#<th class="has-text-centered">西暦</th>#}
+          <th class="has-text-centered">期</th>
+          <th class="has-text-centered">定額管理費</th>
+          <th class="has-text-centered">設備管理業務費</th>
+          <th class="has-text-centered">消費税</th>
+          <th class="has-text-centered">共用部分直接費</th>
+          <th class="has-text-centered">支出合計</th>
+          {#<th class="has-text-centered">月m2単価</th>#}
+          {#<th class="has-text-centered">保険対応工事費</th>#}
+          <th class="has-text-centered">(修繕費へ繰入)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for expense in expenselist %}
+        <tr>
+          {#<td class="has-text-centered">{{ expense.ki|add:start_year }}</td>#}
+          <td class="has-text-centered">{{ expense.ki }}</td>
+          <td class="has-text-right">{{ expense.teigaku|intcomma}}</td>
+          <td class="has-text-right">{{ expense.setubi|intcomma}}</td>
+          <td class="has-text-right">{{ expense.tax|intcomma }}</td>
+          <td class="has-text-right">{{ expense.chokusetu|intcomma }}</td>
+          <td class="has-text-right">{{ expense.out_total|intcomma }}</td>
+          {#<td class="has-text-right">{{ expense.out_total|div:floor_space|div:12}}</td>#}
+          {#<td class="has-text-right">{{ expense.hoken|intcomma }}</td>#}
+          <td class="has-text-right">{{ expense.to_shuuzen|intcomma }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+  <br>
+  {# グラフ表示エリア #}
+  {# https://obel.hatenablog.jp/entry/20160626/1466937585 #}
+  <div class="md_container">
+    <canvas id="stage" width="300" height="200"></canvas>
+  </div>
+  
+  
+  {# 以下でグラフ作成用のデータを生成する． templateで処理を書いて良いものだろうか？ #}
+  <script type="text/javascript">
+    var data = [];
+  </script>
+  {% for expense in expenselist %}
+  <script type="text/javascript">
+    var list = [];
+    list.push("{{expense.ki}}");
+    list.push("{{expense.teigaku}}");
+    list.push("{{expense.setubi}}");
+    list.push("{{expense.tax}}");
+    list.push("{{expense.chokusetu}}");
+    list.push("{{expense.total}}");
+    data.push(list);
+  </script>
+  {% endfor %}
+  <script type="text/javascript">
+    expenseKanrihiChart(data);
+  </script>
+  <br>
+  <hr>
+</div>
+{% endblock %}

@@ -1,0 +1,13 @@
+*.log
+*.pot
+*.pyc
+*.ico
+*.sqlite3
+__pycache__/
+media
+.DS_Store
+static/*.png
+.vscode/
+docker/
+dev_docker/
+local_settings.py

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="hero is-dark is-bold">
+  <div class="hero-body">
+    <div class="container has-text-centered">
+      <h1 class="title">マンション会計履歴</h1>
+      <h2 class="subtitle">Ver：{{VERSION_NO}}</h2>
+    </div>
+  </div>
+ </div>
+<div class="sm_container is-fluid ">
+  <br>
+  <div class="content has-text-centered">
+    <form method='post' action="">
+      {% csrf_token %}
+      <table class="table" >
+        {{form}}
+      </table>
+      <hr>
+      <button type="submit" name='next' value='{{next}}' class="button is-primary">login</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
+

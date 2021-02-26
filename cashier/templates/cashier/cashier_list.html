@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% load static %}
+
+{% block title %}
+小口会計履歴
+{% endblock title %}
+{% block head %}
+{# javascriptファイルを取り込む #}
+<script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js"></script>
+<script src="{% static 'kanrihi_in/kanrihi_in_chart.js' %}"></script>
+{% endblock head %}
+{% block navbar %}
+<nav class="navbar is-black is-size-6" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item">【SG川崎】</a>
+    {# ハンバーガアイコンのため #}
+    <a role="button" class="navbar-burger " aria-label="menu" aria-expanded="false" data-target="navbarMainMenu">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div id="navbarMainMenu" class="navbar-menu">
+    <div class="navbar-start">
+      <form class="navbar-item" action="" method="get">
+        <div class="navbar-item has-text-white">{{form.year.label}}</div>
+        {{form.year}}
+        {{form.month}}
+        <button type="submit" class="button is-primary is-size-7">表示</button>
+      </form>
+    </div>
+    <div class="navbar-end">
+    <a class="navbar-item" href="{% url 'register:mypage' %}">戻る</a>
+    </div>
+  </div>
+</nav>
+{% endblock navbar %}
+<br>
+{% block content %}
+<div class="container">
+  <!--<div class="content has-text-centered">-->
+  <div class="content has-text-centered">
+    <h4>小口会計支出リスト</h4>
+  </div>
+  <br>
+  <div class="scroll">
+    <table class="table is-narrow is-striped is-responsible">
+      <thead>
+        <tr>
+          <th class="has-text-centered">日付</th>
+          <th class="has-text-centered">商品名</th>
+          <th class="has-text-centered">費目</th>
+          <th class="has-text-centered">金額</th>
+          <th class="has-text-centered">摘要</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for data in objects_list %}
+        <tr>
+          {% if perms.asset_list.add_assetlist %}
+            <td class="has-text-centered"><a href="{% url 'cashier:update' data.pk %}">{{ data.spending_date|date:"Y-m-d" }}</a></td>
+          {% else %}
+            <td class="has-text-centered">{{ data.spending_date|date:"Y-m-d" }}</td>
+          {% endif %}
+          <td class="has-text-left">{{ data.name }}</td>
+          <td class="has-text-left">{{ data.expense_item }}</td>
+          <td class="has-text-right nowrap">{{ data.expense|intcomma }}</td>
+          <td class="has-text-left">{{ data.comment }}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+          <td></td>
+          <td></td>
+          <td class="has-text-centered">合計</td>
+          <td class="has-text-right">{{total|intcomma}}</td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+{% endblock %}
+</div>

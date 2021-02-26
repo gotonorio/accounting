@@ -1,0 +1,67 @@
+{# https://stackoverflow.com/questions/39123348/how-to-pass-a-queryset-from-django-to-javascript-function #}
+{% extends "base.html" %}
+{% load humanize %} {# 3桁区切りのため追加 #}
+
+{% block title %}
+修繕費支出データの修正
+{% endblock title %}
+{% block navbar %}
+<nav class="navbar is-black is-size-6" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="{% url 'register:mypage' %}">【SG川崎】</a>
+  </div>
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+    </div>
+    <div class="navbar-end">
+      <a class="navbar-item" href="javascript:void(0);" onclick="window.history.back();">戻る</a>
+    </div>
+  </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="content has-text-centered">
+    <h4>修繕支出のデータ修正</h4>
+  </div>
+  <br>
+  <div class="scroll">
+    <table class="table is-narrow is-bordered">
+      <thead>
+        <tr>
+          <th class="has-text-centered">西暦</th>
+          <th class="has-text-centered">（期）</th>
+          <th class="has-text-centered">工事種類</th>
+          <th class="has-text-centered">工事名</th>
+          <th class="has-text-centered">工事費</th>
+          <th class="has-text-centered">施工業者</th>
+          <th class="has-text-centered">会計区分</th>
+          <th class="has-text-centered">修正</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for list in rireki_list %}
+        <tr>
+          <td class="has-text-centered">{{ list.year }}</td>
+          <td class="has-text-centered">{{ list.year|add:start_year }}</td>
+          <td class="has-text-left">{{ list.koujitype }}</td>
+          <td class="has-text-left">{{ list.koujimei }}</td>
+          <td class="has-text-right">{{ list.cost|intcomma }}</td>
+          <td class="has-text-left">{{ list.constractor }}</td>
+          <td class="has-text-left">{{ list.account_type }}</td>
+          <td>
+            <a href="{% url 'shuuzenhi_out:update' list.id %}" class="button is-primary is-small">
+              修正
+            </a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <br>
+  {# http://thinkami.hatenablog.com/entry/2016/02/04/231901 #}
+  {% include 'page.html' %}
+</div>
+{% endblock content %}

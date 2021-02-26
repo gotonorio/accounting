@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}
+小口会計データの登録
+{% endblock title %}
+{% block navbar %}
+<nav class="navbar is-black is-size-6" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item">【 SG 会計 】</a>
+    {# ハンバーガアイコンのため #}
+    <a role="button" class="navbar-burger " aria-label="menu" aria-expanded="false" data-target="navbarMainMenu">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div id="navbarMainMenu" class="navbar-menu">
+    <div class="navbar-start">
+    </div>
+    <div class="navbar-end">
+      <a class="navbar-item" href="{% url 'register:mypage' %}">戻る</a>
+    </div>
+  </div>
+</nav>
+{% endblock navbar %}
+<br>
+{% block content %}
+{# https://docs.djangoproject.com/ja/2.0/ref/contrib/messages/ #}
+<div class="sm_container">
+  <br>
+  <div class="content has-text-centered">
+    <h3>小口会計データの登録</h3>
+    <form method='POST' enctype="multipart/form-data">
+      {% csrf_token %}
+      <table class="table is-narrow">
+        {{form}}
+      </table>
+      <br>
+      <button type="submit" class="button is-primary ">保存</button>
+      <a class="button is-danger" href="javascript:void(0);" onclick="window.history.back();">キャンセル</a>
+    </form>
+    <br>
+  </div>
+</div>
+{% endblock content %}

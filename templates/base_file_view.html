@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" type="image/png" href="{{STATIC_URL}}/static/favicon.ico" />
+  {# css #}
+  <link href="{% static 'mycss/mycss.css' %}" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.1/css/bulma.css" rel="stylesheet">
+  <title>{% block title %}文書資料{% endblock %}</title>
+  {% block head %}
+  {{head}}
+  {% endblock %}
+</head>
+<body>
+  <!-- navbar -->
+  <nav class="navbar is-black is-size-6" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a href="{% url 'shuuzenhi_out:rirekilist' %}" class="navbar-item">工事履歴へ戻る<a>
+      <a class="navbar-item" href="javascript:void(0);" onclick="window.history.back();">前に戻る</a>
+    </div>
+  </nav>
+  <!-- ヘッダー（jumbotron) -->
+  {% block header %}
+  {% endblock %}
+  <!-- contents -->
+  <div class="container">
+    <div class="columns">
+      <div class="column is-3">
+        <br>
+
+        <table class="table is-narrow is-bordered">
+          <thead>
+            <tr class="has-background-black">
+              <th class="has-text-centered has-text-white">工事種別メニュー</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for menu in menu_list %}
+            <tr>
+              <td class="has-text-left">
+                <a href="{% url 'shuuzenhi_out:bigcategory' menu.pk %}" class="vmenu">{{menu}}</a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+        <br>
+      </div>
+      <div class="column is-9">
+        {% block content %}
+        {% endblock %}
+        <br>
+      </div>
+    </div>
+  </div>
+  <!-- フッタ -->
+  <footer class="my_footer">
+    <div class="container">
+      <div class="content has-text-centered">
+        <span class="text-muted">
+          &copy; 2016 -
+          <script language="JavaScript" type="text/javascript">
+            document.write(new Date().getFullYear());
+          </script> ソフィア・ガーデンズ川崎 管理組合
+        </span>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% load humanize %} {# 3桁区切りのため追加 #}
+{% load static %} {# {% static  を使うため必要 #}
+
+{% block title %}
+駐車場使用料の支出履歴
+{% endblock title %}
+{% block head %}
+{# javascriptファイルを取り込む #}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.js"></script>
+<script src="{% static 'parking_out/parking_out_chart.js' %}"></script>
+{% endblock head %}
+{% block navbar %}
+<nav class="navbar is-black is-size-6" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="{% url 'register:mypage' %}">【SG川崎】</a>
+    <a role="button" class="navbar-burger " aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      <a href="{% url 'parking_in:incomelist' %}" class="navbar-item">収入履歴<a>
+    </div>
+    <div class="navbar-end">
+      <a class="navbar-item" href="javascript:void(0);" onclick="window.history.back();">戻る</a>
+    </div>
+  </div>
+</nav>
+{% endblock navbar %}
+{% block content %}
+<br>
+<div class="sm_container">
+  <div class="content has-text-centered">
+    <h4>駐車場使用料の支出履歴</h4>
+  </div>
+  <!--<div class="scroll">-->
+  <table class="table is-narrow is-striped is-responsible">
+    <thead>
+      <tr>
+        <th class="has-text-centered">期</th>
+        <th class="has-text-centered">管理費会計</th>
+        <th class="has-text-centered">修繕積立金会計</th>
+        <th class="has-text-centered">合計</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for list in expendlist %}
+      <tr>
+        <td class="has-text-right">{{list.ki}}</td>
+        <td class="has-text-right">{{list.kanrihi|intcomma}}</td>
+        <td class="has-text-right">{{list.shuuzenhi|intcomma}}</td>
+        <td class="has-text-right">{{list.total|intcomma}}</td>
+      </tr>
+      {% endfor %}
+      <tr>
+        <td></td>
+        <td class="has-text-right">{{kanrihi_total|intcomma}}</td>
+        <td class="has-text-right">{{shuuzenhi_total|intcomma}}</td>
+        <td class="has-text-right">{{kanrihi_total|add:shuuzenhi_total|intcomma}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<br>
+{# グラフ表示エリア #}
+<div class="md_container">
+  <canvas id="stage" width="300" height="200"></canvas>
+</div>
+
+{# 以下でグラフ作成用のデータを生成する． templateで処理を書いて良いものだろうか？ #}
+<script type="text/javascript">
+  var data = [];
+</script>
+{% for expend in expendlist %}
+<script type="text/javascript">
+  var list = [];
+  list.push("{{expend.ki}}");
+  list.push("{{expend.kanrihi}}");
+  list.push("{{expend.shuuzenhi}}");
+  list.push("{{expend.total}}");
+  data.push(list);
+</script>
+{% endfor %}
+<script type="text/javascript">
+  //console.log(data);
+  expendParkingChart(data);
+</script>
+<br>
+{% endblock %}

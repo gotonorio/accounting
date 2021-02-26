@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% load humanize %} {# 3桁区切りのため追加 #}
+{% load static %} {# {% static  を使うため必要 #}
+{% load my_templatetags %} {# プロジェクト共有のテンプレートファイル/タグを使う. setting.pyで設定 #}
+
+{% block title %}
+管理費収入・支出履歴
+{% endblock title %}
+{% block head %}
+{# javascriptファイルを取り込む #}
+<script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js"></script>
+<script src="{% static 'balance/kanrihi_balance_linechart.js' %}"></script>
+{% endblock head %}
+{% block navbar %}
+<nav class="navbar is-black is-size-6" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="{% url 'register:mypage' %}">【SG川崎】</a>
+    <a role="button" class="navbar-burger " aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      <a href="{% url 'kanrihi_in:incomelist' %}" class="navbar-item">管理費収入履歴</a>
+      <a href="{% url 'kanrihi_out:expenselist' %}" class="navbar-item">管理費支出履歴</a>
+    </div>
+    <div class="navbar-end">
+      <a class="navbar-item" href="javascript:void(0);" onclick="window.history.back();">戻る</a>
+    </div>
+  </div>
+</nav>
+{% endblock navbar %}
+{% block content %}
+<br>
+<div class="container">
+  <div class="content has-text-centered">
+    <h4>管理会計収支</h4>
+  </div>
+  <br>
+  <div class="scroll">
+    <table class="table is-striped is-narrow is-responsible">
+      <thead>
+        <tr>
+          <th class="has-text-centered">期</th>
+          <th class="has-text-centered">前期繰越金</th>
+          <th class="has-text-centered">管理費収入</th>
+          <th class="has-text-centered">駐車場会計より</th>
+          <th class="has-text-centered">当期収入合計</th>
+          <th class="has-text-centered">管理費支出</th>
+          <th class="has-text-centered">管理費剰余金</th>
+          <th class="has-text-centered">修繕繰入</th>
+          <th class="has-text-centered">次期繰越金</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for list in balancelist %}
+        <tr>
+          <td class="has-text-centered">{{ list.ki }}</td>
+          <td class="has-text-right">{{ list.zenki|intcomma }}</td>
+          <td class="has-text-right">{{ list.kanrihi_in|intcomma }}</td>
+          <td class="has-text-right">{{ list.parking|intcomma }}</td>
+          <td class="has-text-right">{{ list.in_total|intcomma }}</td>
+          <td class="has-text-right">{{ list.out_total|intcomma }}</td>
+          <td class="has-text-right">{{ list.in_total|subtract:list.out_total|intcomma }}</td>
+          <td class="has-text-right">{{ list.to_shuuzen|intcomma }}</td>
+          <td class="has-text-right">{{ list.in_total|subtract:list.out_total|subtract:list.to_shuuzen|intcomma }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <br>
+</div>
+<br>
+<div class="md_container">
+  <canvas id="stage" width="300" height="200"></canvas>
+</div>
+
+{# 以下でグラフ作成用のデータを生成する． templateで処理を書いて良いものだろうか？ #}
+<script type="text/javascript">
+  var data = [];
+</script>
+{% for dat in balancelist %}
+<script type="text/javascript">
+  var list = [];
+  list.push("{{dat.ki}}");
+  list.push("{{dat.in_total}}"-"{{dat.out_total}}"-"{{dat.to_shuuzen}}");
+  data.push(list);
+</script>
+{% endfor %}
+<script type="text/javascript">
+  // console.log(data);
+  kanrihiBalanceChart(data);
+</script>
+<br>
+<hr>
+{% endblock content %}

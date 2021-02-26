@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% load humanize %} {# 3桁区切りのため追加 #}
+{% load static %} {# {% static  を使うため必要 #}
+
+{% block title %}
+管理費収入履歴
+{% endblock title %}
+{% block head %}
+{# javascriptファイルを取り込む #}
+<script src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.js"></script>
+<script src="{% static 'kanrihi_in/kanrihi_in_chart.js' %}"></script>
+{% endblock head %}
+{% block navbar %}
+<nav class="navbar is-black is-size-6" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="{% url 'register:mypage' %}">【SG川崎】</a>
+    <a role="button" class="navbar-burger " aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      <a href="{% url 'kanrihi_in:uchiwakelist' %}" class="navbar-item">その他収入</a>
+    </div>
+    <div class="navbar-end">
+      <a class="navbar-item" href="javascript:void(0);" onclick="window.history.back();">戻る</a>
+    </div>
+  </div>
+</nav>
+{% endblock navbar %}
+{% block content %}
+<br>
+<div class="md_container">
+  <!--<div class="content has-text-centered">-->
+  <div class="content has-text-centered">
+    <h4>管理費収入履歴</h4>
+  </div>
+  <br>
+  <div class="scroll">
+    <table class="table is-narrow is-striped is-responsible">
+      <thead>
+        <tr>
+          <th class="has-text-centered">期</th>
+          <th class="has-text-centered">前期繰越</th>
+          <th class="has-text-centered">定額管理費</th>
+          <th class="has-text-centered">その他収入</th>
+          <th class="has-text-centered">駐車場会計より</th>
+          <th class="has-text-centered">今期収入合計</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for income in incomelist %}
+        <tr>
+          <td class="has-text-centered nowrap">{{ income.ki }}</td>
+          <td class="has-text-right nowrap">{{ income.zenki_kurikosi|intcomma}}</td>
+          <td class="has-text-right nowrap">{{ income.kanrihi|intcomma}}</td>
+          <td class="has-text-right nowrap">{{ income.sonota|intcomma }}</td>
+          <td class="has-text-right nowrap">{{ income.parking|intcomma }}</td>
+          <td class="has-text-right nowrap">{{ income.total|intcomma }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{# グラフ表示エリア #}
+{# https://misc.0o0o.org/chartjs-doc-ja/general/responsive.html #}
+{#<div class="mx-auto" style="position: relative; width:90%" >#}
+{#    <canvas id="stage" width="300" height="200"></canvas>#}
+{#</div>#}
+{#<div class="mx-auto" style="width: 800px;">#}
+{#    <canvas id="stage" width="800" height="480"></canvas>#}
+{#</div>#}
+{# https://obel.hatenablog.jp/entry/20160626/1466937585 #}
+
+<div class="md_container">
+  <canvas id="stage" width="300" height="200"></canvas>
+</div>
+
+{# 以下でグラフ作成用のデータを生成する． templateで処理を書いて良いものだろうか？ #}
+<script type="text/javascript">
+  var data = [];
+</script>
+{% for income in incomelist %}
+<script type="text/javascript">
+  var list = [];
+  list.push("{{income.ki}}");
+  list.push("{{income.kanrihi}}");
+  list.push("{{income.zenki_kurikosi}}");
+  list.push("{{income.sonota}}");
+  list.push("{{income.parking}}");
+  data.push(list);
+</script>
+{% endfor %}
+<script type="text/javascript">
+  //console.log(data);
+  incomeKanrihiChart(data);
+</script>
+<br>
+<hr>
+{% endblock %}
+</div>

@@ -1,0 +1,69 @@
+{# https://stackoverflow.com/questions/39123348/how-to-pass-a-queryset-from-django-to-javascript-function #}
+{% extends "base.html" %}
+{% load humanize %} {# 3桁区切りのため追加 #}
+{% load static %} {# {% static  を使うため必要 #}
+
+{% block title %}
+工事詳細
+{% endblock title %}
+
+{% block navbar %}
+<nav class="navbar is-black is-size-6" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href="{% url 'register:mypage' %}">【SG川崎】</a>
+    {# ハンバーガアイコンのため #}
+    <a role="button" class="navbar-burger " aria-label="menu" aria-expanded="false" data-target="navbarMainMenu">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div id="navbarMainMenu" class="navbar-menu">
+    <div class="navbar-end">
+      <div class="navbar-item">
+        <a class="button is-light is-size-7" href="javascript:void(0);" onclick="window.history.back();">戻る</a>
+      </div>
+    </div>
+  </div>
+</nav>
+{% endblock navbar %}
+{% block content %}
+<br>
+<div class="content has-text-centered">
+  <h4>{{object.koujimei}}</h4>
+</div>
+<div class="sm_container">
+  <div class="scroll">
+    <table class="table is-narrow is-striped is-bordered is-responsible">
+      <tr>
+        <td>施工年</td>
+        <td>{{object.year}}</td>
+      </tr>
+      <tr>
+        <td>工事種別</td>
+        <td>{{object.koujitype}}</td>
+      </tr>
+      <tr>
+        <td>工事名</td>
+        <td>{{object.koujimei}}</td>
+      </tr>
+      <tr>
+        <td>工事費</td>
+        <td>{{object.cost|intcomma}}</td>
+      </tr>
+      <tr>
+        <td>施工業者</td>
+        <td>{{object.constractor}}</td>
+      </tr>
+      <tr>
+        <td>会計区分</td>
+        <td>{{object.account_type}}</td>
+      </tr>
+      <tr>
+        <td>備考</td>
+        <td>{{object.comment|linebreaks}}</td>
+      </tr>
+    </table>
+  </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" type="image/png" href="{{STATIC_URL}}/static/favicon.ico"/>
+  {# css #}
+  <link href="{% static 'mycss/mycss.css' %}" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.1/css/bulma.css" rel="stylesheet">
+  <title>{% block title %}マンション会計{% endblock %}</title>
+  {% block head %}
+  {% endblock %}
+</head>
+<body>
+  {% block navbar %}
+  {% endblock%}
+  <!-- footerを設置する場合、<main>で囲む -->
+  <main>
+  {% block content %}
+  {% endblock %}
+  </main>
+<!-- フッタ -->
+  <footer class="my_footer">
+    <div class="container">
+      <div class="content has-text-centered">
+        <span class="text-muted">
+          &copy; 2016 -
+          <script language="JavaScript" type="text/javascript">
+            document.write(new Date().getFullYear());
+          </script>
+          ソフィア・ガーデンズ川崎 管理組合 gotonorio@gmail.com (Ver-{{VERSION_NO}})
+        </span>
+      </div>
+    </div>
+  </footer>
+
+  {# 参考： https://bulma.io/documentation/components/navbar/ #}
+  {# ToDo ハンバーガアイコン用のjs。staticから読み込むことはできないか？ #}
+  <script>
+      // notificationを×押下で閉じれるように。
+    for (const element of document.querySelectorAll('.notification > .delete')) {
+        element.addEventListener('click', e => {
+            e.target.parentElement.classList.add('is-hidden');
+        });
+    }
+  // navbar-burgerのボタン処理。https://bulma.io/documentation/components/navbar/
+    document.addEventListener('DOMContentLoaded', () => {
+      // Get all "navbar-burger" elements
+      const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+      // Check if there are any navbar burgers
+      if ($navbarBurgers.length > 0) {
+        // Add a click event on each of them
+        $navbarBurgers.forEach( el => {
+          el.addEventListener('click', () => {
+              // Get the target from the "data-target" attribute
+            const target = el.dataset.target;
+            const $target = document.getElementById(target);
+            // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+            el.classList.toggle('is-active');
+            $target.classList.toggle('is-active');
+          });
+        });
+      }
+    });
+  </script>
+</body>
+</html>

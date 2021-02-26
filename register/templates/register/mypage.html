@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{# http://cccabinet.jpn.org/bootstrap4/components/navbar #}
+{% block title %}
+SG川崎 会計
+{% endblock %}
+
+{% block navbar %}
+{# https://bulma.io/documentation/components/navbar/ #}
+<nav class="navbar is-black is-size-6" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item">【SG川崎】</a>
+    {# ハンバーガアイコンのため以下の5行とbase.htmlでのjsスクリプトが必要 #}
+    <a role="button" class="navbar-burger " aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">財産目録</a>
+        <div class="navbar-dropdown">
+          <a href="{% url 'asset_list:assetlist' %}" class="navbar-item">財産目録<a>
+          <a href="{% url 'asset_list:balance_sheet' %}" class="navbar-item">貸借対照表<a>
+        </div>
+      </div>
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">管理会計</a>
+        <div class="navbar-dropdown">
+          <a href="{% url 'kanrihi_in:incomelist' %}" class="dropdown-item">収入履歴</a>
+          <a href="{% url 'kanrihi_in:uchiwakelist' %}" class="dropdown-item">その他収入</a>
+          <hr class="navbar-divider">
+          <a href="{% url 'kanrihi_out:expenselist' %}" class="dropdown-item">支出履歴<a>
+          <a href="{% url 'kanrihi_out:breakdownlist' %}" class="dropdown-item">支出内訳<a>
+          <hr class="navbar-divider">
+          <a href="{% url 'balance:kanrihi' %}" class="dropdown-item">収支一覧<a>
+          {% if user.is_staff %}
+            <a href="{% url 'balance:kanrihi2' %}" class="dropdown-item">新収支一覧<a>
+          {% endif %}
+        </div>
+      </div>
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">修繕会計</a>
+        <div class="navbar-dropdown">
+          <a href="{% url 'shuuzenhi_in:incomelist' %}" class="dropdown-item">収入履歴<a>
+          <a href="{% url 'shuuzenhi_out:expenselist' %}" class="dropdown-item">支出履歴<a>
+          <a href="{% url 'shuuzenhi_out:expenselist' '1' %}" class="dropdown-item">支出履歴(大規模修繕含む)<a>
+          <a href="{% url 'balance:shuuzenhi' %}" class="dropdown-item">収支一覧<a>
+          <hr class="navbar-divider">
+          <a href="{% url 'shuuzenhi_out:rirekilist' %}" class="dropdown-item">個別工事支出<a>
+          {#<a href="{% url 'shuuzenhi_out:quotation' %}" class="dropdown-item">見積書<a>#}
+        </div>
+      </div>
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">駐車場会計</a>
+        <div class="navbar-dropdown">
+          <a href="{% url 'parking_in:incomelist' %}" class="dropdown-item">収入履歴<a>
+          <a href="{% url 'parking_out:expendlist' %}" class="dropdown-item">支出履歴<a>
+        </div>
+      </div>
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">小口会計</a>
+        <div class="navbar-dropdown">
+          <a href="{% url 'cashier:list' %}" class="dropdown-item">支出履歴<a>
+        </div>
+      </div>
+    </div>
+    <div class="navbar-end">
+      {% if perms.asset_list.add_assetlist %}
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">管理者メニュー</a>
+          <div class="navbar-dropdown">
+            <a href="{% url 'cashier:create' %}" class="dropdown-item">小口会計入力<a>
+            <a href="{% url 'register:operate_data' %}" class="navbar-item ">決算データ入力</a>
+          </div>
+        </div>
+
+      {% endif %}
+      <div class="navbar-item">
+        <a class="button is-light is-size-7 has-text-weight-bold" href="{% url 'register:logout' %}" >ログアウト</a>
+      </div>
+    </div>
+  </div>
+</nav>
+{% endblock navbar %}
+<br>
+{% block content %}
+<div class="content has-text-centered">
+  <br>
+  <h4>マンション会計履歴</h4>
+  <br>
+  {% load static%}
+  <img src="{% static 'ramune.png' %}" style="max-height:500px" class="img-fluid" />
+</div>
+{% endblock %}
