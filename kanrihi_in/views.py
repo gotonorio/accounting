@@ -81,9 +81,12 @@ class CreateIncomeView(PermissionRequiredMixin, generic.CreateView):
         """ 駐車場収入は駐車場会計で処理する """
         kanrihi_data = form.save(commit=False)
         master = form.cleaned_data['master']
-        if master != '駐車場収入':
+        if master.name != '駐車場収入':
             kanrihi_data.save()
             messages.success(self.request, "保存しました。")
+        else:
+            messages.success(self.request, "駐車場収入は駐車場会計で処理してください")
+
         return super().form_valid(form)
 
     def form_invalid(self, form):
@@ -122,9 +125,11 @@ class UpdateIncomeView(PermissionRequiredMixin, generic.UpdateView):
         """ 駐車場収入は駐車場会計で処理する """
         kanrihi_data = form.save(commit=False)
         master = form.cleaned_data['master']
-        if master != '駐車場収入':
+        if master.name != '駐車場収入':
             kanrihi_data.save()
             messages.success(self.request, "保存しました。")
+        else:
+            messages.success(self.request, "駐車場収入は駐車場会計で処理してください")
         return super().form_valid(form)
 
     def form_invalid(self, form):
