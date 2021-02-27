@@ -32,7 +32,7 @@
 {% endblock navbar %}
 {% block content %}
 <br>
-<div class="ss_container">
+<div class="sm_container">
   <div class="content has-text-centered">
     <h4>駐車場収入履歴</h4>
   </div>
@@ -41,14 +41,19 @@
       <thead>
         <tr>
           <th class="has-text-centered">期</th>
+          <th class="has-text-centered">前期繰越</th>
           <th class="has-text-centered">駐車場収入</th>
+          <th class="has-text-centered">合計</th>
         </tr>
       </thead>
       <tbody>
         {% for income in incomelist %}
         <tr>
           <td class="has-text-centered">{{income.ki}}</td>
-          <td class="has-text-right">{{income.parking_lot_income|intcomma}}</td>
+          <td class="has-text-centered">{{income.zenki}}</td>
+          {#<td class="has-text-right">{{income.parking_lot_income|intcomma}}</td>#}
+          <td class="has-text-right">{{income.income|intcomma}}</td>
+          <td class="has-text-right">{{income.total|intcomma}}</td>
         </tr>
         {% endfor %}
       </tbody>

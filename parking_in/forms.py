@@ -1,7 +1,7 @@
 from django import forms
 from django.db.models.aggregates import Max
 
-from parking_in.models import Parking_income
+from parking_in.models import Parking_income, Master_parking_income
 
 
 class Parking_incomeForm(forms.ModelForm):
@@ -12,15 +12,20 @@ class Parking_incomeForm(forms.ModelForm):
     if max_ki["ki"] is None:
         ki = forms.IntegerField(label='期', initial=0)
     else:
-        ki = forms.IntegerField(label='期', initial=max_ki["ki"]+1)
+        ki = forms.IntegerField(label='期', initial=max_ki["ki"])
 
+    master = forms.ModelChoiceField(
+        queryset=Master_parking_income.objects.all(),
+        label='収入種別'
+    )
     parking_lot_income = forms.IntegerField(label='収入額')
 
     class Meta:
         model = Parking_income
-        fields = ("ki", "parking_lot_income")
+        fields = ("ki", "master", "parking_lot_income")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['ki'].widget.attrs["class"] = "input is-size-6"
+        self.fields['master'].widget.attrs["class"] = "select-css is-size-6"
         self.fields['parking_lot_income'].widget.attrs["class"] = "input is-size-6"

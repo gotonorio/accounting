@@ -1,6 +1,9 @@
+import logging
+
 from django.contrib import messages  # メッセージフレームワーク
 from django.contrib.auth.mixins import (LoginRequiredMixin,
                                         PermissionRequiredMixin)
+from django.db.models.aggregates import Case, Sum, When
 from django.shortcuts import reverse
 from django.views import generic
 
@@ -15,7 +18,13 @@ class IncomeListView(LoginRequiredMixin, generic.TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['incomelist'] = Parking_income.objects.all().order_by('ki')
+        qs = Parking_income.objects.select_related().order_by('ki')
+        qs = qs.values('ki').annotate(
+            zenki=Sum(Case(When(master__code=20, then='parking_lot_income'), default=0)),
+            income=Sum(Case(When(master__code=10, then='parking_lot_income'), default=0)),
+            total=Sum('parking_lot_income'),
+        )
+        context['incomelist'] = qs
         return context
 
 
