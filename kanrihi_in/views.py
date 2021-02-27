@@ -1,4 +1,4 @@
-# import logging
+import logging
 from django.contrib import messages
 from django.contrib.auth.mixins import (LoginRequiredMixin,
                                         PermissionRequiredMixin)
@@ -77,13 +77,13 @@ class CreateIncomeView(PermissionRequiredMixin, generic.CreateView):
     # 保存が成功した場合に遷移するurl
     success_url = reverse_lazy('kanrihi_in:create_income')
 
-    # データvalidationが成功したら、直ぐにコミットせず、userを追加してから保存する例。
-    # 以下はuserを入力させずに、既定値を登録する例として残す。
     def form_valid(self, form):
-        # self.object = form.save(commit=False)
-        # self.object.user = self.request.user
-        # self.object.save()
-        messages.success(self.request, "保存しました。")
+        """ 駐車場収入は駐車場会計で処理する """
+        kanrihi_data = form.save(commit=False)
+        master = form.cleaned_data['master']
+        if master != '駐車場収入':
+            kanrihi_data.save()
+            messages.success(self.request, "保存しました。")
         return super().form_valid(form)
 
     def form_invalid(self, form):
@@ -117,12 +117,19 @@ class UpdateIncomeView(PermissionRequiredMixin, generic.UpdateView):
     raise_exception = True
     # 保存が成功した場合に遷移するurl
     success_url = reverse_lazy('kanrihi_in:update_list')
-    """
-    上記のようにプロパティを設定するか、get_success_url()を上書きする。
-    どちらでも良いみたい。
-    def get_success_url(self):
-            return reverse('kanrihi_in:update_list')
-    """
+
+    def form_valid(self, form):
+        """ 駐車場収入は駐車場会計で処理する """
+        kanrihi_data = form.save(commit=False)
+        master = form.cleaned_data['master']
+        if master != '駐車場収入':
+            kanrihi_data.save()
+            messages.success(self.request, "保存しました。")
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.warning(self.request, "保存できませんでした。")
+        return super().form_invalid(form)
 
 
 class CreateMasterView(PermissionRequiredMixin, generic.CreateView):

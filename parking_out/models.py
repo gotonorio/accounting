@@ -19,9 +19,7 @@ class Parking_expenditure(models.Model):
     def calc_total(self, sql):
         kanrihi_total = 0
         shuuzenhi_total = 0
-        parking_total = 0
         for data in sql:
             kanrihi_total += data['kanrihi']
             shuuzenhi_total += data['shuuzenhi']
-            parking_total += data['parking']
-        return kanrihi_total, shuuzenhi_total, parking_total
+        return kanrihi_total, shuuzenhi_total

@@ -25,12 +25,9 @@ class ExpenditureListView(LoginRequiredMixin, generic.TemplateView):
                 Case(When(account_type='管理費会計', then='cost'), default=0)),
             shuuzenhi=Sum(
                 Case(When(account_type='修繕費会計', then='cost'), default=0)),
-            parking=Sum(
-                Case(When(account_type='駐車場会計', then='cost'), default=0)),
             total=Sum(Case(
                 When(account_type='管理費会計', then='cost'),
                 When(account_type='修繕費会計', then='cost'),
-                When(account_type='駐車場会計', then='cost'),
                 default=0
             ))
         )
@@ -50,12 +47,11 @@ class ExpenditureListView(LoginRequiredMixin, generic.TemplateView):
             qs = Parking_expenditure.objects.order_by('ki')
 
         qs = self.parking_expense()
-        kanrihi_total, shuuzenhi_total, parking_total = Parking_expenditure.calc_total(self, qs)
+        kanrihi_total, shuuzenhi_total = Parking_expenditure.calc_total(self, qs)
 
         context['expendlist'] = qs
         context['kanrihi_total'] = kanrihi_total
         context['shuuzenhi_total'] = shuuzenhi_total
-        context['parking_total'] = parking_total
         return context
 
 
@@ -80,15 +76,16 @@ class ExpenditureCreateView(PermissionRequiredMixin, generic.CreateView):
 
     def form_valid(self, form):
         """ 管理会計、修繕会計への振替を処理する """
-        form.save()
+        parking_data = form.save(commit=False)
         ki = form.cleaned_data['ki']
         account = form.cleaned_data['account_type']
         cost = form.cleaned_data['cost']
+        comment = form.cleaned_data['comment']
         if account == '管理費会計':
             Kanrihi_income.objects.create(ki=ki, master_id=3, income=cost)
-            logging.debug(account)
         elif account == '修繕費会計':
-            pass
+            Shuuzenhi_income.objects.create(ki=ki, master_id=5, income=cost, comment=comment)
+        parking_data.save()
         return super().form_valid(form)
 
 

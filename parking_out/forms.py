@@ -8,7 +8,6 @@ class Parking_expenditureForm(forms.ModelForm):
     """ models.pyのモデルを追加するためModelFormとする
     https://qiita.com/felyce/items/5042db0792c9f7d01c1e
     """
-
     max_ki = Parking_expenditure.objects.aggregate(ki=Max('ki'))
     if max_ki["ki"] is None:
         ki = forms.IntegerField(label='期', initial=0)

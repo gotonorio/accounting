@@ -12,7 +12,6 @@ class Master_shuuzenhi_income(models.Model):
     """
     https://stackoverflow.com/questions/9297422/get-or-create-failure-with-django-and-postgres-duplicate-key-value-violates-uni
     postgrSQL,MySQLの場合、csvファイルからの読み込みでは以下の設定が必要のようだ。
-    unique制約を追加。https://torina.top/detail/298/
     class Meta:
         select_on_save = True
         unique_together = ('code', 'name')
