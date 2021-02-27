@@ -20,8 +20,7 @@ class Master_shuuzenhi_income(models.Model):
 
 class Shuuzenhi_income(models.Model):
     ki = models.IntegerField()
-    master = models.ForeignKey(
-        Master_shuuzenhi_income, on_delete=models.PROTECT)
+    master = models.ForeignKey(Master_shuuzenhi_income, on_delete=models.PROTECT)
     income = models.BigIntegerField()
     comment = models.TextField(null=True, blank=True)
 

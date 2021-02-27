@@ -82,7 +82,7 @@ class ExpenditureCreateView(PermissionRequiredMixin, generic.CreateView):
         cost = form.cleaned_data['cost']
         comment = form.cleaned_data['comment']
         if account == '管理費会計':
-            Kanrihi_income.objects.create(ki=ki, master_id=3, income=cost)
+            Kanrihi_income.objects.create(ki=ki, master_id=3, income=cost, comment=comment)
         elif account == '修繕費会計':
             Shuuzenhi_income.objects.create(ki=ki, master_id=5, income=cost, comment=comment)
         parking_data.save()
