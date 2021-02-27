@@ -9,7 +9,18 @@
 <nav class="navbar is-black is-size-6" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
     <a class="navbar-item">【SG川崎】</a>
-    <a href="{% url 'register:operate_data' %}" class="navbar-item">戻る</a>
+    <a role="button" class="navbar-burger " aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+    </div>
+    <div class="navbar-end">
+      <a href="{% url 'register:operate_data' %}" class="navbar-item">戻る</a>
+    </div>
   </div>
 </nav>
 <br>
