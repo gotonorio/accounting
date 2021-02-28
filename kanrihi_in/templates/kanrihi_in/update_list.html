@@ -21,6 +21,16 @@
 {% endblock %}
 {% block content %}
 <div class="sm_container has-text-centered">
+  {% if messages %}
+  <div class="container" style="margin-top:1rem;">
+    <div class="notification is-info">
+      <button class="delete" type="button"></button>
+        {% for message in messages %}
+        <p> {{ message }}</p>
+        {% endfor %}
+    </div>
+  </div>
+  {% endif %}
   <div class="content">
     <h4>管理費収入データの修正</h4>
   </div>

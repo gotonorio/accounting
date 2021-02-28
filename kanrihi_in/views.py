@@ -28,8 +28,9 @@ class IncomeListView(LoginRequiredMixin, generic.TemplateView):
         問題点：(master_code > 30 AND master_code <100)が使えない？
                 (master_code gt 30 AND master_code lt 100)？
         """
-        a = Kanrihi_income.objects.select_related().order_by('ki')
-        context['incomelist'] = a.values('ki').annotate(
+        #a = Kanrihi_income.objects.select_related().order_by('ki')
+        a = Kanrihi_income.objects.all().order_by('ki')
+        a = a.values('ki').annotate(
             zenki_kurikosi=Sum(Case(When(master__category__code=10, then='income'), default=0)),
             kanrihi=Sum(
                 Case(When(master__category__code=20, then='income'), default=0)),
@@ -39,6 +40,7 @@ class IncomeListView(LoginRequiredMixin, generic.TemplateView):
                 Case(When(master__category__code=40, then='income'), default=0)),
             total=Sum('income'),
         )
+        context['incomelist'] = a
         return context
 
 

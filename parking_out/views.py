@@ -1,16 +1,16 @@
 import logging
 
-from django.contrib import messages  # メッセージフレームワーク
+from django.contrib import messages
 from django.contrib.auth.mixins import (LoginRequiredMixin,
                                         PermissionRequiredMixin)
 from django.db.models.aggregates import Case, Sum, When
 from django.shortcuts import reverse
 from django.views import generic
-
 from kanrihi_in.models import Kanrihi_income
+from shuuzenhi_in.models import Shuuzenhi_income
+
 from parking_out.forms import Parking_expenditureForm
 from parking_out.models import Parking_expenditure
-from shuuzenhi_in.models import Shuuzenhi_income
 
 
 class ExpenditureListView(LoginRequiredMixin, generic.TemplateView):
@@ -83,9 +83,13 @@ class ExpenditureCreateView(PermissionRequiredMixin, generic.CreateView):
         comment = form.cleaned_data['comment']
         if account == '管理費会計':
             Kanrihi_income.objects.create(ki=ki, master_id=3, income=cost, comment=comment)
+            msg = f'管理会計の第{ki}期の駐車場収入を保存しました'
         elif account == '修繕費会計':
             Shuuzenhi_income.objects.create(ki=ki, master_id=5, income=cost, comment=comment)
+            msg = f'修繕会計の第{ki}期の駐車場収入を保存しました'
+
         parking_data.save()
+        messages.info(self.request, msg)
         return super().form_valid(form)
 
 
@@ -126,25 +130,56 @@ class UpdateExpenditureView(PermissionRequiredMixin, generic.UpdateView):
         ki = form.cleaned_data['ki']
         ac_type = form.cleaned_data['account_type']
         cost = form.cleaned_data['cost']
+        comment = form.cleaned_data['comment']
         msg = ''
         if str(ac_type) == '管理費会計':
-            # アップデートするオブジェクトを取得。無ければスルー。
-            try:
-                obj = Kanrihi_income.objects.get(ki=ki, master_id=3)
-                obj.income = cost
-                obj.save()
-            except Kanrihi_income.DoesNotExist:
-                pass
+            Kanrihi_income.objects.update_or_create(ki=ki, master_id=3, defaults={
+                "income": cost,
+                "comment": comment,
+            })
             msg = f'管理会計の第{ki}期の駐車場収入もアップデートしました'
         elif str(ac_type) == '修繕費会計':
-            # アップデートするオブジェクトを取得。無ければスルー。
-            try:
-                obj = Shuuzenhi_income.objects.get(ki=ki, master_id=5)
-                obj.income = cost
-                obj.save()
-            except Shuuzenhi_income.DoesNotExist:
-                pass
+            Shuuzenhi_income.objects.update_or_create(ki=ki, master_id=5, defaults={
+                "income": cost,
+                "comment": comment,
+            })
             msg = f'修繕会計の第{ki}期の駐車場収入もアップデートしました'
 
         messages.info(self.request, msg)
         return super().form_valid(form)
+
+    #def form_valid(self, form):
+    #    """ 「管理会計収入」「修繕会計収入」のデータがあればアップデートする。
+    #    master_idを決め打ちしているので、マスターデータを変更した場合に注意する。
+    #    2020-09-15 by N.goto
+    #    """
+    #    ki = form.cleaned_data['ki']
+    #    ac_type = form.cleaned_data['account_type']
+    #    cost = form.cleaned_data['cost']
+    #    comment = form.cleaned_data['comment']
+    #    msg = ''
+    #    if str(ac_type) == '管理費会計':
+    #        # アップデートするオブジェクトを取得。無ければスルー。
+    #        try:
+    #            obj = Kanrihi_income.objects.get(ki=ki, master_id=3)
+    #            obj.income = cost
+    #            obj.comment = comment
+    #            obj.save()
+    #        except Kanrihi_income.DoesNotExist:
+    #            msg = f'管理会計の第{ki}期の駐車場収入がアップデートできません'
+    #            pass
+    #        msg = f'管理会計の第{ki}期の駐車場収入もアップデートしました'
+    #    elif str(ac_type) == '修繕費会計':
+    #        # アップデートするオブジェクトを取得。無ければスルー。
+    #        try:
+    #            obj = Shuuzenhi_income.objects.get(ki=ki, master_id=5)
+    #            obj.income = cost
+    #            obj.comment = comment
+    #            obj.save()
+    #        except Shuuzenhi_income.DoesNotExist:
+    #            msg = f'修繕会計の第{ki}期の駐車場収入がアップデートできません'
+    #            pass
+    #        msg = f'修繕会計の第{ki}期の駐車場収入もアップデートしました'
+
+    #    messages.info(self.request, msg)
+    #    return super().form_valid(form)

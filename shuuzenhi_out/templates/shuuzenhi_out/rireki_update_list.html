@@ -22,6 +22,13 @@
 
 {% block content %}
 <div class="container">
+  {% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+      {% endfor %}
+  </ul>
+  {% endif %}
   <div class="content has-text-centered">
     <h4>修繕支出のデータ修正</h4>
   </div>
