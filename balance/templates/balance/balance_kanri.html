@@ -23,11 +23,10 @@
   </div>
   <div id="navbarBasicExample" class="navbar-menu">
     <div class="navbar-start">
-      <a href="{% url 'kanrihi_in:incomelist' %}" class="navbar-item">管理費収入履歴</a>
-      <a href="{% url 'kanrihi_out:expenselist' %}" class="navbar-item">管理費支出履歴</a>
+      <a href="{% url 'balance:shuuzenhi' %}" class="navbar-item">修繕会計収支</a>
     </div>
     <div class="navbar-end">
-      <a class="navbar-item" href="javascript:void(0);" onclick="window.history.back();">戻る</a>
+      <a href="{% url 'register:mypage' %}" class="navbar-item">戻る</a>
     </div>
   </div>
 </nav>
