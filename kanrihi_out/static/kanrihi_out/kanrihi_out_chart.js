@@ -39,14 +39,14 @@ function expenseKanrihiChart(data){
                 fill: false,   // 面を非表示 trueの場合backgroundColorを指定すること。
                 label: '定額管理費',
                 borderWidth: 2,                 // 線の太さ
-                borderColor: "red",             // 線の色
+                borderColor: "black",           // 線の色
                 tension:0,                      //  線は直線
-                pointBorderColor: "red",        // ポイント線の色
-                pointBackgroundColor: "red",    // ポイント面の色
+                pointBorderColor: "black",      // ポイント線の色
+                pointBackgroundColor: "black",  // ポイント面の色
                 pointRadius: 2,                 // ポイントサイズ
                 pointHoverRadius: 6,            // ホバーした時のポイントサイズ
                 pointHitRadius: 8,              // カーソルのヒットエリア
-                backgroundColor: "red",
+                backgroundColor: "black",
                 data: teigakuKanrihi,
             },
             {
