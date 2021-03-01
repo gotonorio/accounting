@@ -153,3 +153,66 @@ class ShuuzenhiBalanceView(LoginRequiredMixin, generic.TemplateView):
                 income.update(expenselist[i])
                 balance.append(income)
         return balance
+
+
+class CheckShuuzenhiBalanceView(LoginRequiredMixin, generic.TemplateView):
+    """ 修繕会計収支リスト表示 """
+    # template名の指定は必須
+    template_name = "balance/check_shuuzen.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        a = Shuuzenhi_income.objects.select_related().order_by('ki')
+        income_qs = a.values('ki').annotate(
+            zenki=Sum(Case(When(master__code=10, then='income'), default=0)),
+            shuuzenhi=Sum(Case(When(master__code=20, then='income'), default=0)),
+            sonota=Sum(Case(
+                When(master__code=25, then='income'),
+                When(master__code=30, then='income'),
+                When(master__code=35, then='income'),
+                When(master__code=40, then='income'),
+                When(master__code=60, then='income'),
+                When(master__code=70, then='income'),
+                When(master__code=80, then='income'),
+                default=0
+            )),
+            parking=Sum(
+                Case(When(master__code=50, then='income'), default=0)),
+            in_total=Sum(
+                Case(When(master__code__gte=10, then='income'), default=0)),
+        )
+        qs = Rireki.objects.select_related().order_by('year')
+        expense_qs = ShuuzenhiExpenseListView.shuuzenhi_expense(self, qs)
+
+        context['balancelist'], debug = self.check_balance_sheet(income_qs, expense_qs)
+        context["start_year"] = settings.START_YEAR
+        return context
+
+    def check_balance_sheet(self, incomelist, expenselist):
+        """ 計算結果から収支一覧を作成する。"""
+        balance = []
+        surplus = []
+        if len(incomelist) == len(expenselist):
+            # 収支計算用データ作成
+            for i, income in enumerate(incomelist):
+                # incomelistとexpenselistを一体化して処理する。
+                income.update(expenselist[i])
+                d = {}
+                if i > 0:
+                    zenki = surplus[i-1]
+                else:
+                    zenki = income['zenki']
+                shuuzenhi = income['shuuzenhi']
+                parking = income['parking']
+                sonota = income['sonota']
+                total = zenki + shuuzenhi + parking + sonota
+                shuuzen_out = expenselist[i]['shuuzen']
+                jyouyo = zenki + shuuzenhi + parking + sonota - shuuzen_out
+                logging.debug(sonota)
+                surplus.append(jyouyo)
+                d['zenki'] = zenki
+                d['surplus'] = jyouyo
+                d['in_total'] = total
+                income.update(d)
+                balance.append(income)
+        return balance, surplus

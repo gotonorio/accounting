@@ -47,6 +47,9 @@ SG川崎 会計
           <a href="{% url 'shuuzenhi_out:expenselist' %}" class="dropdown-item">支出履歴<a>
           <a href="{% url 'shuuzenhi_out:expenselist' '1' %}" class="dropdown-item">支出履歴(大規模修繕含む)<a>
           <a href="{% url 'balance:shuuzenhi' %}" class="dropdown-item">収支一覧<a>
+          {% if user.is_staff %}
+            <a href="{% url 'balance:check_shuuzenhi' %}" class="dropdown-item">新収支一覧<a>
+          {% endif %}
           <hr class="navbar-divider">
           <a href="{% url 'shuuzenhi_out:rirekilist' %}" class="dropdown-item">個別工事支出<a>
           {#<a href="{% url 'shuuzenhi_out:quotation' %}" class="dropdown-item">見積書<a>#}

@@ -10,6 +10,7 @@ from django.views import generic
 from kanrihi_out.forms import (Kanrihi_expenseForm, Master_categoryForm,
                                Master_expenseForm)
 from kanrihi_out.models import Kanrihi_expense, Master_category, Master_expense
+from shuuzenhi_in.models import Shuuzenhi_income
 
 
 class KanrihiExpenseListView(LoginRequiredMixin, generic.TemplateView):
@@ -178,24 +179,22 @@ class CreateExpenseView(PermissionRequiredMixin, generic.CreateView):
     def get_success_url(self):
         return reverse('kanrihi_out:create_expense')
 
-    # データvalidationが成功したら、直ぐにコミットせず、userを追加してから保存する例。
-    # 以下はuserを入力させずに、既定値を登録する例として残す。
     def form_valid(self, form):
-        messages.success(self.request, "保存しました。")
+        """ 修繕会計への支出の場合、同時に処理する """
+        ki = form.cleaned_data['ki']
+        account = form.cleaned_data['master']
+        expense = form.cleaned_data['cost']
+        if account == '修繕費繰入れ':
+            Shuuzenhi_income.objects.create(ki=ki, master_id=7, income=expense)
+            msg = f'第{ki}期の駐車場使用料繰入れを保存しました'
+        else:
+            msg = f'第{ki}期の管理会計支出を保存しました'
+        messages.success(self.request, msg)
         return super().form_valid(form)
 
     def form_invalid(self, form):
         messages.warning(self.request, "保存できませんでした。")
         return super().form_invalid(form)
-    """
-    # Kanrihi_expenseFormクラスで登録すべき期を
-    ki = form_class.max_ki['ki']
-    # マスターデータを表示させるため、get_context_dataをオーバーライド。
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['expenselist'] = Kanrihi_expense.objects.filter(ki=self.ki)
-        return context
-    """
 
 
 class UpdateExpenseView(PermissionRequiredMixin, generic.UpdateView):
@@ -211,6 +210,23 @@ class UpdateExpenseView(PermissionRequiredMixin, generic.UpdateView):
     # 保存が成功した場合に遷移するurl
     def get_success_url(self):
         return reverse('kanrihi_out:update_list')
+
+    def form_valid(self, form):
+        """  """
+        ki = form.cleaned_data['ki']
+        master = form.cleaned_data['master']
+        expense = form.cleaned_data['expense']
+        msg = ''
+        if str(master) == '修繕費繰入れ':
+            Shuuzenhi_income.objects.update_or_create(ki=ki+1, master_id=7, defaults={
+                "income": expense,
+            })
+            msg = f'第{ki}期の修繕会計繰入れもアップデートしました'
+        else:
+            msg = f'第{ki}期の支出をアップデートしました'
+
+        messages.info(self.request, msg)
+        return super().form_valid(form)
 
 
 class UpdateExpenselistView(PermissionRequiredMixin, generic.ListView):
