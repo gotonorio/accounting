@@ -36,7 +36,7 @@ SG川崎 会計
           <hr class="navbar-divider">
           <a href="{% url 'balance:kanrihi' %}" class="dropdown-item">収支一覧<a>
           {% if user.is_staff %}
-            <a href="{% url 'balance:kanrihi2' %}" class="dropdown-item">新収支一覧<a>
+            <a href="{% url 'balance:check_kanrihi' %}" class="dropdown-item">新収支一覧<a>
           {% endif %}
         </div>
       </div>

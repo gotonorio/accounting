@@ -23,8 +23,7 @@
   </div>
   <div id="navbarBasicExample" class="navbar-menu">
     <div class="navbar-start">
-      <a href="{% url 'kanrihi_in:incomelist' %}" class="navbar-item">管理費収入履歴</a>
-      <a href="{% url 'kanrihi_out:expenselist' %}" class="navbar-item">管理費支出履歴</a>
+      <a href="{% url 'balance:kanrihi' %}" class="navbar-item">管理会計収支</a>
     </div>
     <div class="navbar-end">
       <a class="navbar-item" href="javascript:void(0);" onclick="window.history.back();">戻る</a>
@@ -36,7 +35,7 @@
 <br>
 <div class="container">
   <div class="content has-text-centered">
-    <h4>管理会計収支２</h4>
+    <h4>管理会計収支の検査</h4>
   </div>
   <br>
   <div class="scroll">
@@ -46,9 +45,10 @@
           <th class="has-text-centered">期</th>
           <th class="has-text-centered">前期繰越金</th>
           <th class="has-text-centered">管理費収入</th>
-          <th class="has-text-centered">修繕会計より</th>
+          <th class="has-text-centered">駐車場収入</th>
           <th class="has-text-centered">当期収入合計</th>
           <th class="has-text-centered">管理費支出</th>
+          <th class="has-text-centered">修繕会計へ支出</th>
           <th class="has-text-centered">管理費剰余金</th>
         </tr>
       </thead>
@@ -58,10 +58,11 @@
           <td class="has-text-centered">{{ list.ki }}</td>
           <td class="has-text-right">{{ list.zenki|intcomma }}</td>
           <td class="has-text-right">{{ list.kanrihi_in|intcomma }}</td>
-          <td class="has-text-right">{{ list.parking|subtract:list.to_shuuzen|intcomma }}</td>
-          <td class="has-text-right">{{ list.in_total|add:list.parking|subtract:list.to_shuuzen|intcomma }}</td>
+          <td class="has-text-right">{{ list.parking|intcomma }}</td>
+          <td class="has-text-right">{{ list.in_total|intcomma }}</td>
           <td class="has-text-right">{{ list.out_total|intcomma }}</td>
-          <td class="has-text-right">{{ list.in_total|add:list.parking|subtract:list.to_shuuzen|subtract:list.out_total|intcomma }}</td>
+          <td class="has-text-right">{{ list.to_shuuzen|intcomma }}</td>
+          <td class="has-text-right">{{ list.surplus|intcomma }}</td>
         </tr>
         {% endfor %}
       </tbody>
