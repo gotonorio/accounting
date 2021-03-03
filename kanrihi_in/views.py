@@ -127,7 +127,7 @@ class CreateMasterView(PermissionRequiredMixin, generic.CreateView):
     model = Master_kanrihi_income
     form_class = Kanrihi_masterForm
     template_name = "kanrihi_in/master_income_form.html"
-    permission_required = ("asset_list.add_assetlist")
+    permission_required = ("admin.add_logentry")
     # 権限がない場合、Forbidden 403を返す。これがない場合はログイン画面に飛ばす。
     raise_exception = True
 
@@ -158,7 +158,7 @@ class UpdateMasterView(PermissionRequiredMixin, generic.UpdateView):
     model = Master_kanrihi_income
     form_class = Kanrihi_masterForm
     template_name = "kanrihi_in/master_income_form.html"
-    permission_required = ("asset_list.add_assetlist")
+    permission_required = ("admin.add_logentry")
 
     # 権限がない場合、Forbidden 403を返す。これがない場合はログイン画面に飛ばす。
     raise_exception = True
@@ -179,7 +179,7 @@ class CreateCategoryView(PermissionRequiredMixin, generic.CreateView):
     form_class = Master_categoryForm
     template_name = "kanrihi_in/category_form.html"
     # 必要な権限
-    permission_required = ("asset_list.add_assetlist")
+    permission_required = ("admin.add_logentry")
     # 権限がない場合、Forbidden 403を返す。これがない場合はログイン画面に飛ばす。
     raise_exception = True
 
@@ -209,7 +209,7 @@ class UpdateCategoryView(PermissionRequiredMixin, generic.UpdateView):
     form_class = Master_categoryForm
     template_name = "kanrihi_in/category_form.html"
     # 必要な権限
-    permission_required = ("asset_list.add_assetlist")
+    permission_required = ("admin.add_logentry")
     # 権限がない場合、Forbidden 403を返す。これがない場合はログイン画面に飛ばす。
     raise_exception = True
 

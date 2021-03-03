@@ -63,8 +63,8 @@ class CheckKanrihiBalanceView(LoginRequiredMixin, generic.TemplateView):
         income_qs = a.values('ki').annotate(
             zenki=Sum(Case(When(master__code=10, then='income'), default=0)),
             kanrihi_in=Sum(Case(
-                When(master__code=20, then='income'), # 管理費収入
-                When(master__category__code=30, then='income'), # その他収入
+                When(master__code=20, then='income'),  # 管理費収入
+                When(master__category__code=30, then='income'),  # その他収入
                 default=0
             )),
             parking=Sum(

@@ -1,5 +1,5 @@
 import csv
-import logging
+# import logging
 
 from django.contrib import messages
 from django.contrib.auth.mixins import (LoginRequiredMixin,
@@ -104,7 +104,7 @@ class AssetListView(LoginRequiredMixin, generic.TemplateView):
         # 負債グラフデータ
         d = obj.select_related().order_by('ki')
         debt_graphdata = d.values('ki').annotate(
-            debt=Sum(Case(When(master__isAsset=0, then='asset'),default=0)))
+            debt=Sum(Case(When(master__isAsset=0, then='asset'), default=0)))
         # 正味資産データ
         data = []
         for asset, debt in zip(asset_graphdata, debt_graphdata):
@@ -177,7 +177,7 @@ class CreateMasterView(PermissionRequiredMixin, generic.CreateView):
     form_class = Master_assetForm
     template_name = "asset_list/master_assetlist_form.html"
     # 必要な権限
-    permission_required = ("asset_list.add_assetlist")
+    permission_required = ("admin.add_logentry")
     # 権限がない場合、Forbidden 403を返す。これがない場合はログイン画面に飛ばす。
     raise_exception = True
 
@@ -207,12 +207,13 @@ class UpdateMasterView(PermissionRequiredMixin, generic.UpdateView):
     form_class = Master_assetForm
     template_name = "asset_list/master_assetlist_form.html"
     # 必要な権限
-    permission_required = ("asset_list.add_assetlist")
+    permission_required = ("admin.add_logentry")
     # 権限がない場合、Forbidden 403を返す。これがない場合はログイン画面に飛ばす。
     raise_exception = True
 
     def get_success_url(self):
         return reverse('asset_list:create_master')
+
 
 def asset_export(request):
     """ 資産データをCSVで出力する

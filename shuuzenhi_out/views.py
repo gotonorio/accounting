@@ -185,7 +185,7 @@ class CreateKoujiTypeView(PermissionRequiredMixin, generic.CreateView):
     form_class = Master_koujitypeForm
     template_name = "shuuzenhi_out/master_koujitype_form.html"
     # 必要な権限
-    permission_required = ("asset_list.add_assetlist")
+    permission_required = ("admin.add_logentry")
     # 権限がない場合、Forbidden 403を返す。これがない場合はログイン画面に飛ばす。
     raise_exception = True
 
@@ -214,7 +214,7 @@ class UpdateKoujitypeView(PermissionRequiredMixin, generic.UpdateView):
     form_class = Master_koujitypeForm
     template_name = "shuuzenhi_out/master_koujitype_form.html"
     # 必要な権限
-    permission_required = ("asset_list.add_assetlist")
+    permission_required = ("admin.add_logentry")
     # 権限がない場合、Forbidden 403を返す。これがない場合はログイン画面に飛ばす。
     raise_exception = True
 
@@ -238,7 +238,7 @@ class CreateConstractorView(PermissionRequiredMixin, generic.CreateView):
     paginate_by = 4
     template_name = "shuuzenhi_out/constractor_form.html"
     # 必要な権限
-    permission_required = ("asset_list.add_assetlist")
+    permission_required = ("admin.add_logentry")
     # 権限がない場合、Forbidden 403を返す。これがない場合はログイン画面に飛ばす。
     raise_exception = True
 
@@ -266,7 +266,7 @@ class UpdateConstractorView(PermissionRequiredMixin, generic.UpdateView):
     form_class = ConstractorForm
     template_name = "shuuzenhi_out/constractor_form.html"
     # 必要な権限
-    permission_required = ("asset_list.add_assetlist")
+    permission_required = ("admin.add_logentry")
     # 権限がない場合、Forbidden 403を返す。これがない場合はログイン画面に飛ばす。
     raise_exception = True
 

@@ -103,7 +103,7 @@ class CreateMasterView(PermissionRequiredMixin, generic.CreateView):
     template_name = "shuuzenhi_in/master_shuuzenhi_income_form.html"
 
     # 必要な権限
-    permission_required = ("asset_list.add_assetlist")
+    permission_required = ("admin.add_logentry")
     # 権限がない場合、Forbidden 403を返す。これがない場合はログイン画面に飛ばす。
     raise_exception = True
 
@@ -125,7 +125,7 @@ class UpdateMasterView(PermissionRequiredMixin, generic.UpdateView):
     model = Master_shuuzenhi_income
     form_class = Shuuzenhi_masterForm
     template_name = "shuuzenhi_in/master_shuuzenhi_income_form.html"
-    permission_required = ("asset_list.add_assetlist")
+    permission_required = ("admin.add_logentry")
 
     # 権限がない場合、Forbidden 403を返す。これがない場合はログイン画面に飛ばす。
     raise_exception = True
