@@ -55,13 +55,7 @@ class CreateIncomeView(PermissionRequiredMixin, generic.CreateView):
 
     def form_valid(self, form):
         """ 駐車場収入は駐車場会計で処理する """
-        shuuzenhi_data = form.save(commit=False)
-        master = form.cleaned_data['master']
-        if master.name != '駐車場収入':
-            shuuzenhi_data.save()
-            messages.success(self.request, "保存しました。")
-        else:
-            messages.success(self.request, "駐車場収入は駐車場会計で処理してください")
+        messages.success(self.request, "保存しました。")
         return super().form_valid(form)
 
     def form_invalid(self, form):

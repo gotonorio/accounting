@@ -30,6 +30,13 @@ class Kanrihi_incomeForm(forms.ModelForm):
     )
     income = forms.IntegerField(label='収入額')
 
+    def clean_master(self):
+        """ validation """
+        mn = self.cleaned_data['master']
+        if mn.name == '駐車場収入':
+            raise forms.ValidationError("駐車場収入は駐車場会計で処理してください")
+        return mn
+
     # インナークラスでmodel、fieldを指定する。（これでモデルに紐づける）
     # （https://djangogirlsjapan.gitbooks.io/workshop_tutorialjp/content/django_forms/）
     class Meta:

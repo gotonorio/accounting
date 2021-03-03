@@ -2,6 +2,7 @@ from django import forms
 from django.db.models.aggregates import Max
 
 from shuuzenhi_in.models import Master_shuuzenhi_income, Shuuzenhi_income
+import logging
 
 
 class Shuuzenhi_incomeForm(forms.ModelForm):
@@ -20,6 +21,16 @@ class Shuuzenhi_incomeForm(forms.ModelForm):
     )
     income = forms.IntegerField(label='収入額')
     comment = forms.CharField(label='コメント', widget=forms.Textarea, required=False)
+
+    def clean_master(self):
+        """ validation """
+        mn = self.cleaned_data['master']
+        logging.debug(mn)
+        if mn.name == '駐車場収入':
+            raise forms.ValidationError("駐車場収入は駐車場会計で処理してください")
+        elif mn.name == '管理会計より繰入':
+            raise forms.ValidationError("管理会計からの収入は管理会計で処理してください")
+        return mn
 
     class Meta:
         model = Shuuzenhi_income
