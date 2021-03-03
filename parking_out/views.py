@@ -75,7 +75,7 @@ class ExpenditureCreateView(PermissionRequiredMixin, generic.CreateView):
         return reverse('parking_out:create')
 
     def form_valid(self, form):
-        """ 管理会計、修繕会計への振替を処理する """
+        """ 管理会計、修繕会計の入金を処理する """
         parking_data = form.save(commit=False)
         ki = form.cleaned_data['ki']
         account = form.cleaned_data['account_type']
@@ -147,39 +147,3 @@ class UpdateExpenditureView(PermissionRequiredMixin, generic.UpdateView):
 
         messages.info(self.request, msg)
         return super().form_valid(form)
-
-    #def form_valid(self, form):
-    #    """ 「管理会計収入」「修繕会計収入」のデータがあればアップデートする。
-    #    master_idを決め打ちしているので、マスターデータを変更した場合に注意する。
-    #    2020-09-15 by N.goto
-    #    """
-    #    ki = form.cleaned_data['ki']
-    #    ac_type = form.cleaned_data['account_type']
-    #    cost = form.cleaned_data['cost']
-    #    comment = form.cleaned_data['comment']
-    #    msg = ''
-    #    if str(ac_type) == '管理費会計':
-    #        # アップデートするオブジェクトを取得。無ければスルー。
-    #        try:
-    #            obj = Kanrihi_income.objects.get(ki=ki, master_id=3)
-    #            obj.income = cost
-    #            obj.comment = comment
-    #            obj.save()
-    #        except Kanrihi_income.DoesNotExist:
-    #            msg = f'管理会計の第{ki}期の駐車場収入がアップデートできません'
-    #            pass
-    #        msg = f'管理会計の第{ki}期の駐車場収入もアップデートしました'
-    #    elif str(ac_type) == '修繕費会計':
-    #        # アップデートするオブジェクトを取得。無ければスルー。
-    #        try:
-    #            obj = Shuuzenhi_income.objects.get(ki=ki, master_id=5)
-    #            obj.income = cost
-    #            obj.comment = comment
-    #            obj.save()
-    #        except Shuuzenhi_income.DoesNotExist:
-    #            msg = f'修繕会計の第{ki}期の駐車場収入がアップデートできません'
-    #            pass
-    #        msg = f'修繕会計の第{ki}期の駐車場収入もアップデートしました'
-
-    #    messages.info(self.request, msg)
-    #    return super().form_valid(form)

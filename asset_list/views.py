@@ -134,14 +134,9 @@ class CreateAssetView(PermissionRequiredMixin, generic.CreateView):
     # 保存が成功した場合に遷移するurl。特に何か処理しないのであれば、
     success_url = reverse_lazy('asset_list:create')
 
-    # データvalidationが成功したら、直ぐにコミットせず、userを追加してから保存する例。
-    # 以下はuserを入力させずに、既定値を登録する例として残す。
     def form_valid(self, form):
         """ 失敗した時だけメッセージを表示 """
-        # self.object = form.save(commit=False)
-        # self.object.user = self.request.user
-        # self.object.save()
-        # messages.success(self.request, "保存しました。")
+        messages.success(self.request, "保存しました。")
         return super().form_valid(form)
 
     def form_invalid(self, form):

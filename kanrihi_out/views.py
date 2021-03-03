@@ -180,7 +180,7 @@ class CreateExpenseView(PermissionRequiredMixin, generic.CreateView):
         return reverse('kanrihi_out:create_expense')
 
     def form_valid(self, form):
-        """ 修繕会計への支出の場合、同時に処理する """
+        """ 修繕会計への支出の場合、修繕会計の入金を同時に処理する """
         ki = form.cleaned_data['ki']
         account = form.cleaned_data['master']
         expense = form.cleaned_data['cost']
@@ -212,7 +212,7 @@ class UpdateExpenseView(PermissionRequiredMixin, generic.UpdateView):
         return reverse('kanrihi_out:update_list')
 
     def form_valid(self, form):
-        """  """
+        """ 修繕会計の入金も処理する """
         ki = form.cleaned_data['ki']
         master = form.cleaned_data['master']
         expense = form.cleaned_data['expense']

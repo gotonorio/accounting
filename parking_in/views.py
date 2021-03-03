@@ -47,12 +47,7 @@ class IncomeCreateView(PermissionRequiredMixin, generic.CreateView):
     def get_success_url(self):
         return reverse('parking_in:create')
 
-    # データvalidationが成功したら、直ぐにコミットせず、userを追加してから保存する例。
-    # 以下はuserを入力させずに、既定値を登録する例として残す。
     def form_valid(self, form):
-        # self.object = form.save(commit=False)
-        # self.object.user = self.request.user
-        # self.object.save()
         messages.success(self.request, "保存しました。")
         return super().form_valid(form)
 
