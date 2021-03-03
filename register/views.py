@@ -31,3 +31,7 @@ class Login(LoginView):
 class Logout(LoginRequiredMixin, LogoutView):
     """ログアウトページ"""
     template_name = 'register/logout.html'
+
+
+class MasterDataView(LoginRequiredMixin, TemplateView):
+    template_name = "register/master_data.html"

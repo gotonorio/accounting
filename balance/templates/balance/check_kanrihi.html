@@ -35,7 +35,7 @@
 <br>
 <div class="container">
   <div class="content has-text-centered">
-    <h4>管理会計収支の検査</h4>
+    <h4>新管理会計収支</h4>
   </div>
   <br>
   <div class="scroll">
@@ -59,7 +59,7 @@
           <td class="has-text-right">{{ list.zenki|intcomma }}</td>
           <td class="has-text-right">{{ list.kanrihi_in|intcomma }}</td>
           <td class="has-text-right">{{ list.parking|intcomma }}</td>
-          <td class="has-text-right">{{ list.in_total|intcomma }}</td>
+          <td class="has-text-right">{{ list.in_total|add:list.parking|intcomma }}</td>
           <td class="has-text-right">{{ list.out_total|intcomma }}</td>
           <td class="has-text-right">{{ list.to_shuuzen|intcomma }}</td>
           <td class="has-text-right">{{ list.surplus|intcomma }}</td>
@@ -83,6 +83,8 @@
 <script type="text/javascript">
   var list = [];
   list.push("{{dat.ki}}");
+  list.push("{{dat.in_total}}"-"{{dat.parking}}";
+  list.push("{{dat.out_total}}");
   list.push("{{dat.in_total}}"-"{{dat.out_total}}"-"{{dat.to_shuuzen}}");
   data.push(list);
 </script>

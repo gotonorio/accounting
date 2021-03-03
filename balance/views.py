@@ -63,19 +63,18 @@ class CheckKanrihiBalanceView(LoginRequiredMixin, generic.TemplateView):
         income_qs = a.values('ki').annotate(
             zenki=Sum(Case(When(master__code=10, then='income'), default=0)),
             kanrihi_in=Sum(Case(
-                When(master__code=20, then='income'),
-                When(master__category__code=30, then='income'),
+                When(master__code=20, then='income'), # 管理費収入
+                When(master__category__code=30, then='income'), # その他収入
                 default=0
-             )),
+            )),
             parking=Sum(
-                Case(When(master__code=30, then='income'), default=0)),
+                Case(When(master__category__code=40, then='income'), default=0)),
             in_total=Sum(Case(
                 When(master__category__code=10, then='income'),
                 When(master__category__code=20, then='income'),
                 When(master__category__code=30, then='income'),
-                When(master__category__code=40, then='income'),
                 default=0
-             ))
+            ))
         )
         expense_qs = KanrihiExpenseListView.kanrihi_expense(self)
         context['balancelist'] = self.check_balance_sheet(income_qs, expense_qs)

@@ -28,28 +28,30 @@ SG川崎 会計
       <div class="navbar-item has-dropdown is-hoverable">
         <a class="navbar-link">管理会計</a>
         <div class="navbar-dropdown">
+          <a href="{% url 'balance:kanrihi' %}" class="dropdown-item">収支一覧<a>
+          {% if user.is_staff %}
+            <a href="{% url 'balance:check_kanrihi' %}" class="dropdown-item">新収支一覧<a>
+          {% endif %}
+          <hr class="navbar-divider">
           <a href="{% url 'kanrihi_in:incomelist' %}" class="dropdown-item">収入履歴</a>
           <a href="{% url 'kanrihi_in:uchiwakelist' %}" class="dropdown-item">その他収入</a>
           <hr class="navbar-divider">
           <a href="{% url 'kanrihi_out:expenselist' %}" class="dropdown-item">支出履歴<a>
           <a href="{% url 'kanrihi_out:breakdownlist' %}" class="dropdown-item">支出内訳<a>
           <hr class="navbar-divider">
-          <a href="{% url 'balance:kanrihi' %}" class="dropdown-item">収支一覧<a>
-          {% if user.is_staff %}
-            <a href="{% url 'balance:check_kanrihi' %}" class="dropdown-item">新収支一覧<a>
-          {% endif %}
         </div>
       </div>
       <div class="navbar-item has-dropdown is-hoverable">
         <a class="navbar-link">修繕会計</a>
         <div class="navbar-dropdown">
-          <a href="{% url 'shuuzenhi_in:incomelist' %}" class="dropdown-item">収入履歴<a>
-          <a href="{% url 'shuuzenhi_out:expenselist' %}" class="dropdown-item">支出履歴<a>
-          <a href="{% url 'shuuzenhi_out:expenselist' '1' %}" class="dropdown-item">支出履歴(大規模修繕含む)<a>
           <a href="{% url 'balance:shuuzenhi' %}" class="dropdown-item">収支一覧<a>
           {% if user.is_staff %}
             <a href="{% url 'balance:check_shuuzenhi' %}" class="dropdown-item">新収支一覧<a>
           {% endif %}
+          <hr class="navbar-divider">
+          <a href="{% url 'shuuzenhi_in:incomelist' %}" class="dropdown-item">収入履歴<a>
+          <a href="{% url 'shuuzenhi_out:expenselist' %}" class="dropdown-item">支出履歴<a>
+          <a href="{% url 'shuuzenhi_out:expenselist' '1' %}" class="dropdown-item">支出履歴(大規模修繕含む)<a>
           <hr class="navbar-divider">
           <a href="{% url 'shuuzenhi_out:rirekilist' %}" class="dropdown-item">個別工事支出<a>
           {#<a href="{% url 'shuuzenhi_out:quotation' %}" class="dropdown-item">見積書<a>#}
@@ -76,6 +78,7 @@ SG川崎 会計
           <div class="navbar-dropdown">
             <a href="{% url 'cashier:create' %}" class="dropdown-item">小口会計入力<a>
             <a href="{% url 'register:operate_data' %}" class="navbar-item ">決算データ入力</a>
+            <a href="{% url 'register:master_data' %}" class="navbar-item ">マスターデータ</a>
           </div>
         </div>
 

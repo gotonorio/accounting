@@ -20,7 +20,6 @@
         <a class="navbar-link">資産データ</a>
         <div class="navbar-dropdown">
           <a href="{% url 'asset_list:create' %}" class="dropdown-item">資産データの登録<a>
-          <a href="{% url 'asset_list:create_master' %}" class="dropdown-item">資産マスターの登録/修正<a>
           <hr class="navbar-divider">
           <a href="{% url 'asset_list:update_list' %}" class="dropdown-item">資産データの修正<a>
         </div>
@@ -33,12 +32,6 @@
           <hr class="navbar-divider">
           <a href="{% url 'kanrihi_in:update_list' %}" class="dropdown-item">管理費収入データの修正<a>
           <a href="{% url 'kanrihi_out:update_list' %}" class="dropdown-item">管理費支出データの修正<a>
-          <hr class="navbar-divider">
-          <a href="{% url 'kanrihi_in:create_master' %}" class="dropdown-item">収入項目の登録/修正<a>
-          <a href="{% url 'kanrihi_out:create_master' %}" class="dropdown-item">支出項目の登録/修正<a>
-          <hr class="navbar-divider">
-          <a href="{% url 'kanrihi_in:create_category' %}" class="dropdown-item">収入カテゴリーの登録/修正<a>
-          <a href="{% url 'kanrihi_out:create_category' %}" class="dropdown-item">支出カテゴリーの登録/修正<a>
         </div>
       </div>
       <div class="navbar-item has-dropdown is-hoverable">
@@ -46,13 +39,9 @@
         <div class="navbar-dropdown">
           <a href="{% url 'shuuzenhi_in:create' %}" class="dropdown-item">修繕費収入データの登録<a>
           <a href="{% url 'shuuzenhi_out:create' %}" class="dropdown-item">修繕費支出データの登録<a>
-          <a href="{% url 'shuuzenhi_in:create_master' %}" class="dropdown-item">修繕費収入項目の登録<a>
           <hr class="navbar-divider">
           <a href="{% url 'shuuzenhi_in:update_list' %}" class="dropdown-item">修繕費収入データの修正<a>
           <a href="{% url 'shuuzenhi_out:update_list' %}" class="dropdown-item">修繕費支出データの修正<a>
-          <a href="{% url 'shuuzenhi_out:create_koujitype' %}" class="dropdown-item">修繕工事タイプの登録/修正<a>
-          <a href="{% url 'shuuzenhi_out:create_constractor' %}" class="dropdown-item">施工業者の登録/修正<a>
-          <hr class="navbar-divider">
         </div>
       </div>
       <div class="navbar-item has-dropdown is-hoverable">

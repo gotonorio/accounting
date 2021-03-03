@@ -51,8 +51,8 @@
     <thead>
       <tr>
         <th class="has-text-centered">コード</th>
-        <th class="has-text-centered">カテゴリー</th>
         <th class="has-text-centered">項目名</th>
+        <th class="has-text-centered">カテゴリー</th>
         <th class="has-text-centered">修正</th>
       </tr>
     </thead>
@@ -60,8 +60,8 @@
       {% for list in masterlist %}
       <tr>
         <td class="has-text-centered">{{ list.code }}</td>
-        <td class="has-text-centered">{{ list.category }}</td>
         <td class="has-text-left">{{ list.name }}</td>
+        <td class="has-text-centered">{{ list.category }}</td>
         <td class="has-text-centered"><a href="{% url 'kanrihi_in:update_master' list.id %}">修正</a></td>
       </tr>
       {% endfor %}

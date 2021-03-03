@@ -1,5 +1,5 @@
 from django.urls import path
-from register.views import (MypageView, OperateDataView,
+from register.views import (MypageView, OperateDataView, MasterDataView,
                             OperateRepairDataView, Login, Logout)
 
 
@@ -15,4 +15,5 @@ urlpatterns = [
     path('operate_data/', OperateDataView.as_view(), name='operate_data'),
     path('operate_repair_data/', OperateRepairDataView.as_view(),
          name='operate_repair_data'),
+    path('master_data/', MasterDataView.as_view(), name='master_data'),
 ]
