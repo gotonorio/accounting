@@ -25,7 +25,6 @@ class Shuuzenhi_incomeForm(forms.ModelForm):
     def clean_master(self):
         """ validation """
         mn = self.cleaned_data['master']
-        logging.debug(mn)
         if mn.name == '駐車場収入':
             raise forms.ValidationError("駐車場収入は駐車場会計で処理してください")
         elif mn.name == '管理会計より繰入':

@@ -90,7 +90,6 @@ class BreakdownListView(LoginRequiredMixin, generic.TemplateView):
             maxki = maxki+1
         # sessionに表示されている最大期を保存する。
         self.request.session['maxki'] = maxki
-        # logging.debug(maxki)
         context['title1'] = str(maxki-5)+"期"
         context['title2'] = str(maxki-4)+"期"
         context['title3'] = str(maxki-3)+"期"

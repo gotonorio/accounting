@@ -43,7 +43,6 @@ class AssetListView(LoginRequiredMixin, generic.TemplateView):
             maxki = 5
         # sessionに表示されている最大期を保存する。
         self.request.session['assetlist_maxki'] = maxki
-        # logging.debug(maxki)
         context['title1'] = str(maxki-4)+"期"
         context['title2'] = str(maxki-3)+"期"
         context['title3'] = str(maxki-2)+"期"

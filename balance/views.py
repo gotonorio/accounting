@@ -207,7 +207,6 @@ class CheckShuuzenhiBalanceView(LoginRequiredMixin, generic.TemplateView):
                 total = zenki + shuuzenhi + parking + sonota
                 shuuzen_out = expenselist[i]['shuuzen']
                 jyouyo = zenki + shuuzenhi + parking + sonota - shuuzen_out
-                logging.debug(sonota)
                 surplus.append(jyouyo)
                 d['zenki'] = zenki
                 d['surplus'] = jyouyo
