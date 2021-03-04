@@ -1,7 +1,9 @@
+import logging
 from datetime import datetime
 
 from django import forms
 from django.conf import settings
+
 # from django.db.models.aggregates import Max
 from kanrihi_out.models import Kanrihi_expense, Master_category, Master_expense
 
@@ -11,13 +13,7 @@ class Kanrihi_expenseForm(forms.ModelForm):
     # デフォルトの値（期）を求めておく。
     this_ki = datetime.now().year - settings.START_YEAR - 1
     ki = forms.IntegerField(label='期', initial=this_ki)
-    """
-    max_ki = Kanrihi_expense.objects.aggregate(ki=Max('ki'))
-    if max_ki["ki"] is None:
-        ki = forms.IntegerField(label='期', initial=0)
-    else:
-        ki = forms.IntegerField(label='期', initial=max_ki["ki"])
-    """
+    logging.debug(this_ki)
     master = forms.ModelChoiceField(
         queryset=Master_expense.objects.all(),
         label='支出種別'
