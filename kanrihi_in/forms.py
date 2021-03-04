@@ -37,6 +37,16 @@ class Kanrihi_incomeForm(forms.ModelForm):
             raise forms.ValidationError("駐車場収入は駐車場会計で処理してください")
         return mn
 
+    # 重複登録をチェックする。
+    def clean(self):
+        cleaned_data = super().clean()
+        ki = cleaned_data['ki']
+        master = cleaned_data['master']
+        data = Kanrihi_income.objects.filter(ki=ki, master=master)
+        if data:
+            raise forms.ValidationError("既に登録済みです。")
+        return cleaned_data
+
     # インナークラスでmodel、fieldを指定する。（これでモデルに紐づける）
     # （https://djangogirlsjapan.gitbooks.io/workshop_tutorialjp/content/django_forms/）
     class Meta:

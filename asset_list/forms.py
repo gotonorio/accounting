@@ -34,6 +34,17 @@ class AssetListForm(forms.ModelForm):
         self.fields['asset'].widget.attrs["class"] = "input is-size-6"
         self.fields['comment'].widget.attrs["class"] = "text is-size-6"
 
+    # 重複登録をチェックする。
+    def clean(self):
+        cleaned_data = super().clean()
+        ki = cleaned_data['ki']
+        master = cleaned_data['master']
+        ac_type = cleaned_data['account_type']
+        data = AssetList.objects.filter(ki=ki, master=master, account_type=ac_type)
+        if data:
+            raise forms.ValidationError("既に登録済みです。")
+        return cleaned_data
+
 
 class Master_assetForm(forms.ModelForm):
     """ 資産マスターの登録用フォーム """

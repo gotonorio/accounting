@@ -13,7 +13,6 @@ class Kanrihi_expenseForm(forms.ModelForm):
     # デフォルトの値（期）を求めておく。
     this_ki = datetime.now().year - settings.START_YEAR - 1
     ki = forms.IntegerField(label='期', initial=this_ki)
-    logging.debug(this_ki)
     master = forms.ModelChoiceField(
         queryset=Master_expense.objects.all(),
         label='支出種別'
@@ -32,6 +31,16 @@ class Kanrihi_expenseForm(forms.ModelForm):
         self.fields['ki'].widget.attrs["class"] = "input is-size-6"
         self.fields['master'].widget.attrs["class"] = "select-css is-size-6"
         self.fields['expense'].widget.attrs["class"] = "input is-size-6"
+
+    # 重複登録をチェックする。
+    def clean(self):
+        cleaned_data = super().clean()
+        ki = cleaned_data['ki']
+        master = cleaned_data['master']
+        data = Kanrihi_expense.objects.filter(ki=ki, master=master)
+        if data:
+            raise forms.ValidationError("既に登録済みです。")
+        return cleaned_data
 
 
 class Master_expenseForm(forms.ModelForm):

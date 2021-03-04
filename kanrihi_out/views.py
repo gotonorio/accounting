@@ -1,4 +1,4 @@
-# import logging
+import logging
 
 from django.conf import settings
 from django.contrib import messages  # メッセージフレームワーク
@@ -182,12 +182,12 @@ class CreateExpenseView(PermissionRequiredMixin, generic.CreateView):
         """ 修繕会計への支出の場合、修繕会計の入金を同時に処理する """
         ki = form.cleaned_data['ki']
         account = form.cleaned_data['master']
-        expense = form.cleaned_data['cost']
+        expense = form.cleaned_data['expense']
         if account == '修繕費繰入れ':
-            Shuuzenhi_income.objects.create(ki=ki, master_id=7, income=expense)
-            msg = f'第{ki}期の駐車場使用料繰入れを保存しました'
+            Shuuzenhi_income.objects.create(ki=ki+1, master_id=7, income=expense)
+            msg = f'第{ki+1}期の{account}を保存しました'
         else:
-            msg = f'第{ki}期の管理会計支出を保存しました'
+            msg = f'第{ki}期の{account}を保存しました'
         messages.success(self.request, msg)
         return super().form_valid(form)
 
@@ -220,7 +220,7 @@ class UpdateExpenseView(PermissionRequiredMixin, generic.UpdateView):
             Shuuzenhi_income.objects.update_or_create(ki=ki+1, master_id=7, defaults={
                 "income": expense,
             })
-            msg = f'第{ki}期の修繕会計繰入れもアップデートしました'
+            msg = f'第{ki+1}期の修繕会計繰入れもアップデートしました'
         else:
             msg = f'第{ki}期の支出をアップデートしました'
 
