@@ -48,11 +48,11 @@
         <tr>
           <th class="has-text-centered">表示順序</th>
           <th class="has-text-centered">口座名</th>
-          <th class="has-text-centered">備考</th>
           <th class="has-text-centered">口座番号</th>
           <th class="has-text-centered">資産/負債</th>
           <th class="has-text-centered">使用中</th>
           <th class="has-text-centered">修正</th>
+          <th class="has-text-centered">備考</th>
         </tr>
       </thead>
       <tbody>
@@ -60,11 +60,11 @@
         <tr>
           <td class="has-text-centered">{{ list.sequense }}</td>
           <td class="has-text-left">{{ list.name }}</td>
-          <td class="has-text-left">{{ list.comment }}</td>
           <td class="has-text-left">{{ list.account_number }}</td>
           <td class="has-text-centered">{{ list.isAsset }}</td>
           <td class="has-text-centered">{{ list.alive }}</td>
           <td class="has-text-centered"><a href="{% url 'asset_list:update_master' list.id %}">修正</a></td>
+          <td class="has-text-left">{{ list.comment }}</td>
         </tr>
         {% endfor %}
       </tbody>

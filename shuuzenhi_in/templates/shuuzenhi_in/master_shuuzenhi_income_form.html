@@ -33,17 +33,24 @@
 {% endif %}
 <div class="ss_container">
   <div class="content has-text-centered">
-    <h3>修繕費収入項目マスターの登録/修正</h3>
+    <h4>修繕費収入項目マスターの登録/修正</h4>
   </div>
-  <form method='POST' enctype="multipart/form-data">
+  <form method='POST' enctype='multipart/form-data'>
+    {{ form.non_field_errors }}
+    {% for field in form %}
+      <div class='field'>
+        {{ field.label_tag }}
+        {{ field }}
+        {% if field.help_text %}
+          <span class='helptext'>{{ field.help_text }}</span>
+        {% endif %}
+        {{ field.errors }}
+      </div>
+    {% endfor %}
     {% csrf_token %}
-    <table class="table is-boaderless">
-      {{form}}
-   </table>
-    <div class="content has-text-centered">
-      <button type="submit" class="button is-primary ">保存</button>
-      <a href="{% url 'register:operate_data' %}" class="button is-primary ">キャンセル</a>
-    </div>
+    <br>
+    <button type='submit' class='button is-primary is-size-7'>読込み</button>
+    <a class='button is-danger is-size-7' href='javascript:void(0);' onclick='window.history.back();'>キャンセル</a>
   </form>
   <hr>
   <table class="table is-narrow" >

@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.mixins import (LoginRequiredMixin,
                                         PermissionRequiredMixin)
 from django.db.models.aggregates import Case, Sum, When
-from django.shortcuts import reverse
+from django.shortcuts import reverse, redirect
 from django.urls import reverse_lazy
 from django.views import generic
 
@@ -80,9 +80,9 @@ class CreateIncomeView(PermissionRequiredMixin, generic.CreateView):
         messages.warning(self.request, "保存しました。")
         return super().form_valid(form)
 
-    def form_invalid(self, form):
-        messages.warning(self.request, "保存できませんでした。")
-        return super().form_invalid(form)
+    # def form_invalid(self, form):
+    #     messages.add_message(self.request, messages.WARNING, form.errors)
+    #     return redirect('kanrihi_in:create_income')
 
 
 class UpdateIncomelistView(PermissionRequiredMixin, generic.ListView):
@@ -117,9 +117,9 @@ class UpdateIncomeView(PermissionRequiredMixin, generic.UpdateView):
         messages.success(self.request, "保存しました。")
         return super().form_valid(form)
 
-    def form_invalid(self, form):
-        messages.warning(self.request, "保存できませんでした。")
-        return super().form_invalid(form)
+    # def form_invalid(self, form):
+    #     messages.warning(self.request, "保存できませんでした。")
+    #     return super().form_invalid(form)
 
 
 class CreateMasterView(PermissionRequiredMixin, generic.CreateView):
@@ -148,9 +148,9 @@ class CreateMasterView(PermissionRequiredMixin, generic.CreateView):
         messages.success(self.request, "保存しました。")
         return super().form_valid(form)
 
-    def form_invalid(self, form):
-        messages.warning(self.request, "保存できませんでした。")
-        return super().form_invalid(form)
+    # def form_invalid(self, form):
+    #     messages.warning(self.request, "保存できませんでした。")
+    #     return super().form_invalid(form)
 
 
 class UpdateMasterView(PermissionRequiredMixin, generic.UpdateView):
@@ -192,9 +192,9 @@ class CreateCategoryView(PermissionRequiredMixin, generic.CreateView):
         messages.success(self.request, "保存しました。")
         return super().form_valid(form)
 
-    def form_invalid(self, form):
-        messages.warning(self.request, "保存できませんでした。")
-        return super().form_invalid(form)
+    # def form_invalid(self, form):
+    #     messages.warning(self.request, "保存できませんでした。")
+    #     return super().form_invalid(form)
 
     # マスターデータを表示させるため、get_context_dataをオーバーライド。
     def get_context_data(self, **kwargs):
