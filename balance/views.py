@@ -7,7 +7,7 @@ from django.views import generic
 from kanrihi_in.models import Kanrihi_income
 from kanrihi_out.views import KanrihiExpenseListView
 from shuuzenhi_in.models import Shuuzenhi_income
-from shuuzenhi_out.models import Rireki
+from shuuzenhi_out.models import Shuuzenhi_expense
 from shuuzenhi_out.views import ShuuzenhiExpenseListView
 # from parking_in.models import Parking_income
 
@@ -134,7 +134,7 @@ class ShuuzenhiBalanceView(LoginRequiredMixin, generic.TemplateView):
             in_total=Sum(
                 Case(When(master__code__gte=10, then='income'), default=0)),
         )
-        qs = Rireki.objects.select_related().order_by('year')
+        qs = Shuuzenhi_expense.objects.select_related().order_by('year')
         expense_qs = ShuuzenhiExpenseListView.shuuzenhi_expense(self, qs)
 
         context['balancelist'] = self.make_balance_sheet(income_qs, expense_qs)
@@ -180,7 +180,7 @@ class CheckShuuzenhiBalanceView(LoginRequiredMixin, generic.TemplateView):
             in_total=Sum(
                 Case(When(master__code__gte=10, then='income'), default=0)),
         )
-        qs = Rireki.objects.select_related().order_by('year')
+        qs = Shuuzenhi_expense.objects.select_related().order_by('year')
         expense_qs = ShuuzenhiExpenseListView.shuuzenhi_expense(self, qs)
 
         context['balancelist'], debug = self.check_balance_sheet(income_qs, expense_qs)

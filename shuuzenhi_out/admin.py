@@ -1,6 +1,6 @@
 # Register your models here.
 from django.contrib import admin
-from shuuzenhi_out.models import (Constractor, Master_koujitype, Rireki)
+from shuuzenhi_out.models import (Constractor, Master_koujitype, Shuuzenhi_expense)
 
 
 class Master_koujitypeAdmin(admin.ModelAdmin):
@@ -17,9 +17,9 @@ class ConstractorAdmin(admin.ModelAdmin):
 admin.site.register(Constractor, ConstractorAdmin)
 
 
-class RirekiAdmin(admin.ModelAdmin):
+class Shuuzenhi_expenseAdmin(admin.ModelAdmin):
     list_display = ('id', 'year', 'koujitype', 'koujimei',
                     'cost', 'constractor', 'account_type', 'comment')
 
 
-admin.site.register(Rireki, RirekiAdmin)
+admin.site.register(Shuuzenhi_expense, Shuuzenhi_expenseAdmin)

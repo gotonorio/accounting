@@ -23,7 +23,7 @@ class Constractor(models.Model):
         return self.name
 
 
-class Rireki(models.Model):
+class Shuuzenhi_expense(models.Model):
     """ 工事支出データ """
     year = models.IntegerField(default=2009)
     # month = models.IntegerField(null=True, blank=True)

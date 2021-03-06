@@ -3,7 +3,7 @@ from django.db.models.aggregates import Max
 from django.conf import settings
 
 # from file_storage.models import Category
-from shuuzenhi_out.models import (Constractor, Master_koujitype, Rireki)
+from shuuzenhi_out.models import (Constractor, Master_koujitype, Shuuzenhi_expense)
 
 
 class SelectClassForm(forms.Form):
@@ -24,7 +24,7 @@ class SelectClassForm(forms.Form):
     )
     year = forms.ModelChoiceField(
         # 修繕履歴データから西暦を抽出してセットする。
-        queryset=Rireki.objects.values_list(
+        queryset=Shuuzenhi_expense.objects.values_list(
             'year', flat=True).order_by('year').distinct(),
         label='西暦',
         empty_label='年度全表示',
@@ -45,7 +45,7 @@ class SelectClassForm(forms.Form):
 
 class Shuuzenhi_expenseForm(forms.ModelForm):
     """ 修繕費支出データの登録 """
-    max_year = Rireki.objects.aggregate(year=Max('year'))
+    max_year = Shuuzenhi_expense.objects.aggregate(year=Max('year'))
     if max_year["year"] is None:
         year = 1999
     else:
@@ -66,7 +66,7 @@ class Shuuzenhi_expenseForm(forms.ModelForm):
         label='コメント', widget=forms.Textarea, required=False)
 
     class Meta:
-        model = Rireki
+        model = Shuuzenhi_expense
         fields = ("year", "koujitype", "koujimei", "cost",
                   "constractor", "account_type", "quotation_id", "comment")
 

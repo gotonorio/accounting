@@ -53,7 +53,7 @@ class Kanrihi_incomeForm(forms.ModelForm):
         model = Kanrihi_income
         fields = ("ki", "master", "income")
 
-    # fieldにbootstrap4用のclassを設定する。
+    # fieldにbulma用のclassを設定する。
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['ki'].widget.attrs["class"] = "input"

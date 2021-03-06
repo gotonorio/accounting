@@ -13,7 +13,7 @@ from django.views import generic
 # from file_storage.models import File
 from shuuzenhi_out.forms import (ConstractorForm, Master_koujitypeForm,
                                  SelectClassForm, Shuuzenhi_expenseForm)
-from shuuzenhi_out.models import Constractor, Master_koujitype, Rireki
+from shuuzenhi_out.models import Constractor, Master_koujitype, Shuuzenhi_expense
 
 
 class RirekiListView(LoginRequiredMixin, generic.TemplateView):
@@ -24,7 +24,7 @@ class RirekiListView(LoginRequiredMixin, generic.TemplateView):
         4. TemplateViewではtemplate_nameは必要。
         http://tnakamura.hatenablog.com/entry/20111110/django_class_based_generic_view
     """
-    model = Rireki
+    model = Shuuzenhi_expense
     # form_classはどのような時に必要か？
     form_class = SelectClassForm
     # TemplateViewの場合はtemplate_nameは必須．
@@ -42,7 +42,7 @@ class RirekiListView(LoginRequiredMixin, generic.TemplateView):
         # formのselect要素の値を得る
         kouji_type = self.request.GET.get('kouji_type', '0')
         ac_type = self.request.GET.get('account_type', 'ALL')
-        yyyy = Rireki.objects.aggregate(year=Max('year'))['year']
+        yyyy = Shuuzenhi_expense.objects.aggregate(year=Max('year'))['year']
         # 初期値として当年を設定。
         year = self.request.GET.get('year', yyyy)
         # ''が返された時の処理
@@ -61,14 +61,14 @@ class RirekiListView(LoginRequiredMixin, generic.TemplateView):
             actype_q = Q(account_type=ac_type)
         if year != '0':
             year_q = Q(year=year)
-        sql = Rireki.objects.filter(koujitype_q & actype_q & year_q).order_by('-year')
+        sql = Shuuzenhi_expense.objects.filter(koujitype_q & actype_q & year_q).order_by('-year')
 
         # formのselectに初期値を設定する．http://i2bskn.hateblo.jp/entry/20120826/1345936779
         form = SelectClassForm(
             initial={'kouji_type': kouji_type, 'account_type': ac_type, 'year': year})
 
         # コストの合計を計算する
-        total = Rireki.calc_total(self, sql)
+        total = Shuuzenhi_expense.calc_total(self, sql)
         context["total"] = total
         context["user_name"] = user_name
         context["form"] = form
@@ -78,13 +78,13 @@ class RirekiListView(LoginRequiredMixin, generic.TemplateView):
 
 
 class ExpenseDetailView(LoginRequiredMixin, generic.DetailView):
-    model = Rireki
+    model = Shuuzenhi_expense
     template_name = "shuuzenhi_out/rireki_detail.html"
 
 
 class ShuuzenhiExpenseListView(LoginRequiredMixin, generic.TemplateView):
     """ 年度別支出データ一覧を表示する """
-    model = Rireki
+    model = Shuuzenhi_expense
     # TemplateViewの場合はtemplate_nameは必須．
     template_name = "shuuzenhi_out/expense_list.html"
 
@@ -110,27 +110,27 @@ class ShuuzenhiExpenseListView(LoginRequiredMixin, generic.TemplateView):
         # 大規模修繕費を表示すると、全体のバランスが崩れるためmypageのメニューで分ける。
         sw = self.kwargs.get('sw', 0)
         if sw == 1:
-            a = Rireki.objects.select_related().order_by('year')
+            a = Shuuzenhi_expense.objects.select_related().order_by('year')
         else:
-            # a = Rireki.objects.filter(koujitype__lt=20).select_related().order_by('year')
-            a = Rireki.objects.exclude(koujitype=20).select_related().order_by('year')
+            # a = Shuuzenhi_expense.objects.filter(koujitype__lt=20).select_related().order_by('year')
+            a = Shuuzenhi_expense.objects.exclude(koujitype=20).select_related().order_by('year')
 
         context['expenselist'] = self.shuuzenhi_expense(a)
         # aggregateは辞書型を返すようだ。
         # 大規模修繕を外すためにid(20)を決め打ちしている。あまり良く無い！
         if sw == 1:
-            context['shuuzen_total'] = Rireki.objects.filter(
+            context['shuuzen_total'] = Shuuzenhi_expense.objects.filter(
                 account_type='修繕費会計').aggregate(Sum('cost'))['cost__sum']
             context["title"] = "工事支出履歴（大規模修繕含む)"
         else:
-            context['shuuzen_total'] = Rireki.objects.filter(
+            context['shuuzen_total'] = Shuuzenhi_expense.objects.filter(
                 account_type='修繕費会計').filter(
                 koujitype__lt=20).aggregate(Sum('cost'))['cost__sum']
             context["title"] = "工事支出履歴（大規模修繕含まず)"
 
-        context['kanri_total'] = Rireki.objects.filter(
+        context['kanri_total'] = Shuuzenhi_expense.objects.filter(
             account_type='管理費会計').aggregate(Sum('cost'))['cost__sum']
-        context['hoken_total'] = Rireki.objects.filter(
+        context['hoken_total'] = Shuuzenhi_expense.objects.filter(
             account_type='保険対応').aggregate(Sum('cost'))['cost__sum']
         context['all_total'] = context['shuuzen_total']+context['kanri_total']+context['hoken_total']
         context["start_year"] = -settings.START_YEAR
@@ -139,13 +139,13 @@ class ShuuzenhiExpenseListView(LoginRequiredMixin, generic.TemplateView):
 
 class KoujiShubetuListView(LoginRequiredMixin, generic.TemplateView):
     """ 修繕工事の工事種別毎の支出一覧 """
-    model = Rireki
+    model = Shuuzenhi_expense
     template_name = "shuuzenhi_out/shubetu_list.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # 大規模修繕は除く。
-        a = Rireki.objects.all().exclude(
+        a = Shuuzenhi_expense.objects.all().exclude(
             koujitype__koujitype='大規模修繕').order_by('koujitype__sequense')
         context['shubetulist'] = a.values(
             'koujitype__koujitype').annotate(total=Sum('cost'))
@@ -154,7 +154,7 @@ class KoujiShubetuListView(LoginRequiredMixin, generic.TemplateView):
 
 class CreateExpenseView(PermissionRequiredMixin, generic.CreateView):
     """ 修繕費支出データを登録する """
-    model = Rireki
+    model = Shuuzenhi_expense
     form_class = Shuuzenhi_expenseForm
     template_name = "shuuzenhi_out/rireki_form.html"
     # 必要な権限
@@ -285,7 +285,7 @@ class RirekiUpdateListView(PermissionRequiredMixin, generic.ListView):
         https://docs.djangoproject.com/ja/2.0/topics/pagination/
         http://thinkami.hatenablog.com/entry/2016/02/04/231901
     """
-    model = Rireki
+    model = Shuuzenhi_expense
     template_name = 'shuuzenhi_out/rireki_update_list.html'
     # 必要な権限
     permission_required = ("asset_list.add_assetlist")
@@ -304,7 +304,7 @@ class UpdateRirekiView(PermissionRequiredMixin, generic.UpdateView):
     """ 修繕費支出データを修正する。
         修正する工事が選択されると呼ばれる。
     """
-    model = Rireki
+    model = Shuuzenhi_expense
     form_class = Shuuzenhi_expenseForm
     template_name = "shuuzenhi_out/rireki_form.html"
     # 必要な権限（データ登録できる権限は共通）
