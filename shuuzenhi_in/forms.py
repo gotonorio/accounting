@@ -46,12 +46,13 @@ class Shuuzenhi_incomeForm(forms.ModelForm):
         fields = ("ki", "master", "income", "comment")
 
     def __init__(self, *args, **kwargs):
-        """ フォームフィールドにclassを設定 """
+        """ フォームフィールドのwidgetを設定 """
         super().__init__(*args, **kwargs)
         self.fields['ki'].widget.attrs["class"] = "input"
         self.fields['master'].widget.attrs["class"] = "select-css"
         self.fields['income'].widget.attrs["class"] = "input"
-        self.fields['comment'].widget.attrs["class"] = "textarea "
+        self.fields['comment'].widget.attrs["class"] = "textarea"
+        self.fields['comment'].widget.attrs["rows"] = "4"
 
 
 class Shuuzenhi_masterForm(forms.ModelForm):

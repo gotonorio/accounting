@@ -28,11 +28,12 @@ class AssetListForm(forms.ModelForm):
     # fieldにbootstrap用のclassを設定する。
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['ki'].widget.attrs["class"] = "input is-size-6"
-        self.fields['account_type'].widget.attrs["class"] = "select-css is-size-6"
-        self.fields['master'].widget.attrs["class"] = "select-css is-size-6"
-        self.fields['asset'].widget.attrs["class"] = "input is-size-6"
-        self.fields['comment'].widget.attrs["class"] = "text is-size-6"
+        self.fields['ki'].widget.attrs["class"] = "input"
+        self.fields['account_type'].widget.attrs["class"] = "select-css"
+        self.fields['master'].widget.attrs["class"] = "select-css"
+        self.fields['asset'].widget.attrs["class"] = "input"
+        self.fields['comment'].widget.attrs["class"] = "textarea"
+        self.fields['comment'].widget.attrs["rows"] = "4"
 
     # 重複登録をチェックする。
     def clean(self):

@@ -220,7 +220,7 @@ th {
   list-style-type: none;
   color: red;
 }
-div.field > span.helptext {
+div.my_field > span.helptext {
   font-size: 14px;
   color: #999;
 }

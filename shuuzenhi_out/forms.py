@@ -72,14 +72,15 @@ class Shuuzenhi_expenseForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['year'].widget.attrs["class"] = "input is-size-6"
-        self.fields['koujitype'].widget.attrs["class"] = "select-css is-size-6"
-        self.fields['koujimei'].widget.attrs["class"] = "input is-size-6"
-        self.fields['cost'].widget.attrs["class"] = "input is-size-6"
-        self.fields['constractor'].widget.attrs["class"] = "select-css is-size-6"
-        self.fields['account_type'].widget.attrs["class"] = "select-css is-size-6"
-        self.fields['quotation_id'].widget.attrs["class"] = "input is-size-6"
-        self.fields['comment'].widget.attrs["class"] = "text is-size-6"
+        self.fields['year'].widget.attrs["class"] = "input"
+        self.fields['koujitype'].widget.attrs["class"] = "select-css"
+        self.fields['koujimei'].widget.attrs["class"] = "input"
+        self.fields['cost'].widget.attrs["class"] = "input"
+        self.fields['constractor'].widget.attrs["class"] = "select-css"
+        self.fields['account_type'].widget.attrs["class"] = "select-css"
+        self.fields['quotation_id'].widget.attrs["class"] = "input"
+        self.fields['comment'].widget.attrs["class"] = "textarea"
+        self.fields['comment'].widget.attrs["rows"] = "4"
 
 
 class Master_koujitypeForm(forms.ModelForm):

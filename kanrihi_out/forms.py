@@ -28,9 +28,9 @@ class Kanrihi_expenseForm(forms.ModelForm):
     # fieldにclassを設定する。
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['ki'].widget.attrs["class"] = "input is-size-6"
-        self.fields['master'].widget.attrs["class"] = "select-css is-size-6"
-        self.fields['expense'].widget.attrs["class"] = "input is-size-6"
+        self.fields['ki'].widget.attrs["class"] = "input"
+        self.fields['master'].widget.attrs["class"] = "select-css"
+        self.fields['expense'].widget.attrs["class"] = "input"
 
     # 重複登録をチェックする。
     def clean(self):

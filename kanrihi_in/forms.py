@@ -56,9 +56,9 @@ class Kanrihi_incomeForm(forms.ModelForm):
     # fieldにbootstrap4用のclassを設定する。
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['ki'].widget.attrs["class"] = "input is-size-6"
-        self.fields['master'].widget.attrs["class"] = "select-css is-size-6"
-        self.fields['income'].widget.attrs["class"] = "input is-size-6"
+        self.fields['ki'].widget.attrs["class"] = "input"
+        self.fields['master'].widget.attrs["class"] = "select-css"
+        self.fields['income'].widget.attrs["class"] = "input"
         """
         for field in self.fields.values():
             field.widget.attrs["class"] = "form-control"
