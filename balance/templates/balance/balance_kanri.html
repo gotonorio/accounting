@@ -35,7 +35,7 @@
 <br>
 <div class="container">
   <div class="content has-text-centered">
-    <h4>管理会計収支</h4>
+    <h4>管理会計収支（議案書ベース）</h4>
   </div>
   <br>
   <div class="scroll">
@@ -45,11 +45,11 @@
           <th class="has-text-centered">期</th>
           <th class="has-text-centered">前期繰越金</th>
           <th class="has-text-centered">管理費収入</th>
-          <th class="has-text-centered">駐車場会計より</th>
+          <th class="has-text-centered">駐車場収入</th>
           <th class="has-text-centered">当期収入合計</th>
           <th class="has-text-centered">管理費支出</th>
-          <th class="has-text-centered">管理費剰余金</th>
-          <th class="has-text-centered">修繕繰入</th>
+          {#<th class="has-text-centered">管理費剰余金</th>#}
+          <th class="has-text-centered">修繕会計繰入</th>
           <th class="has-text-centered">次期繰越金</th>
         </tr>
       </thead>
@@ -62,7 +62,7 @@
           <td class="has-text-right">{{ list.parking|intcomma }}</td>
           <td class="has-text-right">{{ list.in_total|intcomma }}</td>
           <td class="has-text-right">{{ list.out_total|intcomma }}</td>
-          <td class="has-text-right">{{ list.in_total|subtract:list.out_total|intcomma }}</td>
+          {#<td class="has-text-right">{{ list.in_total|subtract:list.out_total|intcomma }}</td>#}
           <td class="has-text-right">{{ list.to_shuuzen|intcomma }}</td>
           <td class="has-text-right">{{ list.in_total|subtract:list.out_total|subtract:list.to_shuuzen|intcomma }}</td>
         </tr>

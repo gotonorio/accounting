@@ -13,7 +13,7 @@ from shuuzenhi_out.views import ShuuzenhiExpenseListView
 
 
 class KanrihiBalanceView(LoginRequiredMixin, generic.TemplateView):
-    """ 管理会計収支リスト表示 """
+    """ 管理会計収支リスト表示（議案書ベース） """
     # template名の指定は必須
     template_name = "balance/balance_kanri.html"
 
@@ -53,7 +53,7 @@ class KanrihiBalanceView(LoginRequiredMixin, generic.TemplateView):
 
 
 class CheckKanrihiBalanceView(LoginRequiredMixin, generic.TemplateView):
-    """ 管理会計収支リスト表示 """
+    """ 管理会計収支リスト表示（計算ベース） """
     # template名の指定は必須
     template_name = "balance/check_kanrihi.html"
 

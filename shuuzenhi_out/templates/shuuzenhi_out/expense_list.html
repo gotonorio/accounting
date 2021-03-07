@@ -43,8 +43,8 @@
     <table class="table is-narrow is-striped is-responsible">
       <thead>
         <tr>
-          <th class="has-text-centered">西暦</th>
           <th class="has-text-centered">期</th>
+          <th class="has-text-centered">西暦</th>
           <th class="has-text-centered">修繕会計区分支出</th>
           <th class="has-text-centered">管理会計区分支出</th>
           <th class="has-text-centered">保険支出</th>
@@ -54,8 +54,8 @@
       <tbody>
         {% for data in expenselist %}
         <tr>
-          <td class="has-text-centered">{{ data.year }}</td>
           <td class="has-text-centered">{{ data.year|add:start_year }}</td>
+          <td class="has-text-centered">{{ data.year }}</td>
           <td class="has-text-right">{{ data.shuuzen|intcomma }}</td>
           <td class="has-text-right">{{ data.kanri|intcomma }}</td>
           <td class="has-text-right">{{ data.hoken|intcomma }}</td>

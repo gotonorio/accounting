@@ -28,9 +28,9 @@ SG川崎 会計
       <div class="navbar-item has-dropdown is-hoverable">
         <a class="navbar-link">管理会計</a>
         <div class="navbar-dropdown">
-          <a href="{% url 'balance:kanrihi' %}" class="dropdown-item">収支一覧<a>
+          <a href="{% url 'balance:kanrihi' %}" class="dropdown-item">収支一覧（議案書）<a>
           {% if user.is_staff %}
-            <a href="{% url 'balance:check_kanrihi' %}" class="dropdown-item">新収支一覧<a>
+            <a href="{% url 'balance:check_kanrihi' %}" class="dropdown-item">収支一覧（計算）<a>
           {% endif %}
           <hr class="navbar-divider">
           <a href="{% url 'kanrihi_in:incomelist' %}" class="dropdown-item">収入履歴</a>
@@ -44,9 +44,9 @@ SG川崎 会計
       <div class="navbar-item has-dropdown is-hoverable">
         <a class="navbar-link">修繕会計</a>
         <div class="navbar-dropdown">
-          <a href="{% url 'balance:shuuzenhi' %}" class="dropdown-item">収支一覧<a>
+          <a href="{% url 'balance:shuuzenhi' %}" class="dropdown-item">収支一覧（議案書）<a>
           {% if user.is_staff %}
-            <a href="{% url 'balance:check_shuuzenhi' %}" class="dropdown-item">新収支一覧<a>
+            <a href="{% url 'balance:check_shuuzenhi' %}" class="dropdown-item">収支一覧（計算）<a>
           {% endif %}
           <hr class="navbar-divider">
           <a href="{% url 'shuuzenhi_in:incomelist' %}" class="dropdown-item">収入履歴<a>
