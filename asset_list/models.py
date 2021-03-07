@@ -31,15 +31,6 @@ class AssetList(models.Model):
     def __str__(self):
         return self.master.name
 
-    class Meta:
-        """ https://docs.djangoproject.com/en/3.1/ref/models/options/#django.db.models.Options.unique_together """
-        constraints = [
-            models.UniqueConstraint(
-                fields=["ki", "account_type", "master"],
-                name="assetlist_unique"
-            ),
-        ]
-
     # 以下はcsv入出力のテストのため
     def export_csv():
         """ 資産データをcsvファイルとしてダウンロード """
