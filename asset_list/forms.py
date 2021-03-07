@@ -53,7 +53,7 @@ class Master_assetForm(forms.ModelForm):
     name = forms.CharField(label='口座名', max_length=128)
     account_number = forms.CharField(label='口座番号', max_length=24, initial='-')
     sequense = forms.IntegerField(label='表示順序')
-    isAsset = forms.IntegerField(label='資産/負債', initial=1)
+    isAsset = forms.IntegerField(label='資産(1)/負債(0)', initial=1)
     alive = forms.BooleanField(label='有効', required=False)
 
     class Meta:
@@ -63,12 +63,12 @@ class Master_assetForm(forms.ModelForm):
     # fieldにclassを一括設定する。
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['name'].widget.attrs["class"] = "input is-size-6"
-        self.fields['account_number'].widget.attrs["class"] = "input is-size-6"
-        self.fields['sequense'].widget.attrs["class"] = "input is-size-6"
-        self.fields['isAsset'].widget.attrs["class"] = "input is-size-6"
-        self.fields['alive'].widget.attrs["class"] = "is-size-6"
-        self.fields['comment'].widget.attrs["class"] = "text is-size-6"
+        self.fields['name'].widget.attrs["class"] = "input"
+        self.fields['account_number'].widget.attrs["class"] = "input"
+        self.fields['sequense'].widget.attrs["class"] = "input"
+        self.fields['isAsset'].widget.attrs["class"] = "input"
+        self.fields['alive'].widget.attrs["class"] = "checkbox"
+        self.fields['comment'].widget.attrs["class"] = "textarea"
         # for field in self.fields.values():
         #     field.widget.attrs["class"] = "input is-size-6"
 
@@ -79,4 +79,5 @@ class BalanceSheetForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['ki'].widget.attrs["class"] = "input is-size-7"
+        self.fields['ki'].widget.attrs["class"] = "input is-small"
+        self.fields['ki'].widget.attrs["size"] = "6"  # 効いていない？

@@ -1,5 +1,5 @@
 import csv
-# import logging
+import logging
 
 from django.contrib import messages
 from django.contrib.auth.mixins import (LoginRequiredMixin,
@@ -298,6 +298,9 @@ class BalanceSheetView(LoginRequiredMixin, generic.TemplateView):
         balancesheetform = BalanceSheetForm(initial={
             'ki': ki,
         })
+        # formがtable要素となっている？
+        logging.debug(balancesheetform)
+
         context['ki'] = ki
         context['balancesheet'] = bs
         context['asset_total'] = asset_total
