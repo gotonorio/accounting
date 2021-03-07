@@ -17,3 +17,11 @@ class Parking_income(models.Model):
 
     def __int__(self):
         return self.parking_lot_income
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["ki", "master"],
+                name="parking_in_unique"
+            ),
+        ]

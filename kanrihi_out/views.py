@@ -191,10 +191,6 @@ class CreateExpenseView(PermissionRequiredMixin, generic.CreateView):
         messages.success(self.request, msg)
         return super().form_valid(form)
 
-    def form_invalid(self, form):
-        messages.warning(self.request, "保存できませんでした。")
-        return super().form_invalid(form)
-
 
 class UpdateExpenseView(PermissionRequiredMixin, generic.UpdateView):
     """ 管理費支出データを修正する """

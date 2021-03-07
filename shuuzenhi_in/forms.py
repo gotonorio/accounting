@@ -30,7 +30,7 @@ class Shuuzenhi_incomeForm(forms.ModelForm):
         elif mn.name == '管理会計より繰入':
             raise forms.ValidationError("管理会計からの収入は管理会計で処理してください")
         return mn
-
+    """
     # 重複登録をチェックする。
     def clean(self):
         cleaned_data = super().clean()
@@ -40,6 +40,7 @@ class Shuuzenhi_incomeForm(forms.ModelForm):
         if data:
             raise forms.ValidationError("既に登録済みです。")
         return cleaned_data
+    """
 
     class Meta:
         model = Shuuzenhi_income

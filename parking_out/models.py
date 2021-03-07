@@ -23,3 +23,11 @@ class Parking_expenditure(models.Model):
             kanrihi_total += data['kanrihi']
             shuuzenhi_total += data['shuuzenhi']
         return kanrihi_total, shuuzenhi_total
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["ki", "account_type"],
+                name="parking_out_unique"
+            ),
+        ]

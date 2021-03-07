@@ -26,3 +26,11 @@ class Shuuzenhi_income(models.Model):
 
     def __int__(self):
         return self.income
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["ki", "master"],
+                name="shuuzenhi_in_unique"
+            ),
+        ]

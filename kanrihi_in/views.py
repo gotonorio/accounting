@@ -77,12 +77,7 @@ class CreateIncomeView(PermissionRequiredMixin, generic.CreateView):
 
     def form_valid(self, form):
         """ 駐車場収入は駐車場会計で処理する """
-        messages.warning(self.request, "保存しました。")
         return super().form_valid(form)
-
-    # def form_invalid(self, form):
-    #     messages.add_message(self.request, messages.WARNING, form.errors)
-    #     return redirect('kanrihi_in:create_income')
 
 
 class UpdateIncomelistView(PermissionRequiredMixin, generic.ListView):
@@ -116,10 +111,6 @@ class UpdateIncomeView(PermissionRequiredMixin, generic.UpdateView):
         """ 駐車場収入は駐車場会計で処理する """
         messages.success(self.request, "保存しました。")
         return super().form_valid(form)
-
-    # def form_invalid(self, form):
-    #     messages.warning(self.request, "保存できませんでした。")
-    #     return super().form_invalid(form)
 
 
 class CreateMasterView(PermissionRequiredMixin, generic.CreateView):

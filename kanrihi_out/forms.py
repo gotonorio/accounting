@@ -32,7 +32,8 @@ class Kanrihi_expenseForm(forms.ModelForm):
         self.fields['master'].widget.attrs["class"] = "select-css"
         self.fields['expense'].widget.attrs["class"] = "input"
 
-    # 重複登録をチェックする。
+    """
+    # 重複登録をチェックするためのvalidate。 ユニーク制約でチェックする
     def clean(self):
         cleaned_data = super().clean()
         ki = cleaned_data['ki']
@@ -41,6 +42,7 @@ class Kanrihi_expenseForm(forms.ModelForm):
         if data:
             raise forms.ValidationError("既に登録済みです。")
         return cleaned_data
+    """
 
 
 class Master_expenseForm(forms.ModelForm):

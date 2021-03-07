@@ -31,6 +31,15 @@ class AssetList(models.Model):
     def __str__(self):
         return self.master.name
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["ki", "account_type", "master"],
+                name="assetlist_unique"
+            ),
+        ]
+
+    # 以下はcsv入出力のテストのため
     def export_csv():
         """ 資産データをcsvファイルとしてダウンロード """
         response = HttpResponse(content_type='text/csv')
@@ -56,5 +65,4 @@ class AssetList(models.Model):
             asset.asset = line[4]
             asset.comment = line[5]
             asset.save()
-
         return

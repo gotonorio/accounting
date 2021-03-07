@@ -36,3 +36,11 @@ class Kanrihi_expense(models.Model):
 
     def __str__(self):
         return self.master.name
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["ki", "master"],
+                name="kanrihi_out_unique"
+            ),
+        ]
