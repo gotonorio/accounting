@@ -32,6 +32,7 @@ class AssetList(models.Model):
         return self.master.name
 
     class Meta:
+        """ https://docs.djangoproject.com/en/3.1/ref/models/options/#django.db.models.Options.unique_together """
         constraints = [
             models.UniqueConstraint(
                 fields=["ki", "account_type", "master"],
