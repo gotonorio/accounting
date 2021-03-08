@@ -35,6 +35,7 @@ function assetChart(data){
                 type: 'bar',
                 label: '資産合計',
                 backgroundColor: "red",
+                categoryPercentage: 0.3,    //棒グラフの太さ
                 data: assetData,
                 stack: 1
             },
@@ -82,8 +83,6 @@ function assetChart(data){
             ],
             xAxes: [{
                 display: true,
-                stacked: true,              // 積み上げ棒グラフにする設定
-                categoryPercentage: 0.3,    //棒グラフの太さ
                 gridLines: {
                     display: true
                 },

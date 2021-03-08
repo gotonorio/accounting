@@ -21,12 +21,14 @@ function clearCanvas(){
 */
 function kanrihiBalanceChart(data){
     // (1) chart.jsのdataset用の配列を用意。
-    var xLabels = [], kurikosiData = [];
+    var xLabels = [], kurikosiData = [], parking_in = [], to_shuuzen = [];
     // data.shift();               // ヘッダー行を削除。
     // console.log(data);
     for (var row in data) {
         xLabels.push(data[row][0]);
         kurikosiData.push(data[row][1]);
+        parking_in.push(data[row][2]);
+        to_shuuzen.push(data[row][3]);
     }
     // (2) データオブジェクトを用意。
     var chartData = {
@@ -47,6 +49,36 @@ function kanrihiBalanceChart(data){
                 borderWidth: 2,                 // 線の太さ
                 data: kurikosiData,
             },
+            {
+                type: 'line',
+                fill: false,
+                label: '駐車場収入',
+                borderWidth: 2,                 // 線の太さ
+                borderColor: "black",             // 線の色
+                tension:0,                      // 線は直線
+                pointBorderColor: "black",        // ポイント線の色
+                pointBackgroundColor: "black",    // ポイント面の色
+                pointRadius: 2,                 // ポイントサイズ
+                pointHoverRadius: 6,            // ホバーした時のポイントサイズ
+                pointHitRadius: 8,              // カーソルのヒットエリア
+                borderWidth: 2,                 // 線の太さ
+                data: parking_in,
+            },
+            {
+                type: 'line',
+                fill: false,
+                label: '修繕会計繰入',
+                borderWidth: 2,                 // 線の太さ
+                borderColor: "red",             // 線の色
+                tension:0,                      // 線は直線
+                pointBorderColor: "red",        // ポイント線の色
+                pointBackgroundColor: "red",    // ポイント面の色
+                pointRadius: 2,                 // ポイントサイズ
+                pointHoverRadius: 6,            // ホバーした時のポイントサイズ
+                pointHitRadius: 8,              // カーソルのヒットエリア
+                borderWidth: 2,                 // 線の太さ
+                data: to_shuuzen,
+            },
         ]
     };
     // (3) チャートオプション
@@ -62,7 +94,7 @@ function kanrihiBalanceChart(data){
         scales: {
             yAxes: [
                 {
-                    stacked:true,  // 積み上げ棒グラフにする設定
+                    stacked:false,  // 積み上げ棒グラフにする設定
                     id: "y-axis",
                     type: "linear",
                     position: "left", // 目盛りは左側に表示。
@@ -84,7 +116,7 @@ function kanrihiBalanceChart(data){
             ],
             xAxes: [{
                 display: true,
-                stacked: true,              // 積み上げ棒グラフにする設定
+                stacked: false,              // 積み上げ棒グラフにする設定
                 categoryPercentage: 0.7,    //棒グラフの太さ
                 gridLines: {
                     display: true

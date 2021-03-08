@@ -36,7 +36,7 @@ function shuuzenhiBalanceChart(data){
             {
                 type: 'line',
                 fill: false,
-                label: '修繕積立金',
+                label: '次期繰越金',
                 borderWidth: 2,                 // 線の太さ
                 borderColor: "blue",            // 線の色
                 tension:0,                      // 線は直線
@@ -52,6 +52,7 @@ function shuuzenhiBalanceChart(data){
                 type: 'bar',
                 label: '修繕支出',
                 backgroundColor: "red",
+                categoryPercentage: 0.5,    //棒グラフの太さ
                 data: expense,
                 stack: 1
             },
@@ -92,8 +93,6 @@ function shuuzenhiBalanceChart(data){
             ],
             xAxes: [{
                 display: true,
-                stacked: true,              // 積み上げ棒グラフにする設定
-                categoryPercentage: 0.7,    //棒グラフの太さ
                 gridLines: {
                     display: true
                 },
