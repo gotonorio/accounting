@@ -4,13 +4,27 @@
 管理費収入カテゴリーの登録
 {% endblock title %}
 
-{% block content %}
+{% block navbar %}
 <nav class="navbar is-black is-size-6" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
     <a class="navbar-item">【SG川崎】</a>
-    <a href="{% url 'register:operate_data' %}" class="navbar-item">戻る</a>
+    <a role="button" class="navbar-burger " aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+    </div>
+    <div class="navbar-end">
+      <a href="{% url 'register:master_data' %}" class="navbar-item">戻る</a>
+    </div>
   </div>
 </nav>
+{% endblock navbar %}
+
+{% block content %}
 <br>
 {% if messages %}
 <ul class="messages">
@@ -19,22 +33,32 @@
     {% endfor %}
 </ul>
 {% endif %}
-<div class="sm_container">
+<div class="ss_container">
   <div class="content has-text-centered">
-    <h3>管理費収入カテゴリーの登録/修正</h3>
+    <h4>管理費収入カテゴリーの登録/修正</h4>
   </div>
-
-  <form method='POST' enctype="multipart/form-data">
+  <form method='POST' enctype='multipart/form-data'>
+    {{ form.non_field_errors }}
+    {% for field in form %}
+      <div class='field'>
+        <div class='control'>
+          <div class='label'>{{ field.label_tag }}</div>
+          <div class='my_field'>{{ field }}</div>
+          {% if field.help_text %}
+            <span class='helptext'>{{ field.help_text }}</span>
+          {% endif %}
+          {{ field.errors }}
+        </div>
+      </div>
+    {% endfor %}
     {% csrf_token %}
-    <table>
-      {{form}}
-    </table>
     <br>
-    <div class="content has-text-centered">
-      <button type="submit" class="button is-primary ">保存</button>
-      <a class="button is-danger" href="javascript:void(0);" onclick="window.history.back();">キャンセル</a>
+    <div class='content has-text-centered my_button'>
+      <button type='submit' class='button is-primary'>読込み</button>
+      <a class='button is-danger' href='javascript:void(0);' onclick='window.history.back();'>キャンセル</a>
     </div>
   </form>
+
   <br>
   <hr>
   <table class="table is-narrow" >

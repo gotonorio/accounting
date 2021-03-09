@@ -5,7 +5,7 @@
 修繕費収入項目の登録/修正
 {% endblock title %}
 
-{% block content %}
+{% block navbar %}
 <nav class="navbar is-black is-size-6" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
     <a class="navbar-item">【SG川崎】</a>
@@ -19,10 +19,13 @@
     <div class="navbar-start">
     </div>
     <div class="navbar-end">
-      <a class="button is-danger" href="javascript:void(0);" onclick="window.history.back();">キャンセル</a>
+      <a href="{% url 'register:master_data' %}" class="navbar-item">戻る</a>
     </div>
   </div>
 </nav>
+{% endblock navbar %}
+
+{% block content %}
 <br>
 {% if messages %}
 <ul class="messages">
@@ -39,18 +42,22 @@
     {{ form.non_field_errors }}
     {% for field in form %}
       <div class='field'>
-        {{ field.label_tag }}
-        {{ field }}
-        {% if field.help_text %}
-          <span class='helptext'>{{ field.help_text }}</span>
-        {% endif %}
-        {{ field.errors }}
+        <div class='control'>
+          <div class='label'>{{ field.label_tag }}</div>
+          <div class='my_field'>{{ field }}</div>
+          {% if field.help_text %}
+            <span class='helptext'>{{ field.help_text }}</span>
+          {% endif %}
+          {{ field.errors }}
+        </div>
       </div>
     {% endfor %}
     {% csrf_token %}
     <br>
-    <button type='submit' class='button is-primary is-size-7'>読込み</button>
-    <a class='button is-danger is-size-7' href='javascript:void(0);' onclick='window.history.back();'>キャンセル</a>
+    <div class='content has-text-centered my_button'>
+      <button type='submit' class='button is-primary'>読込み</button>
+      <a class='button is-danger' href='javascript:void(0);' onclick='window.history.back();'>キャンセル</a>
+    </div>
   </form>
   <hr>
   <table class="table is-narrow" >

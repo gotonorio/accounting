@@ -11,6 +11,7 @@
 {# javascriptファイルを取り込む #}
 <!--<script src='{% static 'js/moment-with-locales.js' %}'></script>-->
 {% endblock head %}
+
 {% block navbar %}
 <nav class="navbar is-black is-size-6" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
@@ -26,15 +27,14 @@
       <a href="{% url 'shuuzenhi_out:shubetulist' %}" class="navbar-item">工事種別合計</a>
     </div>
     <div class="navbar-end">
-      <a class="navbar-item" href="javascript:void(0);" onclick="window.history.back();">戻る</a>
+      <a href="{% url 'register:mypage' %}" class="navbar-item">戻る</a>
     </div>
   </div>
-
-
 </nav>
 {% endblock navbar %}
-<br>
+
 {% block content %}
+<br>
 <div class="md_container">
   <br>
   <div class="content has-text-centered">

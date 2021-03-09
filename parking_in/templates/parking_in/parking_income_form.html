@@ -24,8 +24,9 @@
   </div>
 </nav>
 {% endblock navbar %}
-<br>
+
 {% block content %}
+<br>
 {% if messages %}
 <ul class="messages">
   {% for message in messages %}
@@ -54,7 +55,7 @@
     {% endfor %}
     {% csrf_token %}
     <br>
-    <div class='my_button'>
+    <div class='content has-text-centered my_button'>
       <button type='submit' class='button is-primary'>読込み</button>
       <a class='button is-danger' href='javascript:void(0);' onclick='window.history.back();'>キャンセル</a>
     </div>

@@ -5,7 +5,7 @@
 修繕費支出データの登録
 {% endblock title %}
 
-{% block content %}
+{% block navbar %}
 <nav class="navbar is-black is-size-6" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
     <a class="navbar-item">【SG川崎】</a>
@@ -23,6 +23,9 @@
     </div>
   </div>
 </nav>
+{% block content %}
+
+{% endblock navbar %}
 <br>
 {% if messages %}
 <ul class="messages">
@@ -51,7 +54,7 @@
     {% endfor %}
     {% csrf_token %}
     <br>
-    <div class='my_button'>
+    <div class='content has-text-centered my_button'>
       <button type='submit' class='button is-primary'>読込み</button>
       <a class='button is-danger' href='javascript:void(0);' onclick='window.history.back();'>キャンセル</a>
     </div>

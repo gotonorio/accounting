@@ -5,6 +5,7 @@
 {% block title %}
 修繕費支出データの修正
 {% endblock title %}
+
 {% block navbar %}
 <nav class="navbar is-black is-size-6" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
@@ -14,13 +15,14 @@
     <div class="navbar-start">
     </div>
     <div class="navbar-end">
-      <a class="navbar-item" href="javascript:void(0);" onclick="window.history.back();">戻る</a>
+      <a href="{% url 'register:operate_data' %}" class="navbar-item">戻る</a>
     </div>
   </div>
 </nav>
-{% endblock %}
+{% endblock navbar %}
 
 {% block content %}
+<br>
 <div class="container">
   {% if messages %}
   <ul class="messages">
