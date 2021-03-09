@@ -15,7 +15,7 @@ main {
     /* font-family: "Helvetica Neue",Arial,"ヒラギノ角ゴシック W3","Hiragino Sans",Meiryo,sans-serif; */
     font-family: "ヒラギノ角ゴシック W4","Hiragino Sans",Meiryo,sans-serif;
     /*font-weight: 400;*/
-    font-size: 90%;
+    font-size: 100%;
     margin-bottom: 40px; /* フッタの下側マージンの高さ */
 }
 /* footerだとBulmaのfooterを上書きしてしまう */
