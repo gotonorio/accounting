@@ -1,10 +1,20 @@
 from django.db import models
 
 
+class Category_shuuzenhi_income(models.Model):
+    """ 2021-03-10追加 """
+    code = models.IntegerField()
+    name = models.CharField(max_length=256)
+
+    def __str__(self):
+        return self.name
+
+
 class Master_shuuzenhi_income(models.Model):
     """ 修繕費収入の項目を定義。 """
     code = models.IntegerField()
     name = models.CharField(max_length=256)
+    category = models.ForeignKey(Category_shuuzenhi_income, on_delete=models.PROTECT, null=True)
     alive = models.BooleanField(default=True, null=True, blank=True)
 
     def __str__(self):

@@ -1,9 +1,9 @@
-import logging
+# import logging
 from django.contrib import messages
 from django.contrib.auth.mixins import (LoginRequiredMixin,
                                         PermissionRequiredMixin)
 from django.db.models.aggregates import Case, Sum, When
-from django.shortcuts import reverse, redirect
+from django.shortcuts import reverse
 from django.urls import reverse_lazy
 from django.views import generic
 

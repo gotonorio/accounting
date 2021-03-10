@@ -33,7 +33,8 @@ main {
   scrollクラスでtable要素を囲む。
 */
 table{
-  width:100%;
+  width: auto;
+  margin: 3px auto;    /* 上下3px 左右auto */
   white-space: nowrap;
 }
 .scroll{
