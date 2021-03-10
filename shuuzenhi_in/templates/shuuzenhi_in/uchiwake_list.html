@@ -18,7 +18,7 @@
   </div>
   <div id="navbarBasicExample" class="navbar-menu">
     <div class="navbar-start">
-      <a href="{% url 'kanrihi_in:incomelist' %}" class="navbar-item">収入履歴</a>
+      <a href="{% url 'shuuzenhi_in:incomelist' %}" class="navbar-item">収入履歴</a>
     </div>
     <div class="navbar-end">
       <a href="{% url 'register:mypage' %}" class="navbar-item">戻る</a>
@@ -31,7 +31,7 @@
 <br>
 <div class="container">
   <div class="content has-text-centered">
-    <h4>その他収入内訳</h4>
+    <h4>使用料＋その他</h4>
   </div>
   <br>
   <div class="scroll">
@@ -40,25 +40,25 @@
         <tr>
           <th class="has-text-centered">期</th>
           <th class="has-text-centered">専用庭</th>
+          <th class="has-text-centered">駐輪場</th>
           <th class="has-text-centered">バイク置場</th>
-          <th class="has-text-centered">緑地維持管理費</th>
-          <th class="has-text-centered">管理費利息</th>
-          <th class="has-text-centered">管理費雑収入</th>
-          <th class="has-text-centered">保険収入</th>
+          <th class="has-text-centered">利息収入</th>
+          <th class="has-text-centered">雑収入</th>
+          <th class="has-text-centered">配当金</th>
           <th class="has-text-centered">合計</th>
         </tr>
       </thead>
       <tbody>
-        {% for uchiwake in sonotalist %}
+        {% for u in sonotalist %}
         <tr>
-          <td class="has-text-centered">{{ uchiwake.ki }} </td>
-          <td class="has-text-right">{{ uchiwake.niwa|intcomma}}</td>
-          <td class="has-text-right">{{ uchiwake.bike|intcomma}}</td>
-          <td class="has-text-right">{{ uchiwake.ryokuchi|intcomma }}</td>
-          <td class="has-text-right">{{ uchiwake.risoku|intcomma }}</td>
-          <td class="has-text-right">{{ uchiwake.zatu|intcomma }}</td>
-          <td class="has-text-right">{{ uchiwake.hoken|intcomma }}</td>
-          <td class="has-text-right">{{ uchiwake.total|intcomma }}</td>
+          <td class="has-text-centered">{{ u.ki }} </td>
+          <td class="has-text-right">{{ u.niwa|intcomma}}</td>
+          <td class="has-text-right">{{ u.bike|intcomma}}</td>
+          <td class="has-text-right">{{ u.motor_bike|intcomma}}</td>
+          <td class="has-text-right">{{ u.risoku|intcomma}}</td>
+          <td class="has-text-right">{{ u.zatu|intcomma}}</td>
+          <td class="has-text-right">{{ u.haitou|intcomma}}</td>
+          <td class="has-text-right">{{ u.niwa|add:u.bike|add:u.motor_bike|add:u.risoku|add:u.zatu|add:u.haitou|intcomma}}</td>
         </tr>
         {% endfor %}
       </tbody>

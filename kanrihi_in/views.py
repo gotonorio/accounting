@@ -59,6 +59,7 @@ class UchiwakeListView(LoginRequiredMixin, generic.TemplateView):
             risoku=Sum(Case(When(master__code=70, then='income'), default=0)),
             zatu=Sum(Case(When(master__code=80, then='income'), default=0)),
             hoken=Sum(Case(When(master__code=90, then='income'), default=0)),
+            total=Sum(Case(When(master__category__code=30, then='income'), default=0)),
         )
         return context
 

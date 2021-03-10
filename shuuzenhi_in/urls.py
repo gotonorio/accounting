@@ -6,6 +6,8 @@ app_name = 'shuuzenhi_in'
 urlpatterns = [
     # データ表示
     path('incomelist/', views.IncomeListView.as_view(), name='incomelist'),
+    path('uchiwakelist/',
+         views.UchiwakeListView.as_view(), name='uchiwakelist'),
     # データ登録
     path('create', views.CreateIncomeView.as_view(), name='create'),
     path('create_master',

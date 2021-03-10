@@ -20,18 +20,35 @@ class IncomeListView(LoginRequiredMixin, generic.TemplateView):
         # user_id = self.request.user.id
         a = Shuuzenhi_income.objects.select_related().order_by('ki')
         context['incomelist'] = a.values('ki').annotate(
-            zenki=Sum(Case(When(master__code=10, then='income'), default=0)),
-            shuuzenhi=Sum(
-                Case(When(master__code=20, then='income'), default=0)),
+            zenki=Sum(Case(When(master__category__code=10, then='income'), default=0)),
+            shuuzenhi=Sum(Case(When(master__category__code=20, then='income'), default=0)),
+            parking=Sum(Case(When(master__category__code=50, then='income'), default=0)),
+            kuriire=Sum(Case(When(master__category__code=60, then='income'), default=0)),
+            usage=Sum(Case(When(master__category__code=30, then='income'), default=0)),
+            sonota=Sum(Case(When(master__category__code=40, then='income'), default=0)),
+            total=Sum(Case(When(master__category__code__gt=10, then='income'), default=0)),
+        )
+        return context
+
+
+class UchiwakeListView(LoginRequiredMixin, generic.TemplateView):
+    """ その他収入内訳リスト表示 """
+    model = Shuuzenhi_income
+    template_name = "shuuzenhi_in/uchiwake_list.html"
+
+    def get_context_data(self, **kwargs):
+        # はじめに継承元のメソッドを呼び出す．（おまじない）
+        context = super().get_context_data(**kwargs)
+        # user_id = self.request.user.id
+        # sql文を生成する。
+        a = Shuuzenhi_income.objects.select_related().order_by('ki')
+        context['sonotalist'] = a.values('ki').annotate(
             niwa=Sum(Case(When(master__code=25, then='income'), default=0)),
             bike=Sum(Case(When(master__code=30, then='income'), default=0)),
             motor_bike=Sum(Case(When(master__code=35, then='income'), default=0)),
             risoku=Sum(Case(When(master__code=40, then='income'), default=0)),
-            parking=Sum(Case(When(master__code=50, then='income'), default=0)),
             zatu=Sum(Case(When(master__code=60, then='income'), default=0)),
-            kuriire=Sum(Case(When(master__code=70, then='income'), default=0)),
             haitou=Sum(Case(When(master__code=80, then='income'), default=0)),
-            total=Sum('income'),
         )
         return context
 

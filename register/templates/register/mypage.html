@@ -50,6 +50,8 @@ SG川崎 会計
           {% endif %}
           <hr class="navbar-divider">
           <a href="{% url 'shuuzenhi_in:incomelist' %}" class="dropdown-item">収入履歴<a>
+          <a href="{% url 'shuuzenhi_in:uchiwakelist' %}" class="dropdown-item">その他収入</a>
+          <hr class="navbar-divider">
           <a href="{% url 'shuuzenhi_out:expenselist' %}" class="dropdown-item">支出履歴<a>
           <a href="{% url 'shuuzenhi_out:expenselist' '1' %}" class="dropdown-item">支出履歴(大規模修繕含む)<a>
           <hr class="navbar-divider">

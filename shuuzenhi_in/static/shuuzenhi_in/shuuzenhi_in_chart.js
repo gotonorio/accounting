@@ -20,16 +20,14 @@ function clearCanvas(){
 */
 function incomeShuuzenhiChart(data){
     // (1) chart.jsのdataset用の配列を用意。
-    var xLabels = [], shuuzenhi = [], zenki = [], bike = [], risoku = [];
-    var zatu = [], parking = [], kuriire = [];
+    var xLabels = [], shuuzenhi = [], zenki = [], zenki = [], kuriire = [] ,parking = [], total = [];
     for (var row in data) {
         xLabels.push(data[row][0]);
         zenki.push(data[row][1]);
         shuuzenhi.push(data[row][2]);
-        bike.push(data[row][3]);
-        risoku.push(data[row][4]);
-        zatu.push(data[row][5]);
-        parking.push(data[row][6]);
+        kuriire.push(data[row][3]);
+        parking.push(data[row][4]);
+        total.push(data[row][5]);
     }
     // (2) データオブジェクトを用意。
     var chartData = {
@@ -37,7 +35,7 @@ function incomeShuuzenhiChart(data){
         datasets: [
             {
                 type: 'line',
-                fill: false,   // 面を非表示 trueの場合backgroundColorを指定すること。
+                fill: false,                    // 面を非表示 trueの場合backgroundColorを指定すること。
                 label: '修繕費収入',
                 borderWidth: 2,                 // 線の太さ
                 borderColor: "red",             // 線の色
@@ -53,7 +51,7 @@ function incomeShuuzenhiChart(data){
             {
                 type: 'line',
                 fill: false,                    // 面を非表示 trueの場合backgroundColorを指定すること。
-                label: '前期繰越金',
+                label: '管理会計より',
                 borderWidth: 2,                 // 線の太さ
                 borderColor: "orange",          // 線の色
                 tension:0,                      //  線は直線
@@ -63,12 +61,12 @@ function incomeShuuzenhiChart(data){
                 pointHoverRadius: 6,            // ホバーした時のポイントサイズ
                 pointHitRadius: 8,              // カーソルのヒットエリア
                 backgroundColor: "orange",      // 凡例の色
-                data: zenki,
+                data: kuriire,
             },
             {
                 type: 'line',
                 fill: false,                    // 面を非表示 trueの場合backgroundColorを指定すること。
-                label: '駐輪場収入',
+                label: '前期繰越',
                 borderWidth: 2,                 // 線の太さ
                 borderColor: "green",           // 線の色
                 tension:0,                      //  線は直線
@@ -78,12 +76,12 @@ function incomeShuuzenhiChart(data){
                 pointHoverRadius: 6,            // ホバーした時のポイントサイズ
                 pointHitRadius: 8,              // カーソルのヒットエリア
                 backgroundColor: "green",       // 凡例の色
-                data: bike,
+                data: zenki,
             },
             {
                 type: 'line',
                 fill: false,                    // 面を非表示 trueの場合backgroundColorを指定すること。
-                label: '利息収入',
+                label: '駐車場',
                 borderWidth: 2,                 // 線の太さ
                 borderColor: "black",           // 線の色
                 tension:0,                      //  線は直線
@@ -93,12 +91,12 @@ function incomeShuuzenhiChart(data){
                 pointHoverRadius: 6,            // ホバーした時のポイントサイズ
                 pointHitRadius: 8,              // カーソルのヒットエリア
                 backgroundColor: "black",       // 凡例の色
-                data: risoku,
+                data: parking,
             },
             {
                 type: 'line',
                 fill: false,                    // 面を非表示 trueの場合backgroundColorを指定すること。
-                label: '管理費から繰入れ',
+                label: '合計',
                 borderWidth: 2,                 // 線の太さ
                 borderColor: "blue",            // 線の色
                 tension:0,                      //  線は直線
@@ -108,7 +106,7 @@ function incomeShuuzenhiChart(data){
                 pointHoverRadius: 6,            // ホバーした時のポイントサイズ
                 pointHitRadius: 8,              // カーソルのヒットエリア
                 backgroundColor: "blue",        // 凡例の色
-                data: parking,
+                data: total,
             }
         ]
     };
