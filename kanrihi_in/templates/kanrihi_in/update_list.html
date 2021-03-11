@@ -22,7 +22,7 @@
 {% endblock navbar %}
 <br>
 {% block content %}
-<div class="sm_container has-text-centered">
+<div class="container has-text-centered">
   {% if messages %}
   <div class="container" style="margin-top:1rem;">
     <div class="notification is-info">
@@ -33,6 +33,7 @@
     </div>
   </div>
   {% endif %}
+  <br>
   <div class="content">
     <h4>管理費収入データの修正</h4>
   </div>
@@ -56,8 +57,8 @@
       {% endfor %}
     </tbody>
   </table>
-  <br>
   <!-- http://thinkami.hatenablog.com/entry/2016/02/04/231901 -->
   {% include 'page.html' %}
+  <br>
 </div>
 {% endblock content %}

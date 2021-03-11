@@ -34,12 +34,12 @@
   {% endfor %}
 </ul>
 {% endif %}
-<div class="ss_container">
+<div class="container">
   <br>
   <div class="content has-text-centered">
     <h4>工事費支出項目マスターの登録/修正</h4>
   </div>
-  <form method='POST' enctype='multipart/form-data'>
+  <form method='POST' enctype='multipart/form-data' id='form_style'>
     {{ form.non_field_errors }}
     {% for field in form %}
       <div class='field'>
@@ -60,8 +60,6 @@
       <a class='button is-danger' href='javascript:void(0);' onclick='window.history.back();'>キャンセル</a>
     </div>
   </form>
-</div>
-<div class="sm_container">
   <hr>
   <div class="scroll">
     <table class="table is-narrow">

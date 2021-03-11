@@ -28,11 +28,11 @@
 
 {% block content %}
 <br>
-<div class="ss_container">
+<div class="container">
   <div class="content  has-text-centered">
     <h4>管理費支出データの登録</h4>
   </div>
-  <form method='POST' enctype='multipart/form-data'>
+  <form method='POST' enctype='multipart/form-data' id='form_style'>
     {{ form.non_field_errors }}
     {% for field in form %}
       <div class='field'>
@@ -48,7 +48,7 @@
     {% endfor %}
     {% csrf_token %}
     <br>
-    <div class='my_button'>
+    <div class='my_button has-text-centered'>
       <button type='submit' class='button is-primary'>読込み</button>
       <a class='button is-danger' href='javascript:void(0);' onclick='window.history.back();'>キャンセル</a>
     </div>

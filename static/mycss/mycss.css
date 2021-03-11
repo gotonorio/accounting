@@ -235,3 +235,8 @@ div.my_field > textarea {
   border-radius: 10px;
   border: solid 1px #999;
 }
+
+#form_style {
+  width: 320px;
+  margin: auto;
+}
