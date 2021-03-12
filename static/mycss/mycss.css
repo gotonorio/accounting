@@ -26,6 +26,12 @@ main {
     line-height: 40px; /* ここでテキストを垂直に中央に配置 */
     background-color: #f5f5f5;
 }
+/* tableの中央配置 */
+table{
+  width: auto;
+  margin: 3px auto;
+  white-space: nowrap;
+}
 /*
   https://webcommu.net/phone-table-scroll/
   scrollクラスでtable要素を囲む。
