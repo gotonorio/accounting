@@ -47,10 +47,24 @@ table{
 .scroll::-webkit-scrollbar-thumb {
    background: #BCBCBC;
 }
+
+/* webkit系ブラウザ用のスクロールバー調整 */
+::-webkit-scrollbar{
+  width: 10px;
+}
+::-webkit-scrollbar-track{
+  background: #fff;
+  border-left: solid 1px #ececec;
+}
+::-webkit-scrollbar-thumb{
+  background: #ccc;
+  border-radius: 10px;
+  box-shadow: inset 0 0 0 2px #fff;
+}
+
 /* 
 セル幅を固定して、オーバーする場合はスクロールする。divでclass設定すること。
 <td><div class="cell_scroll">テキスト</div></td>
-*/
 div.cell_min_200 {
   min-width: 200px;
 }
@@ -66,12 +80,14 @@ div.cell_420 {
   max-width: 420px;
   overflow: auto;
 }
-/* 入力フォーム用テーブルの設定 */
+*/
+/* 入力フォーム用テーブルの設定
 .form_table {
   width: 480px;
   margin: auto;
 }
-/* https://htmlcss.step-learn.com/contents/c031-table-width-percent.html */
+*/
+/* https://htmlcss.step-learn.com/contents/c031-table-width-percent.html 
 .tbl_width {
   table-layout: fixed;
   width: 100%;
@@ -108,6 +124,7 @@ th.width80 {
   width: 80%;
   min-width: 80%;
 }
+*/
 
 a.vmenu {
     text-decoration: none; 
@@ -174,41 +191,12 @@ th {
   font-weight:normal;
 }
 /*
-.nowrap {
-  white-space: nowrap;
-}
-*/
-/*
  https://obel.hatenablog.jp/entry/20160626/1466937585 
  md_containerクラスは画面幅が768px以上になったら、width:748px、margin:autoとなる。
 */
-@media screen and (min-width: 375px) {
-  .ss_container {
-    width: 355px;
-    margin: auto;
-  }
-}
-@media screen and (min-width: 512px) {
-  .sm_container {
-    width: 500px;
-    margin: auto;
-  }
-}
 @media screen and (min-width: 768px) {
   .md_container {
     width: 748px;
-    margin: auto;
-  }
-}
-@media screen and (min-width: 992px) {
-  .lg_container {
-    width: 972px;
-    margin: auto;
-  }
-}
-@media screen and (min-width: 1200px) {
-  .xl_container {
-    width: 1180px;
     margin: auto;
   }
 }

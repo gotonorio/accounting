@@ -26,11 +26,11 @@
 <br>
 {% block content %}
 {# https://docs.djangoproject.com/ja/2.0/ref/contrib/messages/ #}
-<div class="sm_container">
+<div class="container">
   <br>
   <div class="content has-text-centered">
     <h3>小口会計データの登録</h3>
-    <form method='POST' enctype="multipart/form-data">
+    <form method='POST' enctype="multipart/form-data" id='form_style'>
       {% csrf_token %}
       <table class="table is-narrow">
         {{form}}
