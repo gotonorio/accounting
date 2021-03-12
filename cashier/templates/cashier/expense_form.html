@@ -29,17 +29,30 @@
 <div class="container">
   <br>
   <div class="content has-text-centered">
-    <h3>小口会計データの登録</h3>
-    <form method='POST' enctype="multipart/form-data" id='form_style'>
+    <h4>小口会計データの登録</h4>
+  </div>
+  <div class="content">
+    <form method='POST' enctype='multipart/form-data' id='form_style'>
+      {{ form.non_field_errors }}
+      {% for field in form %}
+        <div class='field'>
+          <div class='control'>
+            <div class='label'>{{ field.label_tag }}</div>
+            <div class='my_field'>{{ field }}</div>
+            {% if field.help_text %}
+              <span class='helptext'>{{ field.help_text }}</span>
+            {% endif %}
+            {{ field.errors }}
+          </div>
+        </div>
+      {% endfor %}
       {% csrf_token %}
-      <table class="table is-narrow">
-        {{form}}
-      </table>
       <br>
-      <button type="submit" class="button is-primary ">保存</button>
-      <a class="button is-danger" href="javascript:void(0);" onclick="window.history.back();">キャンセル</a>
+      <div class='my_button has-text-centered'>
+        <button type='submit' class='button is-primary'>読込み</button>
+        <a class='button is-danger' href='javascript:void(0);' onclick='window.history.back();'>キャンセル</a>
+      </div>
     </form>
-    <br>
   </div>
 </div>
 {% endblock content %}

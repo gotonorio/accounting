@@ -16,13 +16,6 @@ class Kanrihi_incomeForm(forms.ModelForm):
     # 新しく登録する「期」をデフォルト表示するため。
     this_ki = datetime.now().year - settings.START_YEAR - 1
     ki = forms.IntegerField(label='期', initial=this_ki)
-    """
-    max_ki = Kanrihi_income.objects.aggregate(ki=Max('ki'))
-    if max_ki["ki"] is None:
-        ki = forms.IntegerField(label='期', initial=0)
-    else:
-        ki = forms.IntegerField(label='期', initial=max_ki["ki"]+1)
-    """
     # 以下はtemplatesでformフィールド名を表示させるため。無くても表示がmodelsの要素名になるだけ。
     master = forms.ModelChoiceField(
         queryset=Master_kanrihi_income.objects.all(),

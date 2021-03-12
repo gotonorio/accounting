@@ -66,21 +66,21 @@ SG川崎 会計
           <a href="{% url 'parking_out:expendlist' %}" class="dropdown-item">支出履歴<a>
         </div>
       </div>
-      {% comment %}
+      {% if perms.asset_list.add_assetlist %}
       <div class="navbar-item has-dropdown is-hoverable">
         <a class="navbar-link">小口会計</a>
         <div class="navbar-dropdown">
           <a href="{% url 'cashier:list' %}" class="dropdown-item">支出履歴<a>
         </div>
       </div>
-      {% endcomment %}
+      {% endif %}
     </div>
     <div class="navbar-end">
       {% if perms.asset_list.add_assetlist %}
         <div class="navbar-item has-dropdown is-hoverable">
           <a class="navbar-link">管理者メニュー</a>
           <div class="navbar-dropdown">
-            {#<a href="{% url 'cashier:create' %}" class="dropdown-item">小口会計入力<a>#}
+            <a href="{% url 'cashier:create' %}" class="dropdown-item">小口会計入力<a>
             <a href="{% url 'register:operate_data' %}" class="navbar-item ">決算データ入力</a>
             <a href="{% url 'register:master_data' %}" class="navbar-item ">マスターデータ</a>
           </div>

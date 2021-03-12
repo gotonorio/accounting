@@ -32,11 +32,12 @@ class ExpenditureForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(ExpenditureForm, self).__init__(*args, **kwargs)
-        self.fields['spending_date'].widget.attrs["class"] = "input is-size-6"
-        self.fields['name'].widget.attrs["class"] = "input is-size-6"
-        self.fields['expense_item'].widget.attrs["class"] = "select-css is-size-6"
-        self.fields['expense'].widget.attrs["class"] = "input is-size-6"
-        self.fields['comment'].widget.attrs["class"] = "textarea is-size-6"
+        self.fields['spending_date'].widget.attrs["class"] = "input"
+        self.fields['name'].widget.attrs["class"] = "input"
+        self.fields['expense_item'].widget.attrs["class"] = "select-css"
+        self.fields['expense'].widget.attrs["class"] = "input"
+        self.fields['comment'].widget.attrs["class"] = "textarea"
+        self.fields['comment'].widget.attrs["rows"] = "4"
 
 
 class AccountSubjectListForm(forms.Form):
