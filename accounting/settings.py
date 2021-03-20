@@ -47,7 +47,6 @@ INSTALLED_APPS = [
     'shuuzenhi_out.apps.ShuuzenhiOutConfig',
     'parking_in.apps.ParkingInConfig',
     'parking_out.apps.ParkingOutConfig',
-    'cashier.apps.CashierConfig',
     'balance.apps.BalanceConfig',
 ]
 

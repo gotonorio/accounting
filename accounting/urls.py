@@ -30,7 +30,6 @@ urlpatterns = [
         'shuuzenhi_out.urls', namespace='shuuzenhi_out')),
     path('parking_in/', include('parking_in.urls', namespace='parking_in')),
     path('parking_out/', include('parking_out.urls', namespace='parking_out')),
-    path('cashier/', include('cashier.urls', namespace='cashier')),
     path('balance/', include('balance.urls', namespace='balance')),
 ]
 
