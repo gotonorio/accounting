@@ -145,7 +145,7 @@ ACCOUNTING_TYPE = (
     ('保険対応', '保険対応'),
 )
 
-VERSION_NO = '2021-03-12'
+VERSION_NO = '2021-03-20'
 # for accounting 第1期は1999年
 START_YEAR = 1998
 # for accounting 専有部総床面積は13039m2
