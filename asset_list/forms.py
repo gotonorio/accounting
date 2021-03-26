@@ -64,9 +64,10 @@ class Master_assetForm(forms.ModelForm):
 
 class BalanceSheetForm(forms.Form):
     """ 貸借対照表の期 """
-    ki = forms.IntegerField(label='期')
+    ki = forms.IntegerField(
+        label='期',
+        widget=forms.TextInput(attrs={'size': 6}),)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['ki'].widget.attrs["class"] = "input is-small"
-        self.fields['ki'].widget.attrs["size"] = "6"  # 効いていない？
