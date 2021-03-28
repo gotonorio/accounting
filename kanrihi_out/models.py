@@ -17,8 +17,7 @@ class Master_expense(models.Model):
     code = models.IntegerField(default=0)
     sequense = models.IntegerField()
     name = models.CharField(max_length=256)
-    category = models.ForeignKey(
-        Master_category, on_delete=models.PROTECT, null=True, blank=True)
+    category = models.ForeignKey(Master_category, on_delete=models.PROTECT, null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -29,9 +28,7 @@ class Kanrihi_expense(models.Model):
         CSVデータ構造 : id(pk),ki,master（外部制約）,expense,user（外部制約）
     """
     ki = models.IntegerField()
-    # django2ではon_deleteが無いとエラー
-    master = models.ForeignKey(
-        Master_expense, on_delete=models.PROTECT, null=True, blank=True)
+    master = models.ForeignKey(Master_expense, on_delete=models.PROTECT, null=True, blank=True)
     expense = models.BigIntegerField()
 
     def __str__(self):
