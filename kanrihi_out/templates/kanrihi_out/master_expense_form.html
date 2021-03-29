@@ -64,6 +64,7 @@
   <table class="table is-narrow" >
     <thead>
       <tr>
+        <th class="has-text-centered">コード</th>
         <th class="has-text-centered">表示順序</th>
         <th class="has-text-centered">項目名</th>
         <th class="has-text-centered">カテゴリー</th>
@@ -73,6 +74,7 @@
     <tbody>
       {% for list in masterlist %}
       <tr>
+        <td class="has-text-centered">{{ list.code }}</td>
         <td class="has-text-centered">{{ list.sequense }}</td>
         <td class="has-text-left">{{ list.name }}</td>
         <td class="has-text-left">{{ list.category }}</td>

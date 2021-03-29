@@ -34,6 +34,7 @@ class Kanrihi_expenseForm(forms.ModelForm):
 
     """
     # 重複登録をチェックするためのvalidate。 ユニーク制約でチェックする
+    # models.pyで複数項目のユニーク属性の方がスマート。
     def clean(self):
         cleaned_data = super().clean()
         ki = cleaned_data['ki']
@@ -56,14 +57,15 @@ class Master_expenseForm(forms.ModelForm):
 
     class Meta:
         model = Master_expense
-        fields = ("sequense", "name", "category")
+        fields = ("code", "sequense", "name", "category")
 
     # fieldにclassを設定する。
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['sequense'].widget.attrs["class"] = "input is-size-6"
-        self.fields['name'].widget.attrs["class"] = "input is-size-6"
-        self.fields['category'].widget.attrs["class"] = "select-css is-size-6"
+        self.fields['code'].widget.attrs["class"] = "input"
+        self.fields['sequense'].widget.attrs["class"] = "input"
+        self.fields['name'].widget.attrs["class"] = "input"
+        self.fields['category'].widget.attrs["class"] = "select-css"
         """
         for field in self.fields.values():
             field.widget.attrs["class"] = "form-control"
@@ -75,7 +77,7 @@ class Master_categoryForm(forms.ModelForm):
     name = forms.CharField(
         label="支出カテゴリ名",
         max_length=256,
-        widget=forms.TextInput(attrs={'class': 'input is-size-6'})
+        widget=forms.TextInput(attrs={'class': 'input'})
         )
 
     class Meta:
@@ -85,7 +87,7 @@ class Master_categoryForm(forms.ModelForm):
     # fieldにclassを設定する。
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['code'].widget.attrs["class"] = "input is-size-6"
+        self.fields['code'].widget.attrs["class"] = "input"
 
 
 class CSVimportForm(forms.Form):

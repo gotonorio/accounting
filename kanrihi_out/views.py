@@ -34,8 +34,8 @@ class KanrihiExpenseListView(LoginRequiredMixin, generic.TemplateView):
             tax=Sum(Case(When(master__category__code=30, then='expense'), default=0)),
             chokusetu=Sum(
                 Case(When(master__category__code=40, then='expense'), default=0)),
-            hoken=Sum(
-                Case(When(master__category__code=50, then='expense'), default=0)),
+            repair=Sum(
+                Case(When(master__code=180, then='expense'), default=0)),
             to_shuuzen=Sum(
                 Case(When(master__category__code=99, then='expense'), default=0)),
             out_total=Sum(Case(
