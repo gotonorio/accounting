@@ -29,7 +29,7 @@ SG川崎 会計
         <a class="navbar-link">管理会計</a>
         <div class="navbar-dropdown">
           <a href="{% url 'balance:kanrihi' %}" class="dropdown-item">収支一覧（議案書）<a>
-          {% if user.is_staff %}
+          {% if perms.asset_list.add_assetlist %}
             <a href="{% url 'balance:check_kanrihi' %}" class="dropdown-item">収支一覧（計算）<a>
           {% endif %}
           <hr class="navbar-divider">
@@ -37,6 +37,9 @@ SG川崎 会計
           <a href="{% url 'kanrihi_in:uchiwakelist' %}" class="dropdown-item">その他収入</a>
           <hr class="navbar-divider">
           <a href="{% url 'kanrihi_out:expenselist' %}" class="dropdown-item">支出履歴<a>
+          {% if perms.asset_list.add_assetlist %}
+            <a href="{% url 'kanrihi_out:expensechklist' %}" class="dropdown-item">支出履歴(小規模修繕)<a>
+          {% endif %}
           <a href="{% url 'kanrihi_out:breakdownlist' %}" class="dropdown-item">支出内訳<a>
           <hr class="navbar-divider">
         </div>

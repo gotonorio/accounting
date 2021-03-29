@@ -39,6 +39,7 @@
 <div class="container">
   <div class="content has-text-centered">
     <h4>管理費支出履歴</h4>
+    <p>（共用部分直接費と小規模修繕費、保険対応工事支出を分けて表示）</p>
   </div>
   <div class="table-container">
     <table class="table is-narrow">
@@ -50,6 +51,8 @@
           <th class="has-text-centered">設備管理業務費</th>
           <th class="has-text-centered">消費税</th>
           <th class="has-text-centered">共用部分直接費</th>
+          <th class="has-text-centered">小規模修繕費</th>
+          <th class="has-text-centered">保険支出</th>
           <th class="has-text-centered">支出合計</th>
           <th class="has-text-centered">(修繕費へ繰入)</th>
         </tr>
@@ -62,7 +65,9 @@
           <td class="has-text-right">{{ expense.teigaku|intcomma}}</td>
           <td class="has-text-right">{{ expense.setubi|intcomma}}</td>
           <td class="has-text-right">{{ expense.tax|intcomma }}</td>
-          <td class="has-text-right">{{ expense.chokusetu|intcomma }}</td>
+          <td class="has-text-right">{{ expense.chokusetu|subtract:expense.repair|subtract:expense.hoken|intcomma }}</td>
+          <td class="has-text-right">{{ expense.repair|intcomma }}</td>
+          <td class="has-text-right">{{ expense.hoken|intcomma }}</td>
           <td class="has-text-right">{{ expense.out_total|intcomma }}</td>
           <td class="has-text-right">{{ expense.to_shuuzen|intcomma }}</td>
         </tr>
@@ -90,13 +95,14 @@
     list.push({{expense.teigaku}});
     list.push({{expense.setubi}});
     list.push({{expense.tax}});
-    list.push({{expense.chokusetu}});
+    list.push({{expense.chokusetu}}-{{expense.repair}}-{{expense.hoken}});
     list.push({{expense.out_total}});
+    list.push({{expense.repair}});
     data.push(list);
   </script>
   {% endfor %}
   <script type="text/javascript">
-    expenseKanrihiChart(data);
+    expenseKanrihiChkChart(data);
   </script>
   <br>
   <hr>

@@ -59,6 +59,46 @@ class KanrihiExpenseListView(LoginRequiredMixin, generic.TemplateView):
         return context
 
 
+class KanrihiExpenseCheckListView(LoginRequiredMixin, generic.TemplateView):
+    """ 管理費支出一覧(小規模修繕支出、保険支出を分けて表示) """
+    model = Kanrihi_expense
+    template_name = "kanrihi_out/expense_chklist.html"
+
+    def kanrihi_expense(self):
+        a = Kanrihi_expense.objects.select_related().order_by('ki')
+        expenselist = a.values('ki').annotate(
+            teigaku=Sum(
+                Case(When(master__category__code=10, then='expense'), default=0)),
+            setubi=Sum(
+                Case(When(master__category__code=20, then='expense'), default=0)),
+            tax=Sum(Case(When(master__category__code=30, then='expense'), default=0)),
+            chokusetu=Sum(
+                Case(When(master__category__code=40, then='expense'), default=0)),
+            repair=Sum(
+                Case(When(master__code=180, then='expense'), default=0)),
+            hoken=Sum(
+                Case(When(master__code=380, then='expense'), default=0)),
+            to_shuuzen=Sum(
+                Case(When(master__category__code=99, then='expense'), default=0)),
+            out_total=Sum(Case(
+                When(master__category__code=10, then='expense'),
+                When(master__category__code=20, then='expense'),
+                When(master__category__code=30, then='expense'),
+                When(master__category__code=40, then='expense'),
+                default=0
+            ))
+        )
+        return expenselist
+
+    def get_context_data(self, **kwargs):
+        """ GETで呼ばれた時に管理費支出一覧を表示する。 """
+        context = super().get_context_data(**kwargs)
+        context['expenselist'] = self.kanrihi_expense()
+        context['start_year'] = settings.START_YEAR
+        context['floor_space'] = settings.FLOOR_SPACE
+        return context
+
+
 class BreakdownListView(LoginRequiredMixin, generic.TemplateView):
     """ 管理費支出内訳
         http://python.zombie-hunting-club.com/entry/2017/11/06/222409
