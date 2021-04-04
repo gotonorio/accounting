@@ -28,7 +28,6 @@ class Master_assetlist(models.Model):
 
 class AssetList(models.Model):
     ki = models.IntegerField(default=0)
-    #account_type = models.CharField(choices=settings.ACCOUNTING_TYPE,  max_length=16)
     account_type = models.ForeignKey(AccountType, on_delete=models.PROTECT, null=True, blank=True)
     master = models.ForeignKey(Master_assetlist, on_delete=models.PROTECT, null=True, blank=True)
     asset = models.BigIntegerField(default=0)

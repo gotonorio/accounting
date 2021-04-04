@@ -39,14 +39,3 @@ class Kanrihi_income(models.Model):
                 name="kanrihi_in_unique"
             ),
         ]
-
-    """
-    https://stackoverflow.com/questions/9297422/get-or-create-failure
-    -with-django-and-postgres-duplicate-key-value-violates-uni
-    postgrSQLの場合、csvファイルからの読み込みでは以下の設定が必要のようだ。
-    unique制約を追加。https://torina.top/detail/298/
-
-    class Meta:
-        select_on_save = True
-        unique_together = ('ki','master')
-    """

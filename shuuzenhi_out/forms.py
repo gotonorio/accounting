@@ -3,6 +3,7 @@ from django.db.models.aggregates import Max
 from django.conf import settings
 
 # from file_storage.models import Category
+from asset_list.models import AccountType
 from shuuzenhi_out.models import (Constractor, Master_koujitype, Shuuzenhi_expense)
 
 
@@ -11,6 +12,17 @@ class SelectClassForm(forms.Form):
     http://www.subthread.co.jp/blog/20160531/
     """
     # querysetを使う場合はforms.ModelChoiceFiled()を使う。empty_labelを使用できる。
+    account_type = forms.ModelChoiceField(
+        queryset=AccountType.objects.all(),
+        label='会計区分',
+        empty_label='会計区分全表示',
+        error_messages={
+            'required': "You didn't select a choice.",
+            'invalid_choice': "invalid choice.",
+        },
+        required=False,
+        widget=forms.Select(attrs={'class': 'select-css'})
+    )
     kouji_type = forms.ModelChoiceField(
         queryset=Master_koujitype.objects.filter(live='1').order_by('sequense'),
         label='工事種別',
@@ -20,7 +32,7 @@ class SelectClassForm(forms.Form):
             'invalid_choice': "invalid choice.",
         },
         required=False,
-        widget=forms.Select(attrs={'class': 'select-css is-size-6'})
+        widget=forms.Select(attrs={'class': 'select-css'})
     )
     year = forms.ModelChoiceField(
         # 修繕履歴データから西暦を抽出してセットする。
@@ -33,13 +45,7 @@ class SelectClassForm(forms.Form):
             'invalid_choice': "invalid choice.",
         },
         required=False,
-        widget=forms.Select(attrs={'class': 'select-css is-size-6'})
-    )
-    accounting_type = [('ALL', '会計区分全表示'), ]
-    accounting_type.extend(settings.ACCOUNTING_TYPE)
-    account_type = forms.ChoiceField(
-        choices=accounting_type,
-        widget=forms.Select(attrs={'class': 'select-css is-size-6'})
+        widget=forms.Select(attrs={'class': 'select-css'})
     )
 
 

@@ -1,6 +1,7 @@
 # Create your models here.
 from django.db import models
 from django.conf import settings
+from asset_list.models import AccountType
 
 
 class Master_koujitype(models.Model):
@@ -28,16 +29,11 @@ class Shuuzenhi_expense(models.Model):
     year = models.IntegerField(default=2009)
     # month = models.IntegerField(null=True, blank=True)
     # django2ではon_deleteが無いとエラー．https://code.i-harness.com/ja/q/59f5a4
-    koujitype = models.ForeignKey(
-        Master_koujitype, on_delete=models.PROTECT, null=True)
+    koujitype = models.ForeignKey(Master_koujitype, on_delete=models.PROTECT, null=True)
     koujimei = models.CharField(max_length=256)
     cost = models.BigIntegerField()
-    constractor = models.ForeignKey(
-        Constractor, on_delete=models.PROTECT, null=True, blank=True)
-    account_type = models.CharField(
-        choices=settings.ACCOUNTING_TYPE,  max_length=16)
-    # account_type = models.ForeignKey(
-    #     Accounting_type, on_delete=models.PROTECT, null=True)
+    constractor = models.ForeignKey(Constractor, on_delete=models.PROTECT, null=True, blank=True)
+    account_type = models.ForeignKey(AccountType, on_delete=models.PROTECT, null=True, blank=True)
     # 見積書ファイルデータのID
     quotation_id = models.IntegerField(default=0)
     comment = models.TextField(blank=True)

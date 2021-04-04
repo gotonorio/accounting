@@ -97,9 +97,9 @@ class ShuuzenhiExpenseListView(LoginRequiredMixin, generic.TemplateView):
         支出合計には修繕費会計への支出分は含めない。2018/03/25
         """
         expenselist = qs.values('year').annotate(
-            shuuzen=Sum(Case(When(account_type='修繕費会計', then='cost'), default=0)),
-            kanri=Sum(Case(When(account_type='管理費会計', then='cost'), default=0)),
-            hoken=Sum(Case(When(account_type='保険対応', then='cost'), default=0)),
+            shuuzen=Sum(Case(When(account_type=2, then='cost'), default=0)),
+            kanri=Sum(Case(When(account_type=1, then='cost'), default=0)),
+            hoken=Sum(Case(When(account_type=4, then='cost'), default=0)),
             total=F('kanri')+F('shuuzen')
         )
         return expenselist
@@ -120,18 +120,18 @@ class ShuuzenhiExpenseListView(LoginRequiredMixin, generic.TemplateView):
         # 大規模修繕を外すためにid(20)を決め打ちしている。あまり良く無い！
         if sw == 1:
             context['shuuzen_total'] = Shuuzenhi_expense.objects.filter(
-                account_type='修繕費会計').aggregate(Sum('cost'))['cost__sum']
+                account_type=2).aggregate(Sum('cost'))['cost__sum']
             context["title"] = "工事支出履歴（大規模修繕含む)"
         else:
             context['shuuzen_total'] = Shuuzenhi_expense.objects.filter(
-                account_type='修繕費会計').filter(
+                account_type=2).filter(
                 koujitype__lt=20).aggregate(Sum('cost'))['cost__sum']
             context["title"] = "工事支出履歴（大規模修繕含まず)"
 
         context['kanri_total'] = Shuuzenhi_expense.objects.filter(
-            account_type='管理費会計').aggregate(Sum('cost'))['cost__sum']
+            account_type=1).aggregate(Sum('cost'))['cost__sum']
         context['hoken_total'] = Shuuzenhi_expense.objects.filter(
-            account_type='保険対応').aggregate(Sum('cost'))['cost__sum']
+            account_type=4).aggregate(Sum('cost'))['cost__sum']
         context['all_total'] = context['shuuzen_total']+context['kanri_total']+context['hoken_total']
         context["start_year"] = -settings.START_YEAR
         return context

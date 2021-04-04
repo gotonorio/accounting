@@ -21,16 +21,13 @@ class ExpenditureListView(LoginRequiredMixin, generic.TemplateView):
     def parking_expense(self):
         a = Parking_expenditure.objects.select_related().order_by('ki')
         expenselist = a.values('ki').annotate(
-            kanrihi=Sum(
-                Case(When(account_type='管理費会計', then='cost'), default=0)),
-            shuuzenhi=Sum(
-                Case(When(account_type='修繕費会計', then='cost'), default=0)),
+            kanrihi=Sum(Case(When(account_type=1, then='cost'), default=0)),
+            shuuzenhi=Sum(Case(When(account_type=2, then='cost'), default=0)),
             total=Sum(Case(
-                When(account_type='管理費会計', then='cost'),
-                When(account_type='修繕費会計', then='cost'),
+                When(account_type=1, then='cost'),
+                When(account_type=2, then='cost'),
                 default=0
-            ))
-        )
+            )))
         return expenselist
 
     def get_context_data(self, **kwargs):
