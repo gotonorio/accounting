@@ -4,7 +4,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.mixins import (LoginRequiredMixin,
                                         PermissionRequiredMixin)
-from django.db.models import Q, F
+from django.db.models import F, Q
 from django.db.models.aggregates import Case, Max, Sum, When
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, reverse
@@ -12,8 +12,9 @@ from django.views import generic
 
 # from file_storage.models import File
 from shuuzenhi_out.forms import (ConstractorForm, Master_koujitypeForm,
-                                 SelectClassForm, Shuuzenhi_expenseForm)
-from shuuzenhi_out.models import Constractor, Master_koujitype, Shuuzenhi_expense
+                                 RirekiListForm, Shuuzenhi_expenseForm)
+from shuuzenhi_out.models import (Constractor, Master_koujitype,
+                                  Shuuzenhi_expense)
 
 
 class RirekiListView(LoginRequiredMixin, generic.TemplateView):
@@ -26,7 +27,7 @@ class RirekiListView(LoginRequiredMixin, generic.TemplateView):
     """
     model = Shuuzenhi_expense
     # form_classはどのような時に必要か？
-    form_class = SelectClassForm
+    form_class = RirekiListForm
     # TemplateViewの場合はtemplate_nameは必須．
     template_name = "shuuzenhi_out/rireki_list.html"
 
@@ -40,31 +41,34 @@ class RirekiListView(LoginRequiredMixin, generic.TemplateView):
         context = super().get_context_data(**kwargs)
         user_name = self.request.user
         # formのselect要素の値を得る
-        kouji_type = self.request.GET.get('kouji_type', '0')
-        ac_type = self.request.GET.get('account_type', 'ALL')
+        kouji_type = self.request.GET.get('kouji_type', None)
+        ac_type = self.request.GET.get('account_type', None)
         yyyy = Shuuzenhi_expense.objects.aggregate(year=Max('year'))['year']
         # 初期値として当年を設定。
         year = self.request.GET.get('year', yyyy)
+
         # ''が返された時の処理
         if kouji_type == '':
-            kouji_type = '0'
+            kouji_type = None
+        if ac_type == '':
+            ac_type = None
         if year == '':
-            year = '0'
+            year = None
 
         # Qオブジェクト作成
         koujitype_q = Q()
         actype_q = Q()
         year_q = Q()
-        if kouji_type != '0':
+        if kouji_type:
             koujitype_q = Q(koujitype=kouji_type)
-        if ac_type != 'ALL':
+        if ac_type:
             actype_q = Q(account_type=ac_type)
-        if year != '0':
+        if year:
             year_q = Q(year=year)
         sql = Shuuzenhi_expense.objects.filter(koujitype_q & actype_q & year_q).order_by('-year')
 
         # formのselectに初期値を設定する．http://i2bskn.hateblo.jp/entry/20120826/1345936779
-        form = SelectClassForm(
+        form = RirekiListForm(
             initial={'kouji_type': kouji_type, 'account_type': ac_type, 'year': year})
 
         # コストの合計を計算する

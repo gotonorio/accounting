@@ -1,13 +1,12 @@
 from django import forms
 from django.db.models.aggregates import Max
-from django.conf import settings
 
 # from file_storage.models import Category
 from asset_list.models import AccountType
 from shuuzenhi_out.models import (Constractor, Master_koujitype, Shuuzenhi_expense)
 
 
-class SelectClassForm(forms.Form):
+class RirekiListForm(forms.Form):
     """ 履歴一覧表示の時にselect要素で工事種別を選択させる．
     http://www.subthread.co.jp/blog/20160531/
     """
