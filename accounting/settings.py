@@ -91,7 +91,7 @@ WSGI_APPLICATION = 'accounting.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'ac3_dev.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, 'ac4.sqlite3'),
     }
 }
 
@@ -137,7 +137,7 @@ STATIC_URL = '/static/'
 ###############
 # user setting
 ###############
-VERSION_NO = '2021-03-20'
+VERSION_NO = '2.0.0 2021-04-04'
 # for accounting 第1期は1999年
 START_YEAR = 1998
 # for accounting 専有部総床面積は13039m2
