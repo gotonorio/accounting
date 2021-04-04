@@ -274,10 +274,12 @@ class BalanceSheetView(LoginRequiredMixin, generic.TemplateView):
 
         # 管理費会計 資産の部
         bs = AssetList.objects.filter(ki=ki)
-        bs_asset = bs.filter(master__isAsset=1, account_type='管理費会計')
+        #del bs_asset = bs.filter(master__isAsset=1, account_type='管理費会計')
+        bs_asset = bs.filter(master__isAsset=1, account_type=1)
         bs_asset = bs_asset.order_by('master__sequense')
         # 管理費会計 負債の部
-        bs_debt = bs.filter(master__isAsset=0, account_type='管理費会計')
+        #del bs_debt = bs.filter(master__isAsset=0, account_type='管理費会計')
+        bs_debt = bs.filter(master__isAsset=0, account_type=1)
         bs_debt = bs_debt.order_by('master__sequense')
         # データの不備に対応するための一時的な処理。
         if len(bs_asset) > 0:
@@ -285,10 +287,12 @@ class BalanceSheetView(LoginRequiredMixin, generic.TemplateView):
 
         # 修繕費会計 資産の部
         bs2 = AssetList.objects.filter(ki=ki)
-        bs2_asset = bs2.filter(master__isAsset=1, account_type='修繕費会計')
+        #del bs2_asset = bs2.filter(master__isAsset=1, account_type='修繕費会計')
+        bs2_asset = bs2.filter(master__isAsset=1, account_type=2)
         bs2_asset = bs2_asset.order_by('master__sequense')
         # 修繕費会計 負債の部
-        bs2_debt = bs2.filter(master__isAsset=0, account_type='修繕費会計')
+        #del bs2_debt = bs2.filter(master__isAsset=0, account_type='修繕費会計')
+        bs2_debt = bs2.filter(master__isAsset=0, account_type=2)
         bs2_debt = bs2_debt.order_by('master__sequense')
         # データの不備に対応するための一時的な処理。
         if len(bs2_asset) > 0:
@@ -298,9 +302,6 @@ class BalanceSheetView(LoginRequiredMixin, generic.TemplateView):
         balancesheetform = BalanceSheetForm(initial={
             'ki': ki,
         })
-        # formがtable要素となっている？
-        logging.debug(balancesheetform)
-
         context['ki'] = ki
         context['balancesheet'] = bs
         context['asset_total'] = asset_total

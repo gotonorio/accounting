@@ -6,6 +6,13 @@ from django.db import models
 from django.http import HttpResponse
 
 
+class AccountType(models.Model):
+    name = models.CharField(max_length=32)
+
+    def __str__(self):
+        return self.name
+
+
 class Master_assetlist(models.Model):
     name = models.CharField(max_length=128)
     account_number = models.CharField(max_length=24, default='-')
@@ -21,10 +28,9 @@ class Master_assetlist(models.Model):
 
 class AssetList(models.Model):
     ki = models.IntegerField(default=0)
-    account_type = models.CharField(
-        choices=settings.ACCOUNTING_TYPE,  max_length=16)
-    master = models.ForeignKey(
-        Master_assetlist, on_delete=models.PROTECT, null=True, blank=True)
+    #account_type = models.CharField(choices=settings.ACCOUNTING_TYPE,  max_length=16)
+    account_type = models.ForeignKey(AccountType, on_delete=models.PROTECT, null=True, blank=True)
+    master = models.ForeignKey(Master_assetlist, on_delete=models.PROTECT, null=True, blank=True)
     asset = models.BigIntegerField(default=0)
     comment = models.TextField(blank=True)
 
