@@ -43,33 +43,35 @@
   <div class="content has-text-centered">
     <h4>第{{ki}}期 管理費会計 貸借対照表</h4>
   </div>
-  <table class="table is-narrow is-bordered is-responsible">
-    <thead>
-      <tr class="has-background-grey-lighter">
-        <th class="has-text-centered">資産の部</th>
-        <th class="has-text-centered">金額</th>
-        <th class="has-text-centered">負債の部</th>
-        <th class="has-text-centered">金額</th>
-      </tr>
-    </thead>
-    <tbody>
-      {# 資産 #}
-      {% for item in balancesheet %}
-      <tr>
-        <td class="has-text-left nowrap">{{item.0}}</td>
-        <td class="has-text-right nowrap">{{item.1|intcomma}}</td>
-        <td class="has-text-left">{{item.2}}</td>
-        <td class="has-text-right">{{item.3|intcomma}}</td>
-      </tr>
-      {% endfor %}
-      <tr>
-        <td></td>
-        <td class="has-text-right nowrap">{{asset_total|intcomma}}</td>
-        <td></td>
-        <td class="has-text-right nowrap">{{asset_total|intcomma}}</td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="scroll">
+    <table class="table is-narrow is-bordered is-responsible">
+      <thead>
+        <tr class="has-background-grey-lighter">
+          <th class="has-text-centered">資産の部</th>
+          <th class="has-text-centered">金額</th>
+          <th class="has-text-centered">負債の部</th>
+          <th class="has-text-centered">金額</th>
+        </tr>
+      </thead>
+      <tbody>
+        {# 資産 #}
+        {% for item in balancesheet %}
+        <tr>
+          <td class="has-text-left nowrap">{{item.0}}</td>
+          <td class="has-text-right nowrap">{{item.1|intcomma}}</td>
+          <td class="has-text-left">{{item.2}}</td>
+          <td class="has-text-right">{{item.3|intcomma}}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+          <td></td>
+          <td class="has-text-right nowrap">{{asset_total|intcomma}}</td>
+          <td></td>
+          <td class="has-text-right nowrap">{{asset_total|intcomma}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
   <br>
   <br>
   <div class="content has-text-centered">
