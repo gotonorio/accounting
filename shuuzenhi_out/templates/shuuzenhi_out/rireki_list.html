@@ -40,22 +40,24 @@
   <div class="content has-text-centered">
     <h4>工事リスト</h4>
   </div>
-  <form action="{% url 'shuuzenhi_out:rirekilist' %}" method="get">
-    <div class="columns">
-      <div class="column is-3">
-        {{form.account_type}}
+  <div class="content" id="rireki_style">
+    <form action="{% url 'shuuzenhi_out:rirekilist' %}" method="get">
+      <div class="columns">
+        <div class="column is-3">
+          {{form.account_type}}
+        </div>
+        <div class="column is-4">
+          {{form.kouji_type}}
+        </div>
+        <div class="column is-2">
+          {{form.year}}
+        </div>
+        <div class="column is-3">
+          <button type="submit" class="button is-primary">表示</button>
+        </div>
       </div>
-      <div class="column is-4">
-        {{form.kouji_type}}
-      </div>
-      <div class="column is-2">
-        {{form.year}}
-      </div>
-      <div class="column is-3">
-        <button type="submit" class="button is-primary">表示</button>
-      </div>
-    </div>
-  </form>
+    </form>
+  </div>
   <hr>
   <div class="content scroll">
     <table class="table is-narrow">

@@ -101,9 +101,9 @@ class Master_koujitypeForm(forms.ModelForm):
     # fieldにclassを設定する。
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['sequense'].widget.attrs["class"] = "input is-size-6"
-        self.fields['koujitype'].widget.attrs["class"] = "select-css is-size-6"
-        self.fields['live'].widget.attrs["class"] = "input is-size-6"
+        self.fields['sequense'].widget.attrs["class"] = "input"
+        self.fields['koujitype'].widget.attrs["class"] = "select-css"
+        self.fields['live'].widget.attrs["class"] = "input"
 
 
 class ConstractorForm(forms.ModelForm):
@@ -120,9 +120,9 @@ class ConstractorForm(forms.ModelForm):
     # fieldにclassを設定する。
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['sequense'].widget.attrs["class"] = "input is-size-6"
-        self.fields['name'].widget.attrs["class"] = "input is-size-6"
-        self.fields['comment'].widget.attrs["class"] = "text is-size-6"
+        self.fields['sequense'].widget.attrs["class"] = "input"
+        self.fields['name'].widget.attrs["class"] = "input"
+        self.fields['comment'].widget.attrs["class"] = "text"
 
         """
         for field in self.fields.values():
