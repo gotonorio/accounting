@@ -7,7 +7,8 @@ from django.contrib.auth.mixins import (LoginRequiredMixin,
 from django.db.models import F, Q
 from django.db.models.aggregates import Case, Max, Sum, When
 from django.http import HttpResponse
-from django.shortcuts import get_object_or_404, reverse
+# from django.shortcuts import get_object_or_404, reverse
+from django.shortcuts import reverse
 from django.views import generic
 
 # from file_storage.models import File
@@ -343,8 +344,22 @@ class UpdateRirekiView(PermissionRequiredMixin, generic.UpdateView):
 #         return queryset
 
 
-def view_quotation(request, pk):
-    """ 見積書ファイルを表示 """
-    pdf_file = get_object_or_404(File, pk=pk)
-    response = HttpResponse(pdf_file.src, content_type='application/pdf')
-    return response
+# def view_quotation(request, pk):
+#     """ 見積書ファイルを表示 """
+#     pdf_file = get_object_or_404(File, pk=pk)
+#     response = HttpResponse(pdf_file.src, content_type='application/pdf')
+#     return response
+
+
+# def Export(request):
+#     """ データをCSVで出力する """
+#     import csv
+#     response = HttpResponse(content_type='text/csv')
+#     response['Content-Disposition'] = 'attachment; filename="kouji_data.csv"'
+#     # HttpResponseオブジェクトはファイルっぽいオブジェクトなので、csv.writerにそのまま渡せる。
+#     writer = csv.writer(response)
+#     # writer.writerow(["期", "項目名", "資産金額"])
+#     for i in Shuuzenhi_expense.objects.all():
+#         writer.writerow([i.id, i.year, i.koujitype.id, i.koujimei, i.cost,
+#                         i.constractor, i.account_type.id, i.quotation_id, i.comment])
+#     return response
