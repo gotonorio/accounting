@@ -13,17 +13,16 @@ class Kanrihi_expenseForm(forms.ModelForm):
     # デフォルトの値（期）を求めておく。
     this_ki = datetime.now().year - settings.START_YEAR - 1
     ki = forms.IntegerField(label='期', initial=this_ki)
-    master = forms.ModelChoiceField(
-        queryset=Master_expense.objects.all(),
-        label='支出種別'
-    )
-    expense = forms.IntegerField(label='支出額')
 
     # インナークラスでmodel、fieldを指定する。
     # （https://djangogirlsjapan.gitbooks.io/workshop_tutorialjp/content/django_forms/）
     class Meta:
         model = Kanrihi_expense
         fields = ("ki", "master", "expense")
+        labels = {
+            'master': '支出種別',
+            'expense': '支出額'
+        }
 
     # fieldにclassを設定する。
     def __init__(self, *args, **kwargs):

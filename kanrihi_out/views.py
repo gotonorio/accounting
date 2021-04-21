@@ -224,8 +224,8 @@ class CreateExpenseView(PermissionRequiredMixin, generic.CreateView):
         account = form.cleaned_data['master']
         expense = form.cleaned_data['expense']
         if account == '修繕費繰入れ':
-            Shuuzenhi_income.objects.create(ki=ki+1, master_id=7, income=expense)
-            msg = f'第{ki+1}期の{account}を保存しました'
+            Shuuzenhi_income.objects.create(ki=ki, master_id=7, income=expense)
+            msg = f'第{ki}期の{account}を保存しました'
         else:
             msg = f'第{ki}期の{account}を保存しました'
         messages.success(self.request, msg)
@@ -253,10 +253,10 @@ class UpdateExpenseView(PermissionRequiredMixin, generic.UpdateView):
         expense = form.cleaned_data['expense']
         msg = ''
         if str(master) == '修繕費繰入れ':
-            Shuuzenhi_income.objects.update_or_create(ki=ki+1, master_id=7, defaults={
+            Shuuzenhi_income.objects.update_or_create(ki=ki, master_id=7, defaults={
                 "income": expense,
             })
-            msg = f'第{ki+1}期の修繕会計繰入れもアップデートしました'
+            msg = f'第{ki}期の修繕会計繰入れもアップデートしました'
         else:
             msg = f'第{ki}期の支出をアップデートしました'
 
