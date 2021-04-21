@@ -48,7 +48,7 @@ SG川崎 会計
         <a class="navbar-link">修繕会計</a>
         <div class="navbar-dropdown">
           <a href="{% url 'balance:shuuzenhi' %}" class="dropdown-item">収支一覧（議案書）<a>
-          {% if user.is_staff %}
+          {% if perms.asset_list.add_assetlist %}
             <a href="{% url 'balance:check_shuuzenhi' %}" class="dropdown-item">収支一覧（計算）<a>
           {% endif %}
           <hr class="navbar-divider">
