@@ -32,8 +32,9 @@ table{
   スマートフォン対応
   https://webcommu.net/phone-table-scroll/
   scrollクラスでtable要素を囲む。
+  bulmaの場合、table-containerで良さそう。
 */
-.scroll{
+/* .scroll{
   overflow: auto;
 }
 .scroll::-webkit-scrollbar{
@@ -44,7 +45,7 @@ table{
 }
 .scroll::-webkit-scrollbar-thumb {
    background: #BCBCBC;
-}
+} */
 
 /* webkit系ブラウザ用のスクロールバー調整 */
 ::-webkit-scrollbar{

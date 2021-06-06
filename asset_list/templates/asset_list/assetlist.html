@@ -16,6 +16,11 @@
 <nav class="navbar is-fixed-top is-black is-size-6" role="navigation" aria-label="main navigation">
   <div class="navbar-brand">
     <a class="navbar-item" href="{% url 'register:mypage' %}">【SG川崎】</a>
+    <form class="navbar-item" action="{% url 'asset_list:assetlist'%}" method="get">
+      <button type="submit" class="button is-light has-text-black is-size-7 has-text-weight-bold" name="button" value="forward">←</button>
+      -
+      <button type="submit" class="button is-light has-text-black is-size-7 has-text-weight-bold" name="button" value="next">→</button>
+    </form>
     {# ハンバーガアイコンのため以下の5行とbase.htmlでのjsスクリプトが必要 #}
     <a role="button" class="navbar-burger " aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
       <span aria-hidden="true"></span>
@@ -25,11 +30,6 @@
   </div>
   <div id="navbarBasicExample" class="navbar-menu">
     <div class="navbar-start">
-      <form class="navbar-item" action="{% url 'asset_list:assetlist'%}" method="get">
-        <button type="submit" class="button is-light has-text-black is-size-7 has-text-weight-bold" name="button" value="forward">←</button>
-        -
-        <button type="submit" class="button is-light has-text-black is-size-7 has-text-weight-bold" name="button" value="next">→</button>
-      </form>
     </div>
     <div class="navbar-end">
       <a class="navbar-item" href="{% url 'register:mypage' %}">戻る</a>
@@ -43,7 +43,7 @@
   <div class="content has-text-centered">
     <h4>資産内訳</h4>
   </div>
-  <div class="scroll">
+  <div class="table-container">
     <table class="table is-narrow is-striped is-responsible">
       <thead>
         <tr class="has-background-grey-lighter">
