@@ -46,6 +46,14 @@ class RirekiListForm(forms.Form):
         required=False,
         widget=forms.Select(attrs={'class': 'select-css'})
     )
+    
+    # BulmaがFileFieldの選択ボタンに未対応？
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['account_type'].widget.attrs["class"] = "select-css is-size-7"
+        self.fields['kouji_type'].widget.attrs["class"] = "select-css is-size-7"
+        self.fields['year'].widget.attrs["class"] = "select-css is-size-7"
+
 
 
 class Shuuzenhi_expenseForm(forms.ModelForm):
