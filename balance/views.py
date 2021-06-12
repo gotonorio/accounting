@@ -3,7 +3,7 @@ from django.conf import settings
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models.aggregates import Case, Sum, When
 from django.views import generic
-
+from datetime import datetime
 from kanrihi_in.models import Kanrihi_income
 from kanrihi_out.views import KanrihiExpenseListView
 from shuuzenhi_in.models import Shuuzenhi_income
@@ -115,6 +115,7 @@ class ShuuzenhiBalanceView(LoginRequiredMixin, generic.TemplateView):
     def get_context_data(self, **kwargs):
         """ 参考url http://thinkami.hatenablog.com/entry/2015/09/04/235841 """
         context = super().get_context_data(**kwargs)
+        this_year = datetime.now().year
         a = Shuuzenhi_income.objects.select_related().order_by('ki')
         income_qs = a.values('ki').annotate(
             zenki=Sum(Case(When(master__code=10, then='income'), default=0)),
@@ -134,7 +135,7 @@ class ShuuzenhiBalanceView(LoginRequiredMixin, generic.TemplateView):
             in_total=Sum(
                 Case(When(master__code__gte=10, then='income'), default=0)),
         )
-        qs = Shuuzenhi_expense.objects.select_related().order_by('year')
+        qs = Shuuzenhi_expense.objects.filter(year__lt=this_year).order_by('year')
         expense_qs = ShuuzenhiExpenseListView.shuuzenhi_expense(self, qs)
 
         context['balancelist'] = self.make_balance_sheet(income_qs, expense_qs)
@@ -161,6 +162,7 @@ class CheckShuuzenhiBalanceView(LoginRequiredMixin, generic.TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        this_year = datetime.now().year
         a = Shuuzenhi_income.objects.select_related().order_by('ki')
         income_qs = a.values('ki').annotate(
             zenki=Sum(Case(When(master__code=10, then='income'), default=0)),
@@ -180,7 +182,7 @@ class CheckShuuzenhiBalanceView(LoginRequiredMixin, generic.TemplateView):
             in_total=Sum(
                 Case(When(master__code__gte=10, then='income'), default=0)),
         )
-        qs = Shuuzenhi_expense.objects.select_related().order_by('year')
+        qs = Shuuzenhi_expense.objects.filter(year__lt=this_year).order_by('year')
         expense_qs = ShuuzenhiExpenseListView.shuuzenhi_expense(self, qs)
 
         context['balancelist'], debug = self.check_balance_sheet(income_qs, expense_qs)
